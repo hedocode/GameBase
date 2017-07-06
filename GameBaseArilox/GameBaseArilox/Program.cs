@@ -1,4 +1,5 @@
 ﻿using System;
+using GameBaseArilox.UnitTest;
 
 namespace GameBaseArilox
 {
@@ -14,7 +15,7 @@ namespace GameBaseArilox
         [STAThread]
         public static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new UnitTest1())
                 game.Run();
         }
     }

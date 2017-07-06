@@ -38,38 +38,68 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Core\Enums\Ressource.cs" />
-    <Compile Include="Core\IAnimation.cs" />
-    <Compile Include="Core\IAttacker.cs" />
-    <Compile Include="Core\Enums\DamageType.cs" />
-    <Compile Include="Core\ICircle.cs" />
-    <Compile Include="Core\IClickable.cs" />
-    <Compile Include="Core\IDrawer.cs" />
-    <Compile Include="Core\IGameElement.cs" />
-    <Compile Include="Core\IGameEntity.cs" />
-    <Compile Include="Core\IHitBox.cs" />
-    <Compile Include="Core\IKillable.cs" />
-    <Compile Include="Core\IMoveableGameElement.cs" />
-    <Compile Include="Core\INamed.cs" />
-    <Compile Include="Core\ISpell.cs" />
-    <Compile Include="Core\ISpellCaster.cs" />
-    <Compile Include="Core\ISprite.cs" />
-    <Compile Include="Core\ISpriteAnimation.cs" />
-    <Compile Include="Core\ITextSprite.cs" />
-    <Compile Include="Core\ITextSpriteAnimation.cs" />
-    <Compile Include="Core\IUpdater.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="API\Enums\GridType.cs" />
+    <Compile Include="API\Enums\Stat.cs" />
+    <Compile Include="API\Enums\StuffSlot.cs" />
+    <Compile Include="API\Enums\Ressource.cs" />
+    <Compile Include="Environment\FlashingAnimation.cs" />
+    <Compile Include="GameExample.cs" />
+    <Compile Include="API\IAnimation.cs" />
+    <Compile Include="API\IAttacker.cs" />
+    <Compile Include="API\Enums\DamageType.cs" />
+    <Compile Include="API\IBackground.cs" />
+    <Compile Include="API\IBag.cs" />
+    <Compile Include="API\ICircle.cs" />
+    <Compile Include="API\IClickable.cs" />
+    <Compile Include="API\IDisplayed.cs" />
+    <Compile Include="API\IDrawer.cs" />
+    <Compile Include="API\IGameElement.cs" />
+    <Compile Include="API\IGameBoard.cs" />
+    <Compile Include="API\IGameGrid.cs" />
+    <Compile Include="API\IInventory.cs" />
+    <Compile Include="API\IItem.cs" />
+    <Compile Include="API\IPlayer.cs" />
+    <Compile Include="API\IProjectile.cs" />
+    <Compile Include="API\IScreenPositioned.cs" />
+    <Compile Include="API\IGameEntity.cs" />
+    <Compile Include="API\IHitBox.cs" />
+    <Compile Include="API\IKillable.cs" />
+    <Compile Include="API\IMoveableGameElement.cs" />
+    <Compile Include="API\INamed.cs" />
+    <Compile Include="API\ISpell.cs" />
+    <Compile Include="API\ISpellCaster.cs" />
+    <Compile Include="API\ISprite.cs" />
+    <Compile Include="API\ISpriteAnimation.cs" />
+    <Compile Include="API\IStuff.cs" />
+    <Compile Include="API\ITextSprite.cs" />
+    <Compile Include="API\ITextSpriteAnimation.cs" />
+    <Compile Include="API\ITower.cs" />
+    <Compile Include="API\IUpdater.cs" />
+    <Compile Include="API\IWeapon.cs" />
+    <Compile Include="Environment\ParalaxBackground.cs" />
+    <Compile Include="Environment\Tile.cs" />
+    <Compile Include="Environment\TileMapGrid.cs" />
+    <Compile Include="Graphic\Sprite.cs" />
+    <Compile Include="Graphic\SpriteDrawer.cs" />
+    <Compile Include="Graphic\SpriteUpdater.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest\UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data.SqlXml" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\SPRITES\SpriteTest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +107,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\FONTS\Arial12.spritefont" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\SPRITES\Items\" />
+    <Folder Include="Content\SPRITES\Tiles\" />
+    <Folder Include="MODS\" />
+    <Folder Include="zDrawers\" />
+    <Folder Include="zLoaders\" />
+    <Folder Include="zUpdaters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
