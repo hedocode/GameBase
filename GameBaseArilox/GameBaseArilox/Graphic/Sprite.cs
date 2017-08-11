@@ -17,15 +17,31 @@ namespace GameBaseArilox.Graphic
         public Vector2 Origin { get; set; }
         public float Rotation { get; set; }
         public Vector2 Scale { get; set; }
-        public List<ISpriteAnimation> Animations { get; set; }
+        public List<ISpriteEffect> Animations { get; set; }
+
+        public void AfterLoad()
+        {
+            Origin = new Vector2(Texture.Width/2f,Texture.Height/2f);
+            Width = Texture.Width;
+            Height = Texture.Height;
+        }
 
         public Sprite()
         {
-            X = 0;
-            Y = 0;
-            Animations = new List<ISpriteAnimation>();
-            Origin = new Vector2(X,Y);
+            X = 100;
+            Y = 100;
+            Animations = new List<ISpriteEffect>();
             Opacity = 1;
+            Scale = new Vector2(1,1);
+        }
+
+        public Sprite(int x, int y)
+        {
+            X = x;
+            Y = y;
+            Animations = new List<ISpriteEffect>();
+            Opacity = 1;
+            Scale = new Vector2(1, 1);
         }
     }
 }

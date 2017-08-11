@@ -15,7 +15,7 @@ namespace GameBaseArilox
         [STAThread]
         public static void Main()
         {
-            using (var game = new UnitTest1())
+            using (var game = new TestCursor())
                 game.Run();
         }
     }

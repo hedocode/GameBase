@@ -8,13 +8,13 @@ namespace GameBaseArilox.Environment
     {
         public List<ISprite> BackgroundSprites { get; set; }
 
-        public void Update(object o, GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             foreach (ISprite sprite in BackgroundSprites)
             {
-                foreach (ISpriteAnimation animation in sprite.Animations)
+                foreach (ISpriteEffect animation in sprite.Animations)
                 {
-                    animation.Animate(gameTime);
+                    animation.Affect(gameTime);
                 }
             }
         }

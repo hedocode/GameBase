@@ -13,6 +13,7 @@ namespace GameBaseArilox.API
         Vector2 Origin { get; set; }
         float Rotation { get; set; }
         Vector2 Scale { get; set; }
-        List<ISpriteAnimation> Animations { get; set; }
+        List<ISpriteEffect> Animations { get; set; }
+        void AfterLoad();
     }
 }

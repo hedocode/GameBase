@@ -2,8 +2,8 @@
 
 namespace GameBaseArilox.API
 {
-    public interface IUpdater
+    public interface ICommand
     {
-        void Update(GameTime gameTime);
+        void Execute(GameTime gameTime);
     }
 }

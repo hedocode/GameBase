@@ -1,6 +1,7 @@
 ﻿using GameBaseArilox.API;
-using GameBaseArilox.Environment;
 using GameBaseArilox.Graphic;
+using GameBaseArilox.zDrawers;
+using GameBaseArilox.zUpdaters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,19 +11,24 @@ namespace GameBaseArilox.UnitTest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class UnitTest1 : Game
+    public class TestSpriteAnimation : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private SpriteFont _spriteFont;
 
+        private SpriteDrawer _spriteDrawer;
+        private SpriteUpdater _spriteUpdater;
+
         private readonly ISprite _sprite;
 
-        public UnitTest1()
+        public TestSpriteAnimation()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _sprite = new Sprite();
+            _spriteDrawer = new SpriteDrawer();
+            _spriteUpdater = new SpriteUpdater();
         }
 
         /// <summary>
@@ -35,6 +41,7 @@ namespace GameBaseArilox.UnitTest
         {
             // TODO: Add your initialization logic here
 
+            IsMouseVisible = true;
             
             base.Initialize();
         }
@@ -49,7 +56,9 @@ namespace GameBaseArilox.UnitTest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _spriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
             _sprite.Texture = Content.Load<Texture2D>("SPRITES/SpriteTest.png");
-            new FlashingAnimation(5, _sprite);
+            new FlashingEffect(5, _sprite);
+            _spriteDrawer.ToDraw.Add(_sprite);
+            _spriteUpdater.ToUpdate.Add(_sprite);
             // TODO: use this.Content to load your game content here
         }
 
@@ -72,14 +81,9 @@ namespace GameBaseArilox.UnitTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (ISpriteAnimation animation in _sprite.Animations)
-            {
-                if (animation.TimeSpent >= animation.Duration)
-                {
-                    _sprite.Animations.Remove(animation);
-                }
-                animation.Animate(gameTime);
-            }
+            
+           _spriteUpdater.Update(gameTime);
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -94,7 +98,7 @@ namespace GameBaseArilox.UnitTest
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.Immediate);
-            _spriteBatch.Draw(_sprite.Texture,_sprite.ScreenPosition,Color.White*_sprite.Opacity);
+            _spriteDrawer.DrawAll(_spriteBatch);
             _spriteBatch.End();
             // TODO: Add your drawing code here
             

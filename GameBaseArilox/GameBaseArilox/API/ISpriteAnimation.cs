@@ -1,7 +1,10 @@
-﻿namespace GameBaseArilox.API
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace GameBaseArilox.API
 {
-    public interface ISpriteAnimation : IAnimation
+    public interface ISpriteAnimation : IEffect
     {
-        ISprite AnimatedSprite { get; set; }
+        List<Texture2D> AnimationsTextures { get; set; }
     }
 }
