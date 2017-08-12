@@ -1,4 +1,5 @@
 ﻿using GameBaseArilox.API;
+using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Graphic;
 using GameBaseArilox.zDrawers;
 using GameBaseArilox.zUpdaters;

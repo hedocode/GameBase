@@ -1,0 +1,20 @@
+﻿using System.Collections.Generic;
+using GameBaseArilox.API.Environment;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace GameBaseArilox.API.Graphic
+{
+    public interface ISprite : IScreenPositioned, IGameElement
+    {
+        Texture2D Texture { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
+        float Opacity { get; set; }
+        Vector2 Origin { get; set; }
+        float Rotation { get; set; }
+        Vector2 Scale { get; set; }
+        List<ISpriteEffect> Animations { get; set; }
+        void AfterLoad();
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API;
+using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

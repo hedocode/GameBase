@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API;
+using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.zUpdaters
