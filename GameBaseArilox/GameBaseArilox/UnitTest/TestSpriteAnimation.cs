@@ -2,6 +2,7 @@
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Graphic;
 using GameBaseArilox.zDrawers;
+using GameBaseArilox.zLoaders;
 using GameBaseArilox.zUpdaters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,6 +21,7 @@ namespace GameBaseArilox.UnitTest
 
         private SpriteDrawer _spriteDrawer;
         private SpriteUpdater _spriteUpdater;
+        private SpriteLoader _spriteLoader;
 
         private readonly ISprite _sprite;
 
@@ -27,9 +29,10 @@ namespace GameBaseArilox.UnitTest
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _sprite = new Sprite();
+            _sprite = new Sprite(100,100,64,64,"SpriteTest");
             _spriteDrawer = new SpriteDrawer();
             _spriteUpdater = new SpriteUpdater();
+            _spriteLoader = new SpriteLoader(Content,_spriteDrawer);
         }
 
         /// <summary>
@@ -56,8 +59,10 @@ namespace GameBaseArilox.UnitTest
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _spriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
-            _sprite.Texture = Content.Load<Texture2D>("SPRITES/SpriteTest.png");
+            _spriteLoader.LoadSpriteTest();
+
             new FlashingEffect(5, _sprite);
+
             _spriteDrawer.ToDraw.Add(_sprite);
             _spriteUpdater.ToUpdate.Add(_sprite);
             // TODO: use this.Content to load your game content here

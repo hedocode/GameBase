@@ -24,14 +24,14 @@ namespace GameBaseArilox.zUpdaters
         {
             foreach (ISpriteEffect spriteAnimation in _animationsToAdd)
             {
-                spriteAnimation.AffectedSprite.Animations.Add(spriteAnimation);
+                spriteAnimation.AffectedSprite.Effects.Add(spriteAnimation);
             }
             _animationsToAdd.Clear();
 
             foreach (ISpriteEffect spriteAnimation in _animationsToRemove)
             {
-                spriteAnimation.AffectedSprite.Animations.Remove(spriteAnimation);
-                if (spriteAnimation.AffectedSprite.Animations.Count == 0)
+                spriteAnimation.AffectedSprite.Effects.Remove(spriteAnimation);
+                if (spriteAnimation.AffectedSprite.Effects.Count == 0)
                 {
                     Reset(spriteAnimation.AffectedSprite);
                 }
@@ -40,9 +40,9 @@ namespace GameBaseArilox.zUpdaters
 
             foreach (ISprite sprite in ToUpdate)
             {
-                if (sprite.Animations.Count != 0)
+                if (sprite.Effects.Count != 0)
                 {
-                    foreach (ISpriteEffect spriteAnimation in sprite.Animations)
+                    foreach (ISpriteEffect spriteAnimation in sprite.Effects)
                     {
 
                         if (spriteAnimation.TimeSpent >= spriteAnimation.Duration)

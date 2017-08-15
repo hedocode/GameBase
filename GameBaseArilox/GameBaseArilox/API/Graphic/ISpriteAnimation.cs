@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API.Core;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Graphic
 {
     public interface ISpriteAnimation : IEffect
     {
-        List<Texture2D> AnimationsTextures { get; set; }
+        string Name { get; }
+        List<Rectangle> AnimationsTextures { get; set; }
+        float Speed { get; set; }
+        bool IsSeesaw { get; set; }
     }
 }

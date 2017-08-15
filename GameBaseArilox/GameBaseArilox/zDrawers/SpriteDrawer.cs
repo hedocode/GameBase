@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GameBaseArilox.API;
+﻿using System;
+using System.Collections.Generic;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,8 +8,11 @@ namespace GameBaseArilox.zDrawers
 {
     class SpriteDrawer : IDrawer
     {
+        private Dictionary<string, Texture2D> _spriteSets;
+
         public SpriteDrawer()
         {
+            _spriteSets = new Dictionary<string, Texture2D>();
             ToDraw = new List<ISprite>();    
         }
 
@@ -25,7 +28,15 @@ namespace GameBaseArilox.zDrawers
 
         public void Draw(SpriteBatch spriteBatch, ISprite sprite)
         {
-            spriteBatch.Draw(sprite.Texture, sprite.ScreenPosition, new Rectangle(0,0,64,64),Color.White * sprite.Opacity, sprite.Rotation, sprite.Origin, sprite.Scale, SpriteEffects.None, 0);
+            Texture2D spriteTexture;
+            _spriteSets.TryGetValue(sprite.TextureId, out spriteTexture);
+            if(spriteTexture == null) throw new Exception("Texture not found in the dictionary");
+            spriteBatch.Draw(spriteTexture, sprite.ScreenPosition, sprite.TextureSourceRectangle, Color.White * sprite.Opacity, sprite.Rotation, sprite.Origin, sprite.Scale, sprite.SpriteEffect, 0);
+        }
+
+        public void AddTexture2D(string textureId, Texture2D texture)
+        {
+            _spriteSets.Add(textureId, texture);
         }
 
         public void AddSprite(ISprite toAdd)

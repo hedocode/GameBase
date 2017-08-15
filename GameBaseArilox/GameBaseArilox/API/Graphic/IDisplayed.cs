@@ -2,7 +2,7 @@
 
 namespace GameBaseArilox.API.Graphic
 {
-    public interface IDisplayed : IScreenPositioned
+    public interface IDisplayed
     {
         ISprite Sprite { get; set; }
         IHitBox Hitbox { get; set; }

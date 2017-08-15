@@ -1,7 +1,7 @@
-﻿using GameBaseArilox.API;
-using GameBaseArilox.API.Graphic;
+﻿using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Graphic;
 using GameBaseArilox.zDrawers;
+using GameBaseArilox.zLoaders;
 using GameBaseArilox.zUpdaters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,16 +20,19 @@ namespace GameBaseArilox.UnitTest
 
         private SpriteDrawer _spriteDrawer;
         private SpriteUpdater _spriteUpdater;
+        private SpriteLoader _spriteLoader;
 
-        private readonly ISprite _sprite;
+        private ISprite _cursor;
+        
 
         public TestCursor()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _sprite = new Sprite(100,100);
             _spriteDrawer = new SpriteDrawer();
             _spriteUpdater = new SpriteUpdater();
+            _spriteLoader = new SpriteLoader(Content,_spriteDrawer);
+            _cursor = new Sprite(0,0,32,32, "SpriteTest");
         }
 
         /// <summary>
@@ -56,12 +59,7 @@ namespace GameBaseArilox.UnitTest
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _spriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
-            _sprite.Texture = Content.Load<Texture2D>("SPRITES/SpriteTest.png");
-            FlashingEffect effect = new FlashingEffect(5, _sprite);
-            _sprite.AfterLoad();
-            _spriteDrawer.ToDraw.Add(_sprite);
-            _spriteUpdater.ToUpdate.Add(_sprite);
-
+            _spriteDrawer.AddSprite(_cursor);
             // TODO: use this.Content to load your game content here
         }
 
@@ -86,6 +84,7 @@ namespace GameBaseArilox.UnitTest
 
             
            _spriteUpdater.Update(gameTime);
+            _cursor.ScreenPosition = (Mouse.GetState().Position).ToVector2();
 
             // TODO: Add your update logic here
 

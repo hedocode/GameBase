@@ -5,5 +5,6 @@ namespace GameBaseArilox.API.Core
     public interface ICircle : IGameElement
     {
         float Radius { get; set; }
+        float Diameter { get; set; }
     }
 }

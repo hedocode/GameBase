@@ -1,5 +1,4 @@
-﻿using GameBaseArilox.API;
-using GameBaseArilox.API.Graphic;
+﻿using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Graphic
@@ -23,10 +22,12 @@ namespace GameBaseArilox.Graphic
             if (_increase)
             {
                 AffectedSprite.Opacity += _speed*(float) gameTime.ElapsedGameTime.TotalSeconds;
+                AffectedSprite.Scale -= new Vector2(0.1f,0.1f);
             }
             else
             {
                 AffectedSprite.Opacity -= _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AffectedSprite.Scale += new Vector2(0.1f, 0.1f);
             }
             AffectedSprite.Rotation += (float)(1 * gameTime.ElapsedGameTime.TotalSeconds);
             TimeSpent += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -41,7 +42,7 @@ namespace GameBaseArilox.Graphic
             TimeSpent = 0;
             _speed = speed;
             AffectedSprite = sprite;
-            sprite.Animations.Add(this);
+            sprite.Effects.Add(this);
         }
     }
 }
