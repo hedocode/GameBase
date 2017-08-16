@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GameBaseArilox.API;
+﻿using System;
+using System.Collections.Generic;
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
@@ -8,6 +8,11 @@ namespace GameBaseArilox.zUpdaters
 {
     class SpriteUpdater : IUpdater
     {
+        private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>()
+        {
+            {"SpriteTest",new Rectangle(0,0,64,64)}
+        };
+
         private readonly List<ISpriteEffect> _animationsToAdd;
         private readonly List<ISpriteEffect> _animationsToRemove;
 
@@ -79,6 +84,16 @@ namespace GameBaseArilox.zUpdaters
             sprite.Opacity = 1;
             sprite.Rotation = 0;
             sprite.Scale = new Vector2(1,1);
+        }
+
+        public void InitializeSpriteSourceRectangle(ISprite sprite)
+        {
+            Rectangle temp;
+            _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out temp);
+            if (temp == new Rectangle(0,0,0,0))
+            {
+                throw new Exception("ERROR WITH TEXTUREID");
+            }
         }
     }
 }
