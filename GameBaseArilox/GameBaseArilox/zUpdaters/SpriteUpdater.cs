@@ -2,68 +2,72 @@
 using System.Collections.Generic;
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
+using GameBaseArilox.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.zUpdaters
 {
     class SpriteUpdater : IUpdater
     {
+          /*------------*/
+         /* ATTRIBUTES */
+        /*------------*/
         private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>()
         {
-            {"SpriteTest",new Rectangle(0,0,64,64)}
+            {"SpriteTest",new Rectangle(0,0,64,64)},
+            {"Cursor1",new Rectangle(0,0,32,32)}
         };
 
-        private readonly List<ISpriteEffect> _animationsToAdd;
-        private readonly List<ISpriteEffect> _animationsToRemove;
+        private readonly Dictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>()
+        {
+            {"Cursor1Idle",new SpriteAnimation("Cursor1Idle","Cursor1",
+                new List<Rectangle>
+                {
+                    new Rectangle(0, 0, 32, 32),
+                    new Rectangle(32, 0, 32, 32),
+                    new Rectangle(64, 0, 32, 32),
+                    new Rectangle(96, 0, 32, 32),
+                    new Rectangle(128, 0, 32, 32),
+                    new Rectangle(160, 0, 32, 32)
+                })}
+        };
 
+        private readonly List<ISpriteEffect> _effectsToAdd;
+        private readonly List<ISpriteEffect> _effectsToRemove;
+        private double _timer = 0;
+
+          /*------------*/
+         /* PROPERTIES */
+        /*------------*/
         public List<ISprite> ToUpdate { get; set; }
 
+
+          /*-------------*/
+         /* CONSTRUCTOR */
+        /*-------------*/
         public SpriteUpdater()
         {
-            _animationsToAdd = new List<ISpriteEffect>();
-            _animationsToRemove = new List<ISpriteEffect>();
+            _effectsToAdd = new List<ISpriteEffect>();
+            _effectsToRemove = new List<ISpriteEffect>();
             ToUpdate = new List<ISprite>();
         }
 
+          /*------------*/
+         /*   METHODS  */
+        /*------------*/
         public void Update(GameTime gameTime)
         {
-            foreach (ISpriteEffect spriteAnimation in _animationsToAdd)
-            {
-                spriteAnimation.AffectedSprite.Effects.Add(spriteAnimation);
-            }
-            _animationsToAdd.Clear();
+            _timer += gameTime.ElapsedGameTime.TotalSeconds;
+            AddSpriteEffects();
+            RemoveSpriteEffects();
 
-            foreach (ISpriteEffect spriteAnimation in _animationsToRemove)
-            {
-                spriteAnimation.AffectedSprite.Effects.Remove(spriteAnimation);
-                if (spriteAnimation.AffectedSprite.Effects.Count == 0)
-                {
-                    Reset(spriteAnimation.AffectedSprite);
-                }
-            }
-            _animationsToRemove.Clear();
-
-            foreach (ISprite sprite in ToUpdate)
-            {
-                if (sprite.Effects.Count != 0)
-                {
-                    foreach (ISpriteEffect spriteAnimation in sprite.Effects)
-                    {
-
-                        if (spriteAnimation.TimeSpent >= spriteAnimation.Duration)
-                        {
-                            _animationsToRemove.Add(spriteAnimation);
-
-                        }
-                        spriteAnimation.Affect(gameTime);
-                    }
-                }
-            }
+            UpdateSprites(gameTime);
         }
 
         public void AddToUpdate(ISprite sprite)
         {
             ToUpdate.Add(sprite);
+            InitSprite(sprite);
         }
 
         public void RemoveToUpdate(ISprite sprite)
@@ -94,6 +98,108 @@ namespace GameBaseArilox.zUpdaters
             {
                 throw new Exception("ERROR WITH TEXTUREID");
             }
+        }
+
+        public void AddSpriteEffects()
+        {
+            foreach (ISpriteEffect spriteAnimation in _effectsToAdd)
+            {
+                spriteAnimation.AffectedSprite.Effects.Add(spriteAnimation);
+            }
+            _effectsToAdd.Clear();
+        }
+
+        public void RemoveSpriteEffects()
+        {
+            foreach (ISpriteEffect spriteAnimation in _effectsToRemove)
+            {
+                spriteAnimation.AffectedSprite.Effects.Remove(spriteAnimation);
+                if (spriteAnimation.AffectedSprite.Effects.Count == 0)
+                {
+                    Reset(spriteAnimation.AffectedSprite);
+                }
+            }
+            _effectsToRemove.Clear();
+        }
+
+        public void UpdateSprites(GameTime gameTime)
+        {
+            foreach (ISprite sprite in ToUpdate)
+            {
+                UpdateEffect(sprite, gameTime);
+
+                UpdateAnimations(sprite, gameTime);
+            }
+        }
+
+        public void UpdateEffect(ISprite sprite, GameTime gameTime)
+        {
+            if (sprite.Effects.Count != 0)
+            {
+                foreach (ISpriteEffect spriteEffect in sprite.Effects)
+                {
+                    if (spriteEffect.TimeSpent >= spriteEffect.Duration)
+                    {
+                        _effectsToRemove.Add(spriteEffect);
+                    }
+                    spriteEffect.Affect(gameTime);
+                }
+            }
+        }
+
+        public void UpdateAnimations(ISprite sprite, GameTime gameTime)
+        {
+            if (sprite.CurrentAnimation != null)
+            {
+                sprite.TimeSpent += gameTime.ElapsedGameTime.TotalSeconds;
+                SpriteAnimation spriteAnimation;
+                _animations.TryGetValue(sprite.CurrentAnimation, out spriteAnimation);
+                if (spriteAnimation.Name == null)
+                {
+                    throw new Exception("ERROR : Animation Not found in the animation dictionary");
+                }
+
+                if (sprite.TimeSpent >= spriteAnimation.Speed)
+                {
+                    if (!spriteAnimation.IsSeesaw)
+                    {
+                        sprite.CurrentFrame = (sprite.CurrentFrame + 1) % (spriteAnimation.AnimationsTextures.Count - 1);
+                    }
+                    else
+                    {
+                        if (sprite.Increase)
+                        {
+                            sprite.CurrentFrame++;
+                            if (sprite.CurrentFrame >= spriteAnimation.AnimationsTextures.Count - 1)
+                            {
+                                sprite.Increase = false;
+                            }
+                        }
+                        else
+                        {
+                            sprite.CurrentFrame--;
+                            if (sprite.CurrentFrame == 0)
+                            {
+                                sprite.Increase = true;
+                            }
+                        }
+                    }
+                    sprite.TextureSourceRectangle = spriteAnimation.AnimationsTextures[sprite.CurrentFrame];
+                    sprite.TimeSpent = 0;
+                }
+
+            }
+        }
+
+        public void InitSprite(ISprite sprite)
+        {
+            Rectangle rectangleInitSource;
+            _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out rectangleInitSource);
+            if (rectangleInitSource == Rectangle.Empty)
+            {
+                throw new Exception("ERROR : Init value not found in the init Dictionary.");
+            }
+            sprite.TextureSourceRectangle = rectangleInitSource;
         }
     }
 }

@@ -5,10 +5,34 @@ namespace GameBaseArilox.Graphic
 { 
     class FlashingEffect : ISpriteEffect
     {
+          /*------------*/
+         /* ATTRIBUTES */
+        /*------------*/
         private readonly int _speed;
         private bool _increase;
+
+          /*------------*/
+         /* PROPERTIES */
+        /*------------*/
         public float Duration { get; set; }
         public float TimeSpent { get; set; }
+        public ISprite AffectedSprite { get; set; }
+
+          /*-------------*/
+         /* CONSTRUCTOR */
+        /*-------------*/
+        public FlashingEffect(int speed, ISprite sprite)
+        {
+            Duration = 5;
+            TimeSpent = 0;
+            _speed = speed;
+            AffectedSprite = sprite;
+            sprite.Effects.Add(this);
+        }
+
+          /*------------*/
+         /*   METHODS  */
+        /*------------*/
         public void Affect(GameTime gameTime)
         {
             if (AffectedSprite.Opacity <= 0)
@@ -21,8 +45,8 @@ namespace GameBaseArilox.Graphic
             }
             if (_increase)
             {
-                AffectedSprite.Opacity += _speed*(float) gameTime.ElapsedGameTime.TotalSeconds;
-                AffectedSprite.Scale -= new Vector2(0.1f,0.1f);
+                AffectedSprite.Opacity += _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AffectedSprite.Scale -= new Vector2(0.1f, 0.1f);
             }
             else
             {
@@ -34,15 +58,5 @@ namespace GameBaseArilox.Graphic
 
         }
 
-        public ISprite AffectedSprite { get; set; }
-
-        public FlashingEffect(int speed, ISprite sprite)
-        {
-            Duration = 5;
-            TimeSpent = 0;
-            _speed = speed;
-            AffectedSprite = sprite;
-            sprite.Effects.Add(this);
-        }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Graphic\Sprite.cs" />
     <Compile Include="Graphic\SpriteAnimation.cs" />
     <Compile Include="zDrawers\SpriteDrawer.cs" />
+    <Compile Include="zLoaders\AnimationLoader.cs" />
     <Compile Include="zLoaders\SpriteLoader.cs" />
     <Compile Include="zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Main.cs" />
@@ -103,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ANIMATIONS\Animations.txt" />
     <Content Include="Content\CURSORS\Cursor1\Cursor1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

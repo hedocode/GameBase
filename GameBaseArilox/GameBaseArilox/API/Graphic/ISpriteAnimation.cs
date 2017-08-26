@@ -6,6 +6,7 @@ namespace GameBaseArilox.API.Graphic
 {
     public interface ISpriteAnimation : IEffect
     {
+        string TargetContentId { get; set; }
         string Name { get; set; }
         List<Rectangle> AnimationsTextures { get; set; }
         float Speed { get; set; }

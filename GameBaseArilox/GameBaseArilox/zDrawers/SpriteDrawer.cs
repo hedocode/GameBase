@@ -8,16 +8,29 @@ namespace GameBaseArilox.zDrawers
 {
     class SpriteDrawer : IDrawer
     {
+          /*------------*/
+         /* ATTRIBUTES */
+        /*------------*/
         private Dictionary<string, Texture2D> _spriteSets;
 
+
+          /*------------*/
+         /* PROPERTIES */
+        /*------------*/
+        public List<ISprite> ToDraw { get; set; }
+
+          /*-------------*/
+         /* CONSTRUCTOR */
+        /*-------------*/
         public SpriteDrawer()
         {
             _spriteSets = new Dictionary<string, Texture2D>();
-            ToDraw = new List<ISprite>();    
+            ToDraw = new List<ISprite>();
         }
 
-        public List<ISprite> ToDraw { get; set; }
-
+        /*------------*/
+        /*   METHODS  */
+        /*------------*/
         public void DrawAll(SpriteBatch spriteBatch)
         {
             foreach (ISprite sprite in ToDraw)

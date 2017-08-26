@@ -5,14 +5,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBaseArilox.Graphic
 {
-    class Sprite : ISprite
+    struct Sprite : ISprite
     {
+
+        /*------------*/
+        /* PROPERTIES */
+        /*------------*/
+
         public Vector2 ScreenPosition
         {
-            get
-            {
-                return new Vector2(X,Y);
-            }
+            get { return new Vector2(X, Y); }
             set
             {
                 X = value.X;
@@ -28,21 +30,39 @@ namespace GameBaseArilox.Graphic
         public Rectangle TextureSourceRectangle { get; set; }
         public float Opacity { get; set; }
         public Vector2 Origin { get; set; }
+        public float Depth { get; set; }
+        public double TimeSpent { get; set; }
         public float Rotation { get; set; }
         public Vector2 Scale { get; set; }
         public SpriteEffects SpriteEffect { get; set; }
-        public List<ISpriteAnimation> Animations { get; set; }
-        public ISpriteAnimation CurrentAnimation { get; set; }
+        public string CurrentAnimation { get; set; }
+        public int CurrentFrame { get; set; }
+        public bool Increase { get; set; }
         public List<ISpriteEffect> Effects { get; set; }
+
+        /*--------------*/
+        /* CONSTRUCTORS */
+        /*--------------*/
 
         public Sprite(string textureId)
         {
-            TextureId = textureId;
+            X = 0;
+            Y = 0;
+            Width = 0;
+            Height = 0;
+            TextureSourceRectangle = new Rectangle(0, 0, 0, 0);
+            Origin = new Vector2(0, 0);
+            Rotation = 0f;
             SpriteEffect = SpriteEffects.None;
             CurrentAnimation = null;
             Effects = new List<ISpriteEffect>();
-            Opacity = 1;
-            Scale = new Vector2(1,1);
+            Opacity = 1.0f;
+            Scale = new Vector2(1, 1);
+            TextureId = textureId;
+            CurrentFrame = 0;
+            Increase = true;
+            Depth = 0;
+            TimeSpent = 0;
         }
 
         public Sprite(int x, int y, string textureId) : this(textureId)
@@ -51,12 +71,23 @@ namespace GameBaseArilox.Graphic
             Y = y;
         }
 
-        public Sprite(int x, int y, int width, int height, string textureId) : this(x,y,textureId)
+        public Sprite(int x, int y, int width, int height, string textureId) : this(x, y, textureId)
         {
             Width = width;
             Height = height;
-            TextureSourceRectangle = new Rectangle(0, 0, 64, 64);
-            Origin = new Vector2(Width / 2f, Height / 2f);
+            Origin = new Vector2(Width/2f, Height/2f);
+        }
+
+        public Sprite(int x, int y, int width, int height, string textureId, Vector2 origin)
+            : this(x, y, width, height, textureId)
+        {
+            Origin = origin;
+        }
+
+        public Sprite(int x, int y, int width, int height, string textureId, Vector2 origin, string currentAnimation)
+            : this(x, y, width, height, textureId, origin)
+        {
+            CurrentAnimation = currentAnimation;
         }
     }
 }

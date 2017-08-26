@@ -14,9 +14,13 @@ namespace GameBaseArilox.API.Graphic
         Rectangle TextureSourceRectangle { get; set; }
         float Opacity { get; set; }
         Vector2 Origin { get; set; }
+        float Depth { get; set; }
+        double TimeSpent { get; set; }
+
         List<ISpriteEffect> Effects { get; set; }
         SpriteEffects SpriteEffect { get; set; }
-        List<ISpriteAnimation> Animations { get; set; }
-        ISpriteAnimation CurrentAnimation { get; set; }
+        string CurrentAnimation { get; set; }
+        int CurrentFrame { get; set; }
+        bool Increase { get; set; }
     }
 }
