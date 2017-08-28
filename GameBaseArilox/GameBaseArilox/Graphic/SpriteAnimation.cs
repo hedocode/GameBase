@@ -37,8 +37,12 @@ namespace GameBaseArilox.Graphic
             TargetContentId = id;
         }
 
-          /*------------*/
-         /*   METHODS  */
+        public SpriteAnimation(string name, string id, List<Rectangle> animation, float speed) : this(name, id, animation)
+        {
+            Speed = speed;
+        }
+        /*------------*/
+        /*   METHODS  */
         /*------------*/
         public void Affect(GameTime gameTime)
         {

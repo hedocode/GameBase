@@ -7,18 +7,18 @@ using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.zUpdaters
 {
-    class SpriteUpdater : IUpdater
+    public class SpriteUpdater : IUpdater
     {
           /*------------*/
          /* ATTRIBUTES */
         /*------------*/
-        private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>()
+        private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>
         {
             {"SpriteTest",new Rectangle(0,0,64,64)},
             {"Cursor1",new Rectangle(0,0,32,32)}
         };
 
-        private readonly Dictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>()
+        private readonly Dictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>
         {
             {"Cursor1Idle",new SpriteAnimation("Cursor1Idle","Cursor1",
                 new List<Rectangle>
@@ -29,12 +29,13 @@ namespace GameBaseArilox.zUpdaters
                     new Rectangle(96, 0, 32, 32),
                     new Rectangle(128, 0, 32, 32),
                     new Rectangle(160, 0, 32, 32)
-                })}
+                }
+                ,0.2f)
+            }
         };
 
         private readonly List<ISpriteEffect> _effectsToAdd;
         private readonly List<ISpriteEffect> _effectsToRemove;
-        private double _timer = 0;
 
           /*------------*/
          /* PROPERTIES */
@@ -57,7 +58,6 @@ namespace GameBaseArilox.zUpdaters
         /*------------*/
         public void Update(GameTime gameTime)
         {
-            _timer += gameTime.ElapsedGameTime.TotalSeconds;
             AddSpriteEffects();
             RemoveSpriteEffects();
 
@@ -88,13 +88,15 @@ namespace GameBaseArilox.zUpdaters
             sprite.Opacity = 1;
             sprite.Rotation = 0;
             sprite.Scale = new Vector2(1,1);
+            sprite.CurrentFrame = 1;
+            sprite.CurrentAnimation = null;
         }
 
         public void InitializeSpriteSourceRectangle(ISprite sprite)
         {
             Rectangle temp;
             _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out temp);
-            if (temp == new Rectangle(0,0,0,0))
+            if (temp == Rectangle.Empty)
             {
                 throw new Exception("ERROR WITH TEXTUREID");
             }

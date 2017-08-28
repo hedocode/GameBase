@@ -12,9 +12,9 @@ namespace GameBaseArilox.Graphic
         /* PROPERTIES */
         /*------------*/
 
-        public Vector2 ScreenPosition
+        public Point ScreenPosition
         {
-            get { return new Vector2(X, Y); }
+            get { return new Point((int)X, (int)Y); }
             set
             {
                 X = value.X;

@@ -38,16 +38,17 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="API\Core\ICircle.cs" />
     <Compile Include="API\Core\IClickable.cs" />
     <Compile Include="API\Core\ICommand.cs" />
     <Compile Include="API\Core\IEffect.cs" />
-    <Compile Include="API\Core\IHitBox.cs" />
+    <Compile Include="API\Detection\DiscusArea.cs" />
+    <Compile Include="API\Detection\IDetectionArea.cs" />
     <Compile Include="API\Core\IMoveableGameElement.cs" />
     <Compile Include="API\Core\INamed.cs" />
     <Compile Include="API\Core\IRotatable.cs" />
     <Compile Include="API\Core\IScalable.cs" />
     <Compile Include="API\Core\IUpdater.cs" />
+    <Compile Include="API\Detection\RectangleArea.cs" />
     <Compile Include="API\Entities\IAttacker.cs" />
     <Compile Include="API\Entities\IGameEntity.cs" />
     <Compile Include="API\Entities\IKillable.cs" />
@@ -77,16 +78,35 @@
     <Compile Include="API\Items\IItem.cs" />
     <Compile Include="API\Items\IStuff.cs" />
     <Compile Include="API\Items\IWeapon.cs" />
+    <Compile Include="API\Shapes\Circle.cs" />
+    <Compile Include="API\Shapes\ICircle.cs" />
+    <Compile Include="API\Shapes\IRectangle.cs" />
+    <Compile Include="API\Shapes\ISegment.cs" />
+    <Compile Include="API\Shapes\IShape.cs" />
+    <Compile Include="API\Shapes\IShapeCollider.cs" />
+    <Compile Include="API\Shapes\ITriangle.cs" />
+    <Compile Include="API\Shapes\Line.cs" />
+    <Compile Include="API\Shapes\Ray2D.cs" />
+    <Compile Include="API\Shapes\Segment.cs" />
+    <Compile Include="API\Shapes\ShapeCollissionDetector.cs" />
+    <Compile Include="Controls\GamePadInputs.cs" />
+    <Compile Include="Controls\InputManager.cs" />
+    <Compile Include="Controls\KeyboardInputs.cs" />
+    <Compile Include="Controls\MouseInputs.cs" />
+    <Compile Include="Core\Camera2D.cs" />
     <Compile Include="Graphic\FlashingEffect.cs" />
-    <Compile Include="GameExample.cs" />
+    <Compile Include="GameModel.cs" />
     <Compile Include="API\Enums\DamageType.cs" />
     <Compile Include="Environment\Tile.cs" />
     <Compile Include="Environment\TileMapGrid.cs" />
     <Compile Include="Graphic\Sprite.cs" />
     <Compile Include="Graphic\SpriteAnimation.cs" />
+    <Compile Include="GUI\Cursor.cs" />
+    <Compile Include="UnitTest\TestMenus.cs" />
     <Compile Include="zDrawers\SpriteDrawer.cs" />
     <Compile Include="zLoaders\AnimationLoader.cs" />
     <Compile Include="zLoaders\SpriteLoader.cs" />
+    <Compile Include="zUpdaters\CameraUpdater.cs" />
     <Compile Include="zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />

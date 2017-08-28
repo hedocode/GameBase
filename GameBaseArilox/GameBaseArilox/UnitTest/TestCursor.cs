@@ -32,7 +32,7 @@ namespace GameBaseArilox.UnitTest
             _spriteDrawer = new SpriteDrawer();
             _spriteUpdater = new SpriteUpdater();
             _spriteLoader = new SpriteLoader(Content,_spriteDrawer);
-            _cursor = new Sprite(0,0,16,16, "Cursor1", Vector2.Zero, "Cursor1Idle");
+            _cursor = new Sprite(0,0,32,32, "Cursor1", Vector2.Zero, "Cursor1Idle");
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace GameBaseArilox.UnitTest
         {
             // TODO: Add your initialization logic here
 
-            IsMouseVisible = true;
+            IsMouseVisible = false;
             
             base.Initialize();
         }
@@ -87,7 +87,7 @@ namespace GameBaseArilox.UnitTest
             
            _spriteUpdater.Update(gameTime);
 
-            _cursor.ScreenPosition = (Mouse.GetState().Position).ToVector2();
+            _cursor.ScreenPosition = Mouse.GetState().Position;
 
             // TODO: Add your update logic here
 

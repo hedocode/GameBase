@@ -28,8 +28,8 @@ namespace GameBaseArilox.zDrawers
             ToDraw = new List<ISprite>();
         }
 
-        /*------------*/
-        /*   METHODS  */
+          /*------------*/
+         /*   METHODS  */
         /*------------*/
         public void DrawAll(SpriteBatch spriteBatch)
         {
@@ -44,7 +44,8 @@ namespace GameBaseArilox.zDrawers
             Texture2D spriteTexture;
             _spriteSets.TryGetValue(sprite.TextureId, out spriteTexture);
             if(spriteTexture == null) throw new Exception("Texture not found in the dictionary");
-            spriteBatch.Draw(spriteTexture, sprite.ScreenPosition, sprite.TextureSourceRectangle, Color.White * sprite.Opacity, sprite.Rotation, sprite.Origin, sprite.Scale, sprite.SpriteEffect, 0);
+            spriteBatch.Draw(spriteTexture, null ,new Rectangle((int)sprite.ScreenPosition.X, (int)sprite.ScreenPosition.Y, sprite.Width, sprite.Height), 
+                sprite.TextureSourceRectangle, sprite.Origin, sprite.Rotation, sprite.Scale, Color.White * sprite.Opacity, sprite.SpriteEffect, sprite.Depth);
         }
 
         public void AddTexture2D(string textureId, Texture2D texture)
