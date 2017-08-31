@@ -2,10 +2,10 @@
 
 namespace GameBaseArilox.API.Core
 {
-    public interface IEffect
+    public interface IEffectObject
     {
-        float Duration { get; set; }
-        float TimeSpent { get; set; }
         void Affect(GameTime gameTime);
+        object AffectedObject { get; set; }
+        void Reset();
     }
 }

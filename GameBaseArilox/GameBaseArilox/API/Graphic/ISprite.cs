@@ -8,8 +8,5 @@ namespace GameBaseArilox.API.Graphic
         int Width { get; set; }
         int Height { get; set; }
         Rectangle TextureSourceRectangle { get; set; }
-
-        string CurrentAnimation { get; set; }
-        int CurrentFrame { get; set; }
     }
 }

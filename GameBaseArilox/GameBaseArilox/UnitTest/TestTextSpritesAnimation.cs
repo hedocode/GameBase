@@ -14,7 +14,7 @@ namespace GameBaseArilox.UnitTest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class TestTextSprites : Game
+    public class TestTextSpritesAnimation : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -27,14 +27,16 @@ namespace GameBaseArilox.UnitTest
         private List<IDrawer> _drawers = new List<IDrawer>();
 
         private ITextSprite _textSprite;
-        
+        private ITextSprite _textSprite2;
 
-        public TestTextSprites()
+
+        public TestTextSpritesAnimation()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            _textSprite = new TextSprite(new Point(100,100), "Hello world");
+            _textSprite = new TextSprite(new Point(100,100), "Hello world -     ");
+            _textSprite2 = new TextSprite(new Point(100, 200), "Hello world -     ");
 
             _textSpriteLoader = new TextSpriteLoader(Content, _textSpriteDrawer);
             _drawers.Add(_textSpriteDrawer);
@@ -65,10 +67,15 @@ namespace GameBaseArilox.UnitTest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             _textSpriteLoader.LoadArial12();
-            new TextSpriteFlashingEffect(1, _textSprite);
+            new TextSpriteHorizontalScrolling(5, 20, _textSprite);
+            new TextSpriteHorizontalScrolling(5,30,_textSprite2, true);
 
             _textSpriteDrawer.AddTextSprite(_textSprite);
             _textSpriteUpdater.AddToUpdate(_textSprite);
+
+            _textSpriteDrawer.AddTextSprite(_textSprite2);
+            _textSpriteUpdater.AddToUpdate(_textSprite2);
+
             // TODO: use this.Content to load your game content here
         }
 

@@ -9,20 +9,9 @@ namespace GameBaseArilox.Graphic
     struct Sprite : ISprite
     {
 
+          /*------------*/
+         /* PROPERTIES */
         /*------------*/
-        /* PROPERTIES */
-        /*------------*/
-
-        public Point ScreenPosition
-        {
-            get { return new Point((int)X, (int)Y); }
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-            }
-        }
-
         public float X { get; set; }
         public float Y { get; set; }
         public string TextureId { get; set; }
@@ -40,13 +29,33 @@ namespace GameBaseArilox.Graphic
         public string CurrentAnimation { get; set; }
         public int CurrentFrame { get; set; }
         public bool Increase { get; set; }
-        public List<IEffect> Effects { get; set; }
+        public List<IDrawableEffectOverTime> Effects { get; set; }
         public bool Visible { get; set; }
+        public Point ScreenPosition
+        {
+            get { return new Point((int)X, (int)Y); }
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
+        }
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(X, Y);
+            }
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
+        }
 
+          /*--------------*/
+         /* CONSTRUCTORS */
         /*--------------*/
-        /* CONSTRUCTORS */
-        /*--------------*/
-
         public Sprite(string textureId)
         {
             X = 0;
@@ -58,7 +67,7 @@ namespace GameBaseArilox.Graphic
             Rotation = 0f;
             SpriteEffect = SpriteEffects.None;
             CurrentAnimation = null;
-            Effects = new List<IEffect>();
+            Effects = new List<IDrawableEffectOverTime>();
             Opacity = 1.0f;
             Scale = new Vector2(1, 1);
             TextureId = textureId;
@@ -95,17 +104,18 @@ namespace GameBaseArilox.Graphic
             CurrentAnimation = currentAnimation;
         }
 
-        public Vector2 Position
+
+          /*------------*/
+         /*   METHODS  */
+        /*------------*/
+        public void AddEffect(IDrawableEffectOverTime effectOverTime)
         {
-            get
-            {
-                return new Vector2(X,Y);
-            }
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-            }
+            effectOverTime.SetDrawable(this);
+        }
+
+        public void AddFlashingEffect(DrawableFlashingEffectOverTime effect)
+        {
+            effect.SetDrawable(this);
         }
     }
 }

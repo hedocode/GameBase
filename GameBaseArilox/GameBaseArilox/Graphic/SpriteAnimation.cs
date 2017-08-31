@@ -16,10 +16,12 @@ namespace GameBaseArilox.Graphic
         public string Name { get; set; }
         public List<Rectangle> AnimationsTextures { get; set; }
         public float Speed { get; set; }
-        public bool IsSeesaw { get; set; }
 
-          /*-------------*/
-         /* CONSTRUCTOR */
+        public bool IsSeesaw { get; set; }
+        public object AffectedObject { get; set; }
+
+        /*-------------*/
+        /* CONSTRUCTOR */
         /*-------------*/
         public SpriteAnimation(string name, List<Rectangle> animation)
         {
@@ -30,6 +32,7 @@ namespace GameBaseArilox.Graphic
             AnimationsTextures = animation;
             Speed = 1;
             IsSeesaw = true;
+            AffectedObject = null;
         }
 
         public SpriteAnimation(string name, string id, List<Rectangle> animation) : this(name,animation)
@@ -41,13 +44,13 @@ namespace GameBaseArilox.Graphic
         {
             Speed = speed;
         }
-        /*------------*/
-        /*   METHODS  */
+
+          /*------------*/
+         /*   METHODS  */
         /*------------*/
         public void Affect(GameTime gameTime)
         {
             throw new NotImplementedException("Not used inherited Method");
         }
-
     }
 }

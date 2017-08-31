@@ -8,18 +8,19 @@ namespace GameBaseArilox.zUpdaters
     public class TextSpriteUpdater : IUpdater
     {
 
-        private readonly List<ITextSpriteEffect> _effectsToAdd;
-        private readonly List<ITextSpriteEffect> _effectsToRemove;
+        private readonly List<IDrawableEffectOverTime> _effectsToAdd;
+        private readonly List<IDrawableEffectOverTime> _effectsToRemove;
 
         public List<ITextSprite> ToUpdate { get; set; }
 
         /*-------------*/
         /* CONSTRUCTOR */
         /*-------------*/
+
         public TextSpriteUpdater()
         {
-            _effectsToAdd = new List<ITextSpriteEffect>();
-            _effectsToRemove = new List<ITextSpriteEffect>();
+            _effectsToAdd = new List<IDrawableEffectOverTime>();
+            _effectsToRemove = new List<IDrawableEffectOverTime>();
 
             ToUpdate = new List<ITextSprite>();
         }
@@ -44,31 +45,25 @@ namespace GameBaseArilox.zUpdaters
                 ToUpdate.Remove(textSprite);
             }
         }
-
-        public void Reset(ITextSprite sprite)
-        {
-            sprite.Opacity = 1;
-            sprite.Rotation = 0;
-            sprite.Scale = new Vector2(1, 1);
-        }
+        
 
         public void AddTextSpriteEffects()
         {
-            foreach (ITextSpriteEffect effect in _effectsToAdd)
+            foreach (IDrawableEffectOverTime effect in _effectsToAdd)
             {
-                effect.AffectedTextSprite.Effects.Add(effect);
+                effect.AffectedDrawable.Effects.Add(effect);
             }
             _effectsToAdd.Clear();
         }
 
         public void RemoveTextSpriteEffects()
         {
-            foreach (ITextSpriteEffect effect in _effectsToRemove)
+            foreach (IDrawableEffectOverTime effect in _effectsToRemove)
             {
-                effect.AffectedTextSprite.Effects.Remove(effect);
-                if (effect.AffectedTextSprite.Effects.Count == 0)
+                effect.AffectedDrawable.Effects.Remove(effect);
+                if (effect.AffectedDrawable.Effects.Count == 0)
                 {
-                    Reset(effect.AffectedTextSprite);
+                    effect.Reset();
                 }
             }
             _effectsToRemove.Clear();
@@ -79,6 +74,7 @@ namespace GameBaseArilox.zUpdaters
             foreach (ITextSprite textSprite in ToUpdate)
             {
                 UpdateEffect(textSprite, gameTime);
+                UpdateAnimation(textSprite, gameTime);
             }
         }
 
@@ -86,13 +82,25 @@ namespace GameBaseArilox.zUpdaters
         {
             if (textSprite.Effects.Count != 0)
             {
-                foreach (IEffect textSpriteEffect in textSprite.Effects)
+                foreach (IDrawableEffectOverTime textSpriteEffect in textSprite.Effects)
                 {
                     if (textSpriteEffect.TimeSpent >= textSpriteEffect.Duration)
                     {
-                        _effectsToRemove.Add(textSpriteEffect as ITextSpriteEffect);
+                        _effectsToRemove.Add(textSpriteEffect);
                     }
                     textSpriteEffect.Affect(gameTime);
+                }
+            }
+        }
+
+        public void UpdateAnimation(ITextSprite textSprite, GameTime gameTime)
+        {
+            if (textSprite.CurrentAnimation != null)
+            {
+                textSprite.Animation.Affect(gameTime);
+                if (textSprite.Animation.TimeSpent >= textSprite.Animation.Duration)
+                {
+                    textSprite.Animation.Reset();
                 }
             }
         }

@@ -4,6 +4,7 @@ using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Graphic;
 using Microsoft.Xna.Framework;
+using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 
 namespace GameBaseArilox.zUpdaters
 {
@@ -34,8 +35,8 @@ namespace GameBaseArilox.zUpdaters
             }
         };
 
-        private readonly List<ISpriteEffect> _effectsToAdd;
-        private readonly List<ISpriteEffect> _effectsToRemove;
+        private readonly List<IDrawableEffectOverTime> _effectsToAdd;
+        private readonly List<IDrawableEffectOverTime> _effectsToRemove;
 
           /*------------*/
          /* PROPERTIES */
@@ -48,8 +49,8 @@ namespace GameBaseArilox.zUpdaters
         /*-------------*/
         public SpriteUpdater()
         {
-            _effectsToAdd = new List<ISpriteEffect>();
-            _effectsToRemove = new List<ISpriteEffect>();
+            _effectsToAdd = new List<IDrawableEffectOverTime>();
+            _effectsToRemove = new List<IDrawableEffectOverTime>();
             ToUpdate = new List<ISprite>();
         }
 
@@ -83,7 +84,7 @@ namespace GameBaseArilox.zUpdaters
             ToUpdate = spriteList;
         }
 
-        public void Reset(ISprite sprite)
+        public void Reset(IDrawable sprite)
         {
             sprite.Opacity = 1;
             sprite.Rotation = 0;
@@ -104,21 +105,25 @@ namespace GameBaseArilox.zUpdaters
 
         public void AddSpriteEffects()
         {
-            foreach (ISpriteEffect effect in _effectsToAdd)
+            foreach (IDrawableEffectOverTime effect in _effectsToAdd)
             {
-                effect.AffectedSprite.Effects.Add(effect);
+                effect.AffectedDrawable.Effects.Add(effect);
             }
             _effectsToAdd.Clear();
         }
 
         public void RemoveSpriteEffects()
         {
-            foreach (ISpriteEffect effect in _effectsToRemove)
+            foreach (IDrawableEffectOverTime effect in _effectsToRemove)
             {
-                effect.AffectedSprite.Effects.Remove(effect);
-                if (effect.AffectedSprite.Effects.Count == 0)
+                effect.AffectedDrawable.Effects.Remove(effect);
+                if (effect.AffectedDrawable.Effects.Count == 0)
                 {
-                    Reset(effect.AffectedSprite);
+                    ISprite sprite = effect.AffectedDrawable as ISprite;
+                    if (sprite != null)
+                    {
+                        Reset(sprite);
+                    }
                 }
             }
             _effectsToRemove.Clear();
@@ -138,11 +143,11 @@ namespace GameBaseArilox.zUpdaters
         {
             if (sprite.Effects.Count != 0)
             {
-                foreach (IEffect spriteEffect in sprite.Effects)
+                foreach (IDrawableEffectOverTime spriteEffect in sprite.Effects)
                 {
                     if (spriteEffect.TimeSpent >= spriteEffect.Duration)
                     {
-                        _effectsToRemove.Add(spriteEffect as ISpriteEffect);
+                        _effectsToRemove.Add(spriteEffect);
                     }
                     spriteEffect.Affect(gameTime);
                 }
@@ -153,7 +158,6 @@ namespace GameBaseArilox.zUpdaters
         {
             if (sprite.CurrentAnimation != null)
             {
-                sprite.TimeSpent += gameTime.ElapsedGameTime.TotalSeconds;
                 SpriteAnimation spriteAnimation;
                 _animations.TryGetValue(sprite.CurrentAnimation, out spriteAnimation);
                 if (spriteAnimation.Name == null)
@@ -161,7 +165,7 @@ namespace GameBaseArilox.zUpdaters
                     throw new Exception("ERROR : Animation Not found in the animation dictionary");
                 }
 
-                if (sprite.TimeSpent >= spriteAnimation.Speed)
+                if (spriteAnimation.TimeSpent >= spriteAnimation.Speed)
                 {
                     if (!spriteAnimation.IsSeesaw)
                     {
@@ -187,7 +191,6 @@ namespace GameBaseArilox.zUpdaters
                         }
                     }
                     sprite.TextureSourceRectangle = spriteAnimation.AnimationsTextures[sprite.CurrentFrame];
-                    sprite.TimeSpent = 0;
                 }
 
             }

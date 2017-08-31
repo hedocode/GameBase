@@ -4,12 +4,10 @@ using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Graphic
 {
-    public interface ISpriteAnimation : IEffect
+    public interface ISpriteAnimation : IEffectOverTime, INamed
     {
         string TargetContentId { get; set; }
-        string Name { get; set; }
         List<Rectangle> AnimationsTextures { get; set; }
-        float Speed { get; set; }
         bool IsSeesaw { get; set; }
     }
 }

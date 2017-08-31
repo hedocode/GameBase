@@ -2,7 +2,7 @@
 
 namespace GameBaseArilox.API.Graphic
 {
-    public interface ITextSpriteEffect : IEffect
+    public interface ITextSpriteEffectOverTime : IEffectOverTime, IEffectObject
     {
         ITextSprite AffectedTextSprite { get; set; }
     }

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBaseArilox.API.Graphic
 {
-    public interface IDrawable : IScreenPositioned, IGameElement, IScalable, IRotatable, IAffected
+    public interface IDrawable : IScreenPositioned, IGameElement, IScalable, IRotatable, IAffectedDrawable, IAnimated
     {
         bool Visible { get; set; }
         float Opacity { get; set; }

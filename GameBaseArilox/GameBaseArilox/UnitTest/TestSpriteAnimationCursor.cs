@@ -12,7 +12,7 @@ namespace GameBaseArilox.UnitTest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class TestSpriteAnimation : Game
+    public class TestSpriteAnimationCursor : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -22,23 +22,17 @@ namespace GameBaseArilox.UnitTest
         private SpriteUpdater _spriteUpdater;
         private SpriteLoader _spriteLoader;
 
-        private readonly ISprite _sprite;
-        private readonly ISprite _sprite2;
-        private readonly ISprite _sprite3;
-        private readonly ISprite _sprite4;
+        private ISprite _cursor;
+        
 
-        public TestSpriteAnimation()
+        public TestSpriteAnimationCursor()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _sprite = new Sprite(100,100,64,64,"SpriteTest");
-            _sprite2 = new Sprite(400, 100, 64, 64, "SpriteTest");
-            _sprite3 = new Sprite(100, 400, 64, 64, "SpriteTest");
-            _sprite4 = new Sprite(400, 400, 64, 64, "SpriteTest");
-
             _spriteDrawer = new SpriteDrawer();
             _spriteUpdater = new SpriteUpdater();
             _spriteLoader = new SpriteLoader(Content,_spriteDrawer);
+            _cursor = new Sprite(0,0,32,32, "Cursor1", Vector2.Zero, "Cursor1Idle");
         }
 
         /// <summary>
@@ -51,7 +45,7 @@ namespace GameBaseArilox.UnitTest
         {
             // TODO: Add your initialization logic here
 
-            IsMouseVisible = true;
+            IsMouseVisible = false;
             
             base.Initialize();
         }
@@ -65,24 +59,9 @@ namespace GameBaseArilox.UnitTest
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _spriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
-            _spriteLoader.LoadSpriteTest();
-
-            new SpriteFlashingEffect(5, _sprite);
-            new SpriteFlashingEffect(5, _sprite2);
-            new SpriteFlashingEffect(5, _sprite3);
-            new SpriteFlashingEffect(5, _sprite4);
-
-            _spriteDrawer.AddSprite(_sprite);
-            _spriteUpdater.AddToUpdate(_sprite);
-
-            _spriteDrawer.AddSprite(_sprite2);
-            _spriteUpdater.AddToUpdate(_sprite2);
-
-            _spriteDrawer.AddSprite(_sprite3);
-            _spriteUpdater.AddToUpdate(_sprite3);
-
-            _spriteDrawer.AddSprite(_sprite4);
-            _spriteUpdater.AddToUpdate(_sprite4);
+            _spriteLoader.LoadCursor1();
+            _spriteDrawer.AddSprite(_cursor);
+            _spriteUpdater.AddToUpdate(_cursor);
             // TODO: use this.Content to load your game content here
         }
 
@@ -108,6 +87,8 @@ namespace GameBaseArilox.UnitTest
             
            _spriteUpdater.Update(gameTime);
 
+            _cursor.ScreenPosition = Mouse.GetState().Position;
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -123,6 +104,8 @@ namespace GameBaseArilox.UnitTest
 
             _spriteBatch.Begin(SpriteSortMode.Immediate);
             _spriteDrawer.DrawAll(_spriteBatch);
+
+            _spriteBatch.DrawString(_spriteFont, _cursor.ScreenPosition.ToString(), Vector2.Zero, Color.Orange);
             _spriteBatch.End();
             // TODO: Add your drawing code here
             

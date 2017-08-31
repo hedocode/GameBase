@@ -39,10 +39,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API\Controls\IInputButton.cs" />
-    <Compile Include="API\Core\IAffected.cs" />
+    <Compile Include="API\Core\IAffectedDrawable.cs" />
     <Compile Include="API\Core\IClickable.cs" />
     <Compile Include="API\Core\ICommand.cs" />
-    <Compile Include="API\Core\IEffect.cs" />
+    <Compile Include="API\Core\IDrawableEffectOverTime.cs" />
+    <Compile Include="API\Core\IEffectObject.cs" />
+    <Compile Include="API\Core\IEffectOverTime.cs" />
     <Compile Include="API\Detection\DiscusArea.cs" />
     <Compile Include="API\Detection\IDetectionArea.cs" />
     <Compile Include="API\Core\IMoveableGameElement.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="API\Environment\IGameGrid.cs" />
     <Compile Include="API\Environment\ParalaxBackground.cs" />
     <Compile Include="API\Environment\TileMap.cs" />
+    <Compile Include="API\Graphic\IAnimated.cs" />
     <Compile Include="API\Graphic\IBackground.cs" />
     <Compile Include="API\Graphic\IDisplayed.cs" />
     <Compile Include="API\Graphic\IDrawable.cs" />
@@ -75,9 +78,10 @@
     <Compile Include="API\Graphic\IScreenPositioned.cs" />
     <Compile Include="API\Graphic\ISprite.cs" />
     <Compile Include="API\Graphic\ISpriteAnimation.cs" />
-    <Compile Include="API\Graphic\ISpriteEffect.cs" />
+    <Compile Include="API\Graphic\ISpriteEffectOverTime.cs" />
     <Compile Include="API\Graphic\ITextSprite.cs" />
-    <Compile Include="API\Graphic\ITextSpriteEffect.cs" />
+    <Compile Include="API\Graphic\ITextSpriteAnimation.cs" />
+    <Compile Include="API\Graphic\ITextSpriteEffectOverTime.cs" />
     <Compile Include="API\Items\IBag.cs" />
     <Compile Include="API\Items\IInventory.cs" />
     <Compile Include="API\Items\IItem.cs" />
@@ -105,7 +109,7 @@
     <Compile Include="Controls\InputButton.cs" />
     <Compile Include="Controls\MouseInputs.cs" />
     <Compile Include="Core\Camera2D.cs" />
-    <Compile Include="Graphic\SpriteFlashingEffect.cs" />
+    <Compile Include="Graphic\DrawableFlashingEffectOverTime.cs" />
     <Compile Include="GameModel.cs" />
     <Compile Include="API\Enums\DamageType.cs" />
     <Compile Include="Environment\Tile.cs" />
@@ -113,9 +117,11 @@
     <Compile Include="Graphic\Sprite.cs" />
     <Compile Include="Graphic\SpriteAnimation.cs" />
     <Compile Include="Graphic\TextSprite.cs" />
-    <Compile Include="Graphic\TextSpriteFlashingEffect.cs" />
+    <Compile Include="Graphic\TextSpriteFlashingEffectOverTime.cs" />
+    <Compile Include="Graphic\TextSpriteHorizontalScrolling.cs" />
     <Compile Include="GUI\Cursor.cs" />
-    <Compile Include="UnitTest\TestTextSprites.cs" />
+    <Compile Include="UnitTest\TestTextSpritesAnimation.cs" />
+    <Compile Include="UnitTest\TestTextSpritesEffects.cs" />
     <Compile Include="UnitTest\TestAngle.cs" />
     <Compile Include="UnitTest\TestMenus.cs" />
     <Compile Include="zDrawers\SpriteDrawer.cs" />
@@ -128,8 +134,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest\TestCursor.cs" />
-    <Compile Include="UnitTest\TestSpriteAnimation.cs" />
+    <Compile Include="UnitTest\TestSpriteAnimationCursor.cs" />
+    <Compile Include="UnitTest\TestSpriteEffects.cs" />
     <Compile Include="zUpdaters\TextSpriteUpdater.cs" />
   </ItemGroup>
   <ItemGroup>

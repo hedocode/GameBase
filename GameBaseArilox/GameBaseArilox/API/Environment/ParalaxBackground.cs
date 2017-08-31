@@ -13,7 +13,7 @@ namespace GameBaseArilox.API.Environment
         {
             foreach (ISprite sprite in BackgroundSprites)
             {
-                foreach (ISpriteEffect animation in sprite.Effects)
+                foreach (ISpriteEffectOverTime animation in sprite.Effects)
                 {
                     animation.Affect(gameTime);
                 }
