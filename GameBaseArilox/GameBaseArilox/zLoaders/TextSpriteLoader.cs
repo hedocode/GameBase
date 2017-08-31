@@ -1,21 +1,27 @@
-﻿using GameBaseArilox.API.Graphic;
+﻿using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBaseArilox.zLoaders
 {
-    class TextSpriteLoader
+    public class TextSpriteLoader : IContentLoader
     {
         private IDrawer _textSpriteDrawer;
         private ContentManager _contentManager;
 
 
-        public TextSpriteLoader(ContentManager contentManager, IDrawer textSpriteDrawer)
+        public TextSpriteLoader(GameModel game, ContentManager contentManager, IDrawer textSpriteDrawer)
         {
             _contentManager = contentManager;
             _textSpriteDrawer = textSpriteDrawer;
+            game.AddToContentLoader(this);
         }
 
+        public void LoadContent()
+        {
+            LoadArial12();
+        }
 
         public void LoadArial12()
         {

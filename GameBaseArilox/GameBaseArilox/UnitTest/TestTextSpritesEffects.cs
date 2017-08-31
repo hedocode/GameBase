@@ -14,31 +14,14 @@ namespace GameBaseArilox.UnitTest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class TestTextSpritesEffects : Game
+    public class TestTextSpritesEffects : GameModel
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-
-        private TextSpriteDrawer _textSpriteDrawer = new TextSpriteDrawer();
-        private TextSpriteUpdater _textSpriteUpdater = new TextSpriteUpdater();
-        private TextSpriteLoader _textSpriteLoader;
-
-        private List<IUpdater> _updaters = new List<IUpdater>();
-        private List<IDrawer> _drawers = new List<IDrawer>();
-
         private ITextSprite _textSprite;
         
 
         public TestTextSpritesEffects()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-
             _textSprite = new TextSprite(new Point(100,100), "Hello world");
-
-            _textSpriteLoader = new TextSpriteLoader(Content, _textSpriteDrawer);
-            _drawers.Add(_textSpriteDrawer);
-            _updaters.Add(_textSpriteUpdater);
         }
 
         /// <summary>
@@ -62,63 +45,12 @@ namespace GameBaseArilox.UnitTest
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            _textSpriteLoader.LoadArial12();
+            base.LoadContent();
             new TextSpriteFlashingEffectOverTime(1, _textSprite);
 
-            _textSpriteDrawer.AddTextSprite(_textSprite);
-            _textSpriteUpdater.AddToUpdate(_textSprite);
+            TextSpriteDrawer.AddTextSprite(_textSprite);
+            TextSpriteUpdater.AddToUpdate(_textSprite);
             // TODO: use this.Content to load your game content here
-        }
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-
-            foreach (IUpdater updater in _updaters)
-            {
-                updater.Update(gameTime);
-            }
-
-            // TODO: Add your update logic here
-
-            base.Update(gameTime);
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointClamp,null,null,null,null);
-            foreach (IDrawer drawer in _drawers)
-            {
-                drawer.DrawAll(_spriteBatch);
-            }
-            _spriteBatch.End();
-            // TODO: Add your drawing code here
-            
-            base.Draw(gameTime);
         }
     }
 }

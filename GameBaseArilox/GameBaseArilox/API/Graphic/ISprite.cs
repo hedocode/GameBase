@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameBaseArilox.API.Core;
+using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Graphic
 {
-    public interface ISprite : IDrawable
+    public interface ISprite : IDrawable, IChangedOverTime
     {
         string TextureId { get; set; }
         int Width { get; set; }

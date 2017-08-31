@@ -6,6 +6,7 @@ namespace GameBaseArilox.API.Core
     {
         void Affect(GameTime gameTime);
         object AffectedObject { get; set; }
+        object BaseObject { get; }
         void Reset();
     }
 }

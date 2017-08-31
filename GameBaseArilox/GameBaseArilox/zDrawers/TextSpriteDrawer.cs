@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBaseArilox.zDrawers
 {
-    class TextSpriteDrawer : IDrawer
+    public class TextSpriteDrawer : IDrawer
     {
         /*------------*/
         /* ATTRIBUTES */
@@ -20,10 +20,11 @@ namespace GameBaseArilox.zDrawers
         /*-------------*/
         /* CONSTRUCTOR */
         /*-------------*/
-        public TextSpriteDrawer()
+        public TextSpriteDrawer(GameModel game)
         {
             _spriteFonts = new Dictionary<string, SpriteFont>();
             _toDraw = new List<ITextSprite>();
+            game.AddToDrawers(this);
         }
 
 

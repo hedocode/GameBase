@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Cursor = GameBaseArilox.GUI.Cursor;
 
 namespace GameBaseArilox.zDrawers
 {
-    class SpriteDrawer : IDrawer
+    public class SpriteDrawer : IDrawer
     {
           /*------------*/
          /* ATTRIBUTES */
@@ -23,10 +23,11 @@ namespace GameBaseArilox.zDrawers
         /*-------------*/
         /* CONSTRUCTOR */
         /*-------------*/
-        public SpriteDrawer()
+        public SpriteDrawer(GameModel game)
         {
             _spriteSets = new Dictionary<string, Texture2D>();
             _toDraw = new List<ISprite>();
+            game.AddToDrawers(this);
         }
 
           /*------------*/
@@ -58,6 +59,11 @@ namespace GameBaseArilox.zDrawers
         public void AddSprite(ISprite toAdd)
         {
             _toDraw.Add(toAdd);
+        }
+
+        public void AddSprite(Cursor toAdd)
+        {
+            _toDraw.Add(toAdd.Sprite);
         }
 
         public void RemoveSprite(ISprite toRemove)

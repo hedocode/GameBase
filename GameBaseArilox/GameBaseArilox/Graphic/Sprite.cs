@@ -73,7 +73,7 @@ namespace GameBaseArilox.Graphic
             TextureId = textureId;
             CurrentFrame = 0;
             Increase = true;
-            Depth = 0;
+            Depth = 1f;
             TimeSpent = 0;
             Visible = true;
             Color = Color.White;
@@ -104,10 +104,16 @@ namespace GameBaseArilox.Graphic
             CurrentAnimation = currentAnimation;
         }
 
+        public Sprite(int x, int y, int width, int height, string textureId, Vector2 origin, string currentAnimation,
+            float depth) : this(x, y, width, height, textureId, origin, currentAnimation)
+        {
+            Depth = depth;
+        }
+
 
           /*------------*/
-         /*   METHODS  */
-        /*------------*/
+          /*   METHODS  */
+          /*------------*/
         public void AddEffect(IDrawableEffectOverTime effectOverTime)
         {
             effectOverTime.SetDrawable(this);

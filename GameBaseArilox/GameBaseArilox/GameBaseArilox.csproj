@@ -40,11 +40,14 @@
   <ItemGroup>
     <Compile Include="API\Controls\IInputButton.cs" />
     <Compile Include="API\Core\IAffectedDrawable.cs" />
+    <Compile Include="API\Core\IChangedOverTime.cs" />
     <Compile Include="API\Core\IClickable.cs" />
     <Compile Include="API\Core\ICommand.cs" />
+    <Compile Include="API\Core\IContentLoader.cs" />
     <Compile Include="API\Core\IDrawableEffectOverTime.cs" />
     <Compile Include="API\Core\IEffectObject.cs" />
     <Compile Include="API\Core\IEffectOverTime.cs" />
+    <Compile Include="API\Core\IGame.cs" />
     <Compile Include="API\Detection\DiscusArea.cs" />
     <Compile Include="API\Detection\IDetectionArea.cs" />
     <Compile Include="API\Core\IMoveableGameElement.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="zLoaders\SpriteLoader.cs" />
     <Compile Include="zLoaders\TextSpriteLoader.cs" />
     <Compile Include="zUpdaters\CameraUpdater.cs" />
+    <Compile Include="zUpdaters\CursorUpdater.cs" />
     <Compile Include="zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />

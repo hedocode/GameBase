@@ -1,25 +1,28 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 
 namespace GameBaseArilox.zLoaders
 {
-    class SpriteLoader
+    public class SpriteLoader : IContentLoader
     {
         private const string SpriteContentFolder = "Content/SPRITES";
         private readonly ContentManager _contentManager;
 
-        private IDrawer _spriteDrawer;
+        private readonly IDrawer _spriteDrawer;
 
-        public SpriteLoader(ContentManager contentManager, IDrawer spriteDrawer)
+        public SpriteLoader(GameModel game, ContentManager contentManager, IDrawer spriteDrawer)
         {
             _contentManager = contentManager;
             _spriteDrawer = spriteDrawer;
+            game.AddToContentLoader(this);
         }
 
-        public void LoadAllTextures()
+        public void LoadContent()
         {
+            /*
             string[] ContentDirectories = new string[Directory.GetDirectories(SpriteContentFolder).Length];
             ContentDirectories = Directory.GetDirectories(SpriteContentFolder);
             foreach (string path in ContentDirectories)
@@ -28,7 +31,9 @@ namespace GameBaseArilox.zLoaders
                 {
                     
                 }
-            }
+            }*/
+            LoadSpriteTest();
+            LoadCursor1();
         }
 
         public void LoadSpriteTest()

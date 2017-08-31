@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Controls
 {
-    internal class InputsManager
+    public class InputsManager : IUpdater, IContentLoader
     {
         private Dictionary<string, ICommand> _cmdDictionary;
         
@@ -32,7 +32,7 @@ namespace GameBaseArilox.Controls
 
         public bool UpdateGamePad;
 
-        public InputsManager()
+        public InputsManager(GameModel game)
         {
             _mouseInputs = new MouseInputs();
             _gamePadInputs = new GamePadInputs();
@@ -44,6 +44,8 @@ namespace GameBaseArilox.Controls
             _gamePadButtons = new List<IInputButton>();
             _mouseButtons = new List<IInputButton>();
             _keyboardButtons = new List<IInputButton>();
+            game.AddToUpdaters(this);
+            game.AddToContentLoader(this);
         }
         
         public void LoadContent()
@@ -200,6 +202,11 @@ namespace GameBaseArilox.Controls
                 _buttonsState.Add(button, button.IsPressed);
             }
             list.Clear();
+        }
+
+        public Point GetMousePosition()
+        {
+            return MouseInput.GetMouseAbsolutePosition();
         }
 
         public void ExecuteCommand(Dictionary<List<IInputButton>, string> dictionary, List<IInputButton> key, GameTime gameTime)

@@ -1,14 +1,32 @@
 ﻿using GameBaseArilox.API.Detection;
 using GameBaseArilox.API.Environment;
 using GameBaseArilox.API.Graphic;
+using GameBaseArilox.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.GUI
 {
-    class Cursor : IDisplayed, IGameElement
+    public class Cursor : IDisplayed, IGameElement, IScreenPositioned
     {
+        private int _x;
+        private int _y;
+
         public ISprite Sprite { get; set; }
         public IDetectionArea Hitbox { get; set; }
+
+        public Point ScreenPosition
+        {
+            get
+            {
+                return new Point(_x, _y);
+            }
+            set
+            {
+                Sprite.ScreenPosition = value;
+                _x = value.X;
+                _y = value.Y;
+            }
+        }
 
         public Vector2 Position
         {
@@ -18,12 +36,16 @@ namespace GameBaseArilox.GUI
             }
             set
             {
-                _x = value.X;
-                _y = value.Y;
+                Sprite.Position = value;
+                _x = (int)value.X;
+                _y = (int)value.Y;
             }
         }
 
-        private float _x;
-        private float _y;
+        public Cursor(GameModel game)
+        {
+            Sprite = new Sprite(0, 0, 32, 32, "Cursor1", Vector2.Zero, "Cursor1Idle",0.5f);
+            game.AddDrawable(Sprite);
+        }
     }
 }

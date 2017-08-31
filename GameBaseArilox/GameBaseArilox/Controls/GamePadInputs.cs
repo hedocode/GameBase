@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameBaseArilox.API.Controls;
-using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameBaseArilox.Controls
 {
-    class GamePadInputs
+    public class GamePadInputs
     {
         private readonly List<Buttons> _gamePadButtonList = new List<Buttons>
         {

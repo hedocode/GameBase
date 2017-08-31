@@ -26,7 +26,6 @@ namespace GameBaseArilox.Graphic
         public SpriteEffects SpriteEffect { get; set; }
         public Vector2 Position { get; set; }
         public List<IDrawableEffectOverTime> Effects { get; set; }
-        public bool Increase { get; set; }
         public bool Visible { get; set; }
         public string CurrentAnimation { get; set; }
         public int CurrentFrame { get; set; }
@@ -46,10 +45,14 @@ namespace GameBaseArilox.Graphic
             Opacity = 1f;
             SpriteEffect = SpriteEffects.None;
             Effects = new List<IDrawableEffectOverTime>();
-            Increase = false;
             Visible = true;
             CurrentAnimation = null;
             CurrentFrame = 0;
+        }
+
+        public TextSprite(Point screenPosition, string text, GameModel game) : this(screenPosition, text)
+        {
+            game.AddDrawable(this);
         }
     }
 }

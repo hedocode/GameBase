@@ -12,27 +12,13 @@ namespace GameBaseArilox.UnitTest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class TestMenus : Game
+    public class TestMenus : GameModel
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private SpriteFont _spriteFont;
-
-        private SpriteDrawer _spriteDrawer;
-        private SpriteUpdater _spriteUpdater;
-        private SpriteLoader _spriteLoader;
-
-        private ISprite _cursor;
         
 
         public TestMenus()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            _spriteDrawer = new SpriteDrawer();
-            _spriteUpdater = new SpriteUpdater();
-            _spriteLoader = new SpriteLoader(Content,_spriteDrawer);
-            _cursor = new Sprite(0,0,64,64, "Cursor1", Vector2.Zero, null);
+
         }
 
         /// <summary>
@@ -44,10 +30,6 @@ namespace GameBaseArilox.UnitTest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
-            IsMouseVisible = false;
-            GameWindow window2 = GameWindow.Create(this,500,200);
-            window2.BeginScreenDeviceChange(true);
             base.Initialize();
         }
 
@@ -58,11 +40,7 @@ namespace GameBaseArilox.UnitTest
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _spriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
-            _spriteLoader.LoadCursor1();
-            _spriteDrawer.AddSprite(_cursor);
-            _spriteUpdater.AddToUpdate(_cursor);
+           
             // TODO: use this.Content to load your game content here
         }
 
@@ -72,6 +50,7 @@ namespace GameBaseArilox.UnitTest
         /// </summary>
         protected override void UnloadContent()
         {
+
             // TODO: Unload any non ContentManager content here
         }
 
@@ -82,13 +61,6 @@ namespace GameBaseArilox.UnitTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            
-           _spriteUpdater.Update(gameTime);
-
-            _cursor.ScreenPosition = Mouse.GetState().Position;
 
             // TODO: Add your update logic here
 
@@ -101,15 +73,6 @@ namespace GameBaseArilox.UnitTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointClamp,null,null,null,null);
-            _spriteDrawer.DrawAll(_spriteBatch);
-
-            _spriteBatch.DrawString(_spriteFont, _cursor.ScreenPosition.ToString(), Vector2.Zero, Color.Orange);
-            _spriteBatch.End();
-            // TODO: Add your drawing code here
-            
             base.Draw(gameTime);
         }
     }

@@ -1,9 +1,9 @@
-﻿using GameBaseArilox.zUpdaters;
+﻿using GameBaseArilox.API.Core;
 using Microsoft.Xna.Framework.Content;
 
 namespace GameBaseArilox.zLoaders
 {
-    class AnimationLoader
+    public class AnimationLoader : IContentLoader
     {
         private const string AnimationsContentFolder = "Content/ANIMATIONS";
         //private readonly ContentManager _contentManager;
@@ -14,5 +14,9 @@ namespace GameBaseArilox.zLoaders
             
         }
 
+        public void LoadContent()
+        {
+            
+        }
     }
 }

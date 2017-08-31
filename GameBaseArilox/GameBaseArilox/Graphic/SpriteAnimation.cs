@@ -12,7 +12,6 @@ namespace GameBaseArilox.Graphic
         /*------------*/
         public string TargetContentId { get; set; }
         public float Duration { get; set; }
-        public float TimeSpent { get; set; }
         public string Name { get; set; }
         public List<Rectangle> AnimationsTextures { get; set; }
         public float Speed { get; set; }
@@ -27,7 +26,6 @@ namespace GameBaseArilox.Graphic
         {
             TargetContentId = "SpriteTest";
             Duration = 0;
-            TimeSpent = 0;
             Name = name;
             AnimationsTextures = animation;
             Speed = 1;

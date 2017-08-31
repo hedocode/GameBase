@@ -2,6 +2,7 @@
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBaseArilox.zUpdaters
 {
@@ -11,18 +12,23 @@ namespace GameBaseArilox.zUpdaters
         private readonly List<IDrawableEffectOverTime> _effectsToAdd;
         private readonly List<IDrawableEffectOverTime> _effectsToRemove;
 
+        private Dictionary<string, SpriteFont> _spriteFonts;
+
         public List<ITextSprite> ToUpdate { get; set; }
 
         /*-------------*/
         /* CONSTRUCTOR */
         /*-------------*/
 
-        public TextSpriteUpdater()
+        public TextSpriteUpdater(GameModel game)
         {
             _effectsToAdd = new List<IDrawableEffectOverTime>();
             _effectsToRemove = new List<IDrawableEffectOverTime>();
 
+            _spriteFonts = new Dictionary<string, SpriteFont>();
+
             ToUpdate = new List<ITextSprite>();
+            game.AddToUpdaters(this);
         }
 
         public void Update(GameTime gameTime)
@@ -31,6 +37,13 @@ namespace GameBaseArilox.zUpdaters
             RemoveTextSpriteEffects();
 
             UpdateTextSprites(gameTime);
+        }
+
+        public void AddContent(string textureId, object content)
+        {
+            SpriteFont spriteFont = content as SpriteFont;
+            if (spriteFont != null)
+                _spriteFonts.Add(textureId, spriteFont);
         }
 
         public void AddToUpdate(ITextSprite textSprite)
@@ -103,6 +116,13 @@ namespace GameBaseArilox.zUpdaters
                     textSprite.Animation.Reset();
                 }
             }
+        }
+
+        public void InitializeTextSprite(ITextSprite textSprite)
+        {
+            textSprite.Origin = Vector2.One;
+            SpriteFont spriteFont;
+            _spriteFonts.TryGetValue(textSprite.FontName, out spriteFont);
         }
     }
 }

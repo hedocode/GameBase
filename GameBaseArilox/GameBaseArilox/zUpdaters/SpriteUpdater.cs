@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Graphic;
+using GameBaseArilox.GUI;
 using Microsoft.Xna.Framework;
 using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 
@@ -47,11 +48,12 @@ namespace GameBaseArilox.zUpdaters
           /*-------------*/
          /* CONSTRUCTOR */
         /*-------------*/
-        public SpriteUpdater()
+        public SpriteUpdater(GameModel game)
         {
             _effectsToAdd = new List<IDrawableEffectOverTime>();
             _effectsToRemove = new List<IDrawableEffectOverTime>();
             ToUpdate = new List<ISprite>();
+            game.AddToUpdaters(this);
         }
 
           /*------------*/
@@ -69,6 +71,12 @@ namespace GameBaseArilox.zUpdaters
         {
             ToUpdate.Add(sprite);
             InitSprite(sprite);
+        }
+
+        public void AddToUpdate(Cursor cursor)
+        {
+            ToUpdate.Add(cursor.Sprite);
+            InitSprite(cursor.Sprite);
         }
 
         public void RemoveToUpdate(ISprite sprite)
@@ -158,14 +166,14 @@ namespace GameBaseArilox.zUpdaters
         {
             if (sprite.CurrentAnimation != null)
             {
+                sprite.TimeSpent += gameTime.ElapsedGameTime.TotalSeconds;
                 SpriteAnimation spriteAnimation;
                 _animations.TryGetValue(sprite.CurrentAnimation, out spriteAnimation);
                 if (spriteAnimation.Name == null)
                 {
                     throw new Exception("ERROR : Animation Not found in the animation dictionary");
                 }
-
-                if (spriteAnimation.TimeSpent >= spriteAnimation.Speed)
+                if (sprite.TimeSpent >= spriteAnimation.Speed)
                 {
                     if (!spriteAnimation.IsSeesaw)
                     {
@@ -189,6 +197,7 @@ namespace GameBaseArilox.zUpdaters
                                 sprite.Increase = true;
                             }
                         }
+                        sprite.TimeSpent = 0;
                     }
                     sprite.TextureSourceRectangle = spriteAnimation.AnimationsTextures[sprite.CurrentFrame];
                 }

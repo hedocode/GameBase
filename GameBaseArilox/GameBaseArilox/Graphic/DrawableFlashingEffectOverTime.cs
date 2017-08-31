@@ -1,4 +1,5 @@
-﻿using GameBaseArilox.API.Core;
+﻿using System;
+using GameBaseArilox.API.Core;
 using Microsoft.Xna.Framework;
 using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 
@@ -10,13 +11,13 @@ namespace GameBaseArilox.Graphic
          /* ATTRIBUTES */
         /*------------*/
         private float _speed;
-        private bool _increase;
 
           /*------------*/
          /* PROPERTIES */
         /*------------*/
         public float Duration { get; set; }
-        public float TimeSpent { get; set; }
+        public double TimeSpent { get; set; }
+        public bool Increase { get; set; }
         public float Speed { get { return _speed; } set { _speed = value; } }
         public IDrawable AffectedDrawable { get; set; }
        
@@ -37,13 +38,17 @@ namespace GameBaseArilox.Graphic
             }
         }
 
+        public object BaseObject { get; }
+
         public void Reset()
         {
-            AffectedDrawable.Opacity = 1;
-            AffectedDrawable.Rotation = 0;
-            AffectedDrawable.Scale = new Vector2(1, 1);
-            AffectedDrawable.CurrentFrame = 1;
-            AffectedDrawable.CurrentAnimation = null;
+            IDrawable drawable = (IDrawable) BaseObject;
+            if (drawable == null) { throw new InvalidCastException("ERROR : CAST FROM OBJECT TO IDRAWABLE FAILED"); }
+            AffectedDrawable.Opacity = drawable.Opacity;
+            AffectedDrawable.Rotation = drawable.Rotation;
+            AffectedDrawable.Scale = drawable.Scale;
+            AffectedDrawable.CurrentFrame = drawable.CurrentFrame;
+            AffectedDrawable.CurrentAnimation = drawable.CurrentAnimation;
         }
 
           /*-------------*/
@@ -55,6 +60,7 @@ namespace GameBaseArilox.Graphic
             TimeSpent = 0;
             _speed = speed;
             SetDrawable(drawable);
+            BaseObject = drawable;
         }
 
         public DrawableFlashingEffectOverTime(int speed, float duration = 5)
@@ -77,13 +83,13 @@ namespace GameBaseArilox.Graphic
         {
             if (AffectedDrawable.Opacity <= 0)
             {
-                _increase = true;
+                Increase = true;
             }
             else if (AffectedDrawable.Opacity >= 1)
             {
-                _increase = false;
+                Increase = false;
             }
-            if (_increase)
+            if (Increase)
             {
                 AffectedDrawable.Opacity += _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 AffectedDrawable.Scale -= new Vector2(0.1f, 0.1f);

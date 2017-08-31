@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameBaseArilox.API.Controls;
-using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Enums;
 using GameBaseArilox.Core;
 using Microsoft.Xna.Framework;
@@ -40,9 +39,6 @@ namespace GameBaseArilox.Controls
 
         public void Update(GameTime gameTime)
         {
-            //CheckPressedButtons(gameTime);
-            //CheckReleasedButtons(gameTime);
-
             _oldMouseState = _mouseState;
             _mouseState = Mouse.GetState();
         }
@@ -86,9 +82,9 @@ namespace GameBaseArilox.Controls
         /// Give the Mouse Position on the Window
         /// </summary>
         /// <returns></returns>
-        public Vector2 GetMouseAbsolutePosition()
+        public Point GetMouseAbsolutePosition()
         {
-            return new Vector2(_mouseState.X, _mouseState.Y);
+            return new Point(_mouseState.X, _mouseState.Y);
         }
         
         /// <summary>

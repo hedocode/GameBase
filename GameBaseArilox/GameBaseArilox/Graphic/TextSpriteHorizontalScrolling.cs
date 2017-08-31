@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Graphic
 {
-    struct TextSpriteHorizontalScrolling : ITextSpriteAnimation
+    struct TextSpriteHorizontalScrolling : ITextSpriteAnimation, IChangedOverTime
     {
         private double _timeSinceLast;
-        private string _baseString;
-        private bool _increase;
-        private int _nbCharDisplayed;
 
+
+        public double TimeSpent { get; set; }
         public float Duration { get; set; }
-        public float TimeSpent { get; set; }
+        public bool Increase { get; set; }
         public float Speed { get; set; }
         public string Name { get; set; }
         public ITextSprite AffectedTextSprite { get; set; }
         public List<string> AnimationTexts { get; set; }
         public bool IsSeesaw { get; set; }
+        public object BaseObject { get; }
         public object AffectedObject
         {
             get { return AffectedTextSprite; }
@@ -31,8 +33,7 @@ namespace GameBaseArilox.Graphic
         public TextSpriteHorizontalScrolling(float speed, float duration, ITextSprite textSprite, bool isSeesaw = false)
         {
             _timeSinceLast = 0;
-            _baseString = textSprite.Text;
-            _nbCharDisplayed = 13;
+            var nbCharDisplayed = 13;
             Duration = duration;
             TimeSpent = 0;
             Speed = speed;
@@ -40,6 +41,7 @@ namespace GameBaseArilox.Graphic
             AffectedTextSprite = textSprite;
             AnimationTexts = new List<string>();
             textSprite.CurrentAnimation = Name;
+            BaseObject = textSprite;
 
             string txt = textSprite.Text;
             AnimationTexts.Add(txt);
@@ -50,14 +52,14 @@ namespace GameBaseArilox.Graphic
                 txt = txt.Insert(txt.Length, temp.ToString());
 
                 string test="";
-                for (int j = 0; j < _nbCharDisplayed; j++)
+                for (int j = 0; j < nbCharDisplayed; j++)
                 {
                     test = test.Insert(j,txt[j].ToString());
                 }
                 AnimationTexts.Add(test);
             }
             IsSeesaw = isSeesaw;
-            _increase = true;
+            Increase = true;
             textSprite.Animation = this;
         }
 
@@ -70,17 +72,17 @@ namespace GameBaseArilox.Graphic
                 
                 if (IsSeesaw)
                 {
-                    if (_increase)
+                    if (Increase)
                     {
                         AffectedTextSprite.CurrentFrame++;
                         if (AffectedTextSprite.CurrentFrame == AnimationTexts.Count-1)
-                            _increase = false;
+                            Increase = false;
                     }
                     else
                     {
                         AffectedTextSprite.CurrentFrame--;
                         if (AffectedTextSprite.CurrentFrame == 0)
-                            _increase = true;
+                            Increase = true;
                     }
                 }
                 else
@@ -94,14 +96,18 @@ namespace GameBaseArilox.Graphic
             }
         }
 
+
         public void Reset()
         {
-            AffectedTextSprite.Opacity = 1;
-            AffectedTextSprite.Rotation = 0;
-            AffectedTextSprite.Scale = new Vector2(1, 1);
-            AffectedTextSprite.CurrentAnimation = null;
-            AffectedTextSprite.CurrentFrame = 0;
-            AffectedTextSprite.Text = _baseString;
+            ITextSprite textSprite = (ITextSprite)BaseObject;
+            if (textSprite == null) { throw new InvalidCastException("ERROR : CAST FROM OBJECT TO IDRAWABLE FAILED"); }
+            AffectedTextSprite.Opacity = textSprite.Opacity;
+            AffectedTextSprite.Rotation = textSprite.Rotation;
+            AffectedTextSprite.Scale = textSprite.Scale;
+            AffectedTextSprite.CurrentFrame = textSprite.CurrentFrame;
+            AffectedTextSprite.CurrentAnimation = textSprite.CurrentAnimation;
+            AffectedTextSprite.Text = textSprite.Text;
         }
+
     }
 }
