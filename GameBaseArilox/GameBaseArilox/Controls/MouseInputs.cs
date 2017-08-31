@@ -1,196 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameBaseArilox.API.Controls;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Enums;
 using GameBaseArilox.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameBaseArilox.Controls
 {
-    class MouseInputs
+    public class MouseInputs
     {
-        private enum MouseButton
+        internal enum MouseButton
         {
             LeftButton,
             MidButton,
-            RightButton
+            RightButton,
+            XButton1,
+            XButton2
         }
-        private Dictionary<string, ICommand> _cmdDictionary;
 
-        private Dictionary<List<MouseButton>, string> _onPress;// quand tu appuis : action UNE FOIS
-        private Dictionary<List<MouseButton>, string> _onHold;// pour deplacer : faire TANT QUE appuyé
-        private Dictionary<List<MouseButton>, string> _onRelease;// quand tu relaches la touche
-        private Dictionary<List<MouseButton>, string> _whileRelease;// tant que la touche est relaché
+
+        private Dictionary<MouseButton, string> _buttonsName = new Dictionary<MouseButton, string>
+        {
+            {MouseButton.RightButton, "RightClick"},
+            {MouseButton.MidButton, "MidClick"},
+            {MouseButton.LeftButton,"LeftCLick"},
+            {MouseButton.XButton1, "MousePrevious" },
+            {MouseButton.XButton2, "MouseNext" }
+        };
 
         private MouseState _oldMouseState;
         private MouseState _mouseState;
-        private bool _clicked;
 
-        private Camera2D _camera;
-        private readonly GameModel _game;
-
-        public MouseInputs(GameModel game)
+        public void LoadContent()
         {
-            _game = game;
-            _camera = _game.Camera;
-            _onPress = new Dictionary<List<MouseButton>, string>
-            {
-                {new List<MouseButton> {MouseButton.LeftButton}, "selectSpeak"},
-                {new List<MouseButton> {MouseButton.RightButton}, "selectFocus"  },
-                {new List<MouseButton> {MouseButton.MidButton}, "startSelection" }
-            };
-            _onRelease = new Dictionary<List<MouseButton>, string>
-            {
-                {new List<MouseButton> {MouseButton.MidButton}, "endSelection"}
-            };
-        }
 
-        public void LoadContent(Dictionary<string, ICommand> cmdDictionary)
-        {
-            _cmdDictionary = cmdDictionary;
         }
 
         public void Update(GameTime gameTime)
         {
-            _camera = _game.Camera;
-            foreach (List<MouseButton> listMb in _onPress.Keys)
-            {
-                //PRESSED VERIF
-                foreach (MouseButton mb in listMb)
-                {
-                    switch (mb)
-                    {
-                        case MouseButton.LeftButton:
-                            if (_mouseState.LeftButton == ButtonState.Pressed && _oldMouseState.LeftButton == ButtonState.Released)
-                            {
-                                string nomCmd;
-                                ICommand cmdToExe;
-                                _onPress.TryGetValue(listMb, out nomCmd);
-                                if (nomCmd == null)
-                                {
-                                    throw new Exception("Erreur, valeur introuvable dans le dictionnaire des keys");
-                                }
-                                _cmdDictionary.TryGetValue(nomCmd, out cmdToExe);
-                                cmdToExe?.Execute(gameTime);
-                            }
-                            break;
-                        case MouseButton.MidButton:
-                            if (_mouseState.MiddleButton == ButtonState.Pressed && _oldMouseState.MiddleButton == ButtonState.Released)
-                            {
-                                string nomCmd;
-                                ICommand cmdToExe;
-                                _onPress.TryGetValue(listMb, out nomCmd);
-                                if (nomCmd == null)
-                                {
-                                    throw new Exception("Erreur, valeur introuvable dans le dictionnaire des keys");
-                                }
-                                _cmdDictionary.TryGetValue(nomCmd, out cmdToExe);
-                                cmdToExe?.Execute(gameTime);
-                            }
-                            break;
-                        case MouseButton.RightButton:
-                            if (_mouseState.RightButton == ButtonState.Pressed && _oldMouseState.RightButton == ButtonState.Released)
-                            {
-                                string nomCmd;
-                                ICommand cmdToExe;
-                                _onPress.TryGetValue(listMb, out nomCmd);
-                                if (nomCmd == null)
-                                {
-                                    throw new Exception("Erreur, valeur introuvable dans le dictionnaire des keys");
-                                }
-                                _cmdDictionary.TryGetValue(nomCmd, out cmdToExe);
-                                cmdToExe?.Execute(gameTime);
-                            }
-                            break;
-                    }
-                }
-            }
+            //CheckPressedButtons(gameTime);
+            //CheckReleasedButtons(gameTime);
 
-            //RELEASED VERIF
-            foreach (List<MouseButton> bs in _onRelease.Keys)
-            {
-                int number = bs.Count;
-                int count = 0;
-                foreach (MouseButton mb in bs)
-                {
-                    switch (mb)
-                    {
-                        case MouseButton.LeftButton:
-                            if (_mouseState.LeftButton == ButtonState.Released)
-                                count++;
-                            break;
-
-                        case MouseButton.MidButton:
-                            if (_mouseState.MiddleButton == ButtonState.Released)
-                                count++;
-                            break;
-                        case MouseButton.RightButton:
-                            if (_mouseState.RightButton == ButtonState.Released)
-                                count++;
-                            break;
-                    }
-                }
-                if (count == number)
-                {
-                    foreach (MouseButton mb in bs)
-                    {
-                        switch (mb)
-                        {
-                            case MouseButton.LeftButton:
-                                if (_mouseState.LeftButton == ButtonState.Released &&
-                                    _oldMouseState.LeftButton == ButtonState.Pressed)
-                                {
-                                    string nomCmd;
-                                    ICommand cmdToExe;
-                                    _onRelease.TryGetValue(bs, out nomCmd);
-                                    if (nomCmd == null)
-                                    {
-                                        throw new Exception("Erreur, valeur introuvable dans le dictionnaire des keys");
-                                    }
-                                    _cmdDictionary.TryGetValue(nomCmd, out cmdToExe);
-                                    cmdToExe?.Execute(gameTime);
-                                }
-                                break;
-
-                            case MouseButton.MidButton:
-                                if (_mouseState.MiddleButton == ButtonState.Released &&
-                                    _oldMouseState.MiddleButton == ButtonState.Pressed)
-                                {
-                                    string nomCmd;
-                                    ICommand cmdToExe;
-                                    _onRelease.TryGetValue(bs, out nomCmd);
-                                    if (nomCmd == null)
-                                    {
-                                        throw new Exception("Erreur, valeur introuvable dans le dictionnaire des keys");
-                                    }
-                                    _cmdDictionary.TryGetValue(nomCmd, out cmdToExe);
-                                    cmdToExe?.Execute(gameTime);
-                                }
-                                break;
-
-                            case MouseButton.RightButton:
-                                if (_mouseState.RightButton == ButtonState.Released &&
-                                    _oldMouseState.RightButton == ButtonState.Pressed)
-                                {
-                                    string nomCmd;
-                                    ICommand cmdToExe;
-                                    _onRelease.TryGetValue(bs, out nomCmd);
-                                    if (nomCmd == null)
-                                    {
-                                        throw new Exception("Erreur, valeur introuvable dans le dictionnaire des keys");
-                                    }
-                                    _cmdDictionary.TryGetValue(nomCmd, out cmdToExe);
-                                    cmdToExe?.Execute(gameTime);
-                                }
-                                break;
-                        }
-                    }
-                }
-            }
             _oldMouseState = _mouseState;
             _mouseState = Mouse.GetState();
         }
 
+        public List<IInputButton> GetInputButtons()
+        {
+            List<IInputButton> result = new List<IInputButton>();
+            foreach (MouseButton b in _buttonsName.Keys)
+            {
+                string buttonName;
+                bool isPressed = false;
+                _buttonsName.TryGetValue(b,out buttonName);
+                if (buttonName == null)
+                {
+                    throw new Exception("ERROR : BUTTON NAME NOT FOUND IN THE DICTIONARY");
+                }
+                switch (b)
+                {
+                    case MouseButton.LeftButton:
+                        isPressed = IsLeftButtonPressed(_mouseState);
+                        break;
+                    case MouseButton.MidButton:
+                        isPressed = IsMiddleButtonPressed(_mouseState);
+                        break;
+                    case MouseButton.RightButton:
+                        isPressed = IsRightButtonPressed(_mouseState);
+                        break;
+                    case MouseButton.XButton1:
+                        isPressed = IsXButton1Pressed(_mouseState);
+                        break;
+                    case MouseButton.XButton2:
+                        isPressed = IsXButton2Pressed(_mouseState);
+                        break;
+                }
+                result.Add(new InputButton(buttonName, isPressed,InputType.Mouse));
+            }
+            return result;
+        }
+        
         /// <summary>
         /// Give the Mouse Position on the Window
         /// </summary>
@@ -199,38 +90,98 @@ namespace GameBaseArilox.Controls
         {
             return new Vector2(_mouseState.X, _mouseState.Y);
         }
-
+        
         /// <summary>
         /// Give the Mouse Position on the Map
         /// </summary>
         /// <returns></returns>
-        public Vector2 GetMouseMapPosition()
+        public Vector2 GetMouseMapPosition(Camera2D camera)
         {
-            return new Vector2(_mouseState.X + _camera.Position.X, _mouseState.Y + _camera.Position.Y);
+            return new Vector2(_mouseState.X + camera.Position.X, _mouseState.Y + camera.Position.Y);
         }
 
         /// <summary>
         /// Give the Tile Position of the Mouse
         /// </summary>
         /// <returns></returns>
-        public Vector2 GetMouseTilePosition()
+        public Point GetMouseTilePosition(Camera2D camera)
         {
-            return new Vector2((int)((_mouseState.X + _camera.Position.X) / 64f), (int)((_mouseState.Y + _camera.Position.Y) / 64f));
+            return new Point((int)((_mouseState.X + camera.Position.X) / 64f), (int)((_mouseState.Y + camera.Position.Y) / 64f));
         }
 
         public int GetScrollValue()
         {
-            return Mouse.GetState().ScrollWheelValue;
+            return _mouseState.ScrollWheelValue;
         }
 
         public bool IsLeftButtonClick()
         {
-            return _oldMouseState.LeftButton == ButtonState.Released && _mouseState.LeftButton == ButtonState.Pressed;
+            return IsLeftButtonReleased(_oldMouseState) && IsLeftButtonPressed(_mouseState);
         }
 
         public bool IsLeftClickedValidate()
         {
-            return _oldMouseState.LeftButton == ButtonState.Pressed && _mouseState.LeftButton == ButtonState.Released;
+            return IsLeftButtonPressed(_oldMouseState) && IsLeftButtonReleased(_mouseState);
+        }
+
+        public bool IsRightButtonPressed(MouseState mouseState)
+        {
+            return IsPressed(mouseState.RightButton);
+        }
+
+        public bool IsLeftButtonPressed(MouseState mouseState)
+        {
+            return IsPressed(mouseState.LeftButton);
+        }
+
+        public bool IsMiddleButtonPressed(MouseState mouseState)
+        {
+            return IsPressed(mouseState.MiddleButton);
+        }
+
+        public bool IsRightButtonReleased(MouseState mouseState)
+        {
+            return IsReleased(mouseState.RightButton);
+        }
+
+        public bool IsLeftButtonReleased(MouseState mouseState)
+        {
+            return IsReleased(mouseState.LeftButton);
+        }
+
+        public bool IsMiddleButtonReleased(MouseState mouseState)
+        {
+            return IsReleased(mouseState.MiddleButton);
+        }
+
+        public bool IsXButton1Released(MouseState mouseState)
+        {
+            return IsReleased(mouseState.XButton1);
+        }
+
+        public bool IsXButton1Pressed(MouseState mouseState)
+        {
+            return IsPressed(mouseState.XButton1);
+        }
+
+        public bool IsXButton2Released(MouseState mouseState)
+        {
+            return IsReleased(mouseState.XButton2);
+        }
+
+        public bool IsXButton2Pressed(MouseState mouseState)
+        {
+            return IsPressed(mouseState.XButton2);
+        }
+
+        public bool IsPressed(ButtonState buttonState)
+        {
+            return buttonState == ButtonState.Pressed;
+        }
+
+        public bool IsReleased(ButtonState buttonState)
+        {
+            return buttonState == ButtonState.Released;
         }
     }
 }

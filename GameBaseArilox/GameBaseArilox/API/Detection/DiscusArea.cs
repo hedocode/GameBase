@@ -28,6 +28,12 @@ namespace GameBaseArilox.API.Detection
             set { Radius = (float)Math.Sqrt(value / Math.PI); }
         }
 
+        public Vector2D Center
+        {
+            get { return new Vector2D(Position.X,Position.Y); }
+            set { Position = new Vector2(Position.X,Position.Y); }
+        }
+
         public DiscusArea(ICircle circle)
         {
             Position = circle.Position;
@@ -64,15 +70,9 @@ namespace GameBaseArilox.API.Detection
             return Contains(vector.ToPoint());
         }
 
-        void IShapeCollider.Contains(Point point)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool Intersects(ICircle circle)
         {
-            return Math.Sqrt(Math.Pow(circle.Position.X - Position.X, 2) + Math.Pow(circle.Position.Y - Position.Y, 2)) 
-                <= circle.Radius + Radius;
+            return ShapesHelper.DistanceBetween(this,circle) <= circle.Radius + Radius;
         }
 
         public bool Intersects(ITriangle triangle)
@@ -86,7 +86,7 @@ namespace GameBaseArilox.API.Detection
             switch (detectionArea.GetType().ToString())
             {
                 case "RectangleArea":
-                    return Intersects((RectangleArea)detectionArea);
+                    return Intersects((IRectangle)detectionArea);
                 case "DiscusArea":
                     return Intersects((ICircle) detectionArea);
                 default:

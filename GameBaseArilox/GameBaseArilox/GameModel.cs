@@ -1,4 +1,5 @@
-﻿using GameBaseArilox.API.Graphic;
+﻿using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Core;
 using GameBaseArilox.zDrawers;
 using GameBaseArilox.zLoaders;
@@ -14,8 +15,8 @@ namespace GameBaseArilox
         private SpriteBatch _spriteBatch;
         private SpriteFont _spriteFont;
 
-        private SpriteDrawer _spriteDrawer;
-        private SpriteUpdater _spriteUpdater;
+        private IDrawer _spriteDrawer;
+        private IUpdater _spriteUpdater;
         private SpriteLoader _spriteLoader;
 
         public Camera2D Camera;
@@ -29,35 +30,6 @@ namespace GameBaseArilox
             _spriteDrawer = new SpriteDrawer();
             _spriteUpdater = new SpriteUpdater();
             _spriteLoader = new SpriteLoader(Content, _spriteDrawer);
-        }
-
-        protected override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _spriteBatch.Begin(SpriteSortMode.Immediate);
-
-            _spriteDrawer.DrawAll(_spriteBatch);
-
-            _spriteBatch.End();
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-        }
-
-        protected override void Initialize()
-        {
-            base.Initialize();
         }
     }
 }

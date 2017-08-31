@@ -38,6 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\Controls\IInputButton.cs" />
+    <Compile Include="API\Core\IAffected.cs" />
     <Compile Include="API\Core\IClickable.cs" />
     <Compile Include="API\Core\ICommand.cs" />
     <Compile Include="API\Core\IEffect.cs" />
@@ -58,14 +60,17 @@
     <Compile Include="API\Entities\ISpellCaster.cs" />
     <Compile Include="API\Entities\ITower.cs" />
     <Compile Include="API\Enums\GridType.cs" />
+    <Compile Include="API\Enums\InputType.cs" />
     <Compile Include="API\Enums\Stat.cs" />
     <Compile Include="API\Enums\StuffSlot.cs" />
     <Compile Include="API\Enums\Ressource.cs" />
     <Compile Include="API\Environment\IGameElement.cs" />
     <Compile Include="API\Environment\IGameGrid.cs" />
     <Compile Include="API\Environment\ParalaxBackground.cs" />
+    <Compile Include="API\Environment\TileMap.cs" />
     <Compile Include="API\Graphic\IBackground.cs" />
     <Compile Include="API\Graphic\IDisplayed.cs" />
+    <Compile Include="API\Graphic\IDrawable.cs" />
     <Compile Include="API\Graphic\IDrawer.cs" />
     <Compile Include="API\Graphic\IScreenPositioned.cs" />
     <Compile Include="API\Graphic\ISprite.cs" />
@@ -78,34 +83,46 @@
     <Compile Include="API\Items\IItem.cs" />
     <Compile Include="API\Items\IStuff.cs" />
     <Compile Include="API\Items\IWeapon.cs" />
+    <Compile Include="API\Shapes\Angle.cs" />
+    <Compile Include="API\Shapes\AngleHelper.cs" />
     <Compile Include="API\Shapes\Circle.cs" />
     <Compile Include="API\Shapes\ICircle.cs" />
+    <Compile Include="API\Shapes\ILine.cs" />
     <Compile Include="API\Shapes\IRectangle.cs" />
     <Compile Include="API\Shapes\ISegment.cs" />
     <Compile Include="API\Shapes\IShape.cs" />
     <Compile Include="API\Shapes\IShapeCollider.cs" />
     <Compile Include="API\Shapes\ITriangle.cs" />
+    <Compile Include="API\Shapes\IVector2D.cs" />
     <Compile Include="API\Shapes\Line.cs" />
     <Compile Include="API\Shapes\Ray2D.cs" />
     <Compile Include="API\Shapes\Segment.cs" />
-    <Compile Include="API\Shapes\ShapeCollissionDetector.cs" />
+    <Compile Include="API\Shapes\ShapesHelper.cs" />
+    <Compile Include="API\Shapes\Vector2D.cs" />
     <Compile Include="Controls\GamePadInputs.cs" />
-    <Compile Include="Controls\InputManager.cs" />
+    <Compile Include="Controls\InputsManager.cs" />
     <Compile Include="Controls\KeyboardInputs.cs" />
+    <Compile Include="Controls\InputButton.cs" />
     <Compile Include="Controls\MouseInputs.cs" />
     <Compile Include="Core\Camera2D.cs" />
-    <Compile Include="Graphic\FlashingEffect.cs" />
+    <Compile Include="Graphic\SpriteFlashingEffect.cs" />
     <Compile Include="GameModel.cs" />
     <Compile Include="API\Enums\DamageType.cs" />
     <Compile Include="Environment\Tile.cs" />
     <Compile Include="Environment\TileMapGrid.cs" />
     <Compile Include="Graphic\Sprite.cs" />
     <Compile Include="Graphic\SpriteAnimation.cs" />
+    <Compile Include="Graphic\TextSprite.cs" />
+    <Compile Include="Graphic\TextSpriteFlashingEffect.cs" />
     <Compile Include="GUI\Cursor.cs" />
+    <Compile Include="UnitTest\TestTextSprites.cs" />
+    <Compile Include="UnitTest\TestAngle.cs" />
     <Compile Include="UnitTest\TestMenus.cs" />
     <Compile Include="zDrawers\SpriteDrawer.cs" />
+    <Compile Include="zDrawers\TextSpriteDrawer.cs" />
     <Compile Include="zLoaders\AnimationLoader.cs" />
     <Compile Include="zLoaders\SpriteLoader.cs" />
+    <Compile Include="zLoaders\TextSpriteLoader.cs" />
     <Compile Include="zUpdaters\CameraUpdater.cs" />
     <Compile Include="zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Main.cs" />
@@ -113,6 +130,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest\TestCursor.cs" />
     <Compile Include="UnitTest\TestSpriteAnimation.cs" />
+    <Compile Include="zUpdaters\TextSpriteUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

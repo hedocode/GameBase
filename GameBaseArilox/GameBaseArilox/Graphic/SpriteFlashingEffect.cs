@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Graphic
 { 
-    class FlashingEffect : ISpriteEffect
+    class SpriteFlashingEffect : ISpriteEffect
     {
           /*------------*/
          /* ATTRIBUTES */
@@ -21,7 +21,7 @@ namespace GameBaseArilox.Graphic
           /*-------------*/
          /* CONSTRUCTOR */
         /*-------------*/
-        public FlashingEffect(int speed, ISprite sprite)
+        public SpriteFlashingEffect(int speed, ISprite sprite)
         {
             Duration = 5;
             TimeSpent = 0;

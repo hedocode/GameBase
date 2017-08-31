@@ -1,4 +1,6 @@
-﻿using GameBaseArilox.API.Graphic;
+﻿using System.Collections.Generic;
+using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Graphic;
 using GameBaseArilox.zDrawers;
 using GameBaseArilox.zLoaders;
@@ -12,33 +14,31 @@ namespace GameBaseArilox.UnitTest
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class TestSpriteAnimation : Game
+    public class TestTextSprites : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private SpriteFont _spriteFont;
 
-        private SpriteDrawer _spriteDrawer;
-        private SpriteUpdater _spriteUpdater;
-        private SpriteLoader _spriteLoader;
+        private TextSpriteDrawer _textSpriteDrawer = new TextSpriteDrawer();
+        private TextSpriteUpdater _textSpriteUpdater = new TextSpriteUpdater();
+        private TextSpriteLoader _textSpriteLoader;
 
-        private readonly ISprite _sprite;
-        private readonly ISprite _sprite2;
-        private readonly ISprite _sprite3;
-        private readonly ISprite _sprite4;
+        private List<IUpdater> _updaters = new List<IUpdater>();
+        private List<IDrawer> _drawers = new List<IDrawer>();
 
-        public TestSpriteAnimation()
+        private ITextSprite _textSprite;
+        
+
+        public TestTextSprites()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _sprite = new Sprite(100,100,64,64,"SpriteTest");
-            _sprite2 = new Sprite(400, 100, 64, 64, "SpriteTest");
-            _sprite3 = new Sprite(100, 400, 64, 64, "SpriteTest");
-            _sprite4 = new Sprite(400, 400, 64, 64, "SpriteTest");
 
-            _spriteDrawer = new SpriteDrawer();
-            _spriteUpdater = new SpriteUpdater();
-            _spriteLoader = new SpriteLoader(Content,_spriteDrawer);
+            _textSprite = new TextSprite(new Point(100,100), "Hello world");
+
+            _textSpriteLoader = new TextSpriteLoader(Content, _textSpriteDrawer);
+            _drawers.Add(_textSpriteDrawer);
+            _updaters.Add(_textSpriteUpdater);
         }
 
         /// <summary>
@@ -50,9 +50,8 @@ namespace GameBaseArilox.UnitTest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            IsMouseVisible = true;
             
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -64,25 +63,12 @@ namespace GameBaseArilox.UnitTest
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _spriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
-            _spriteLoader.LoadSpriteTest();
+            
+            _textSpriteLoader.LoadArial12();
+            new TextSpriteFlashingEffect(1, _textSprite);
 
-            new SpriteFlashingEffect(5, _sprite);
-            new SpriteFlashingEffect(5, _sprite2);
-            new SpriteFlashingEffect(5, _sprite3);
-            new SpriteFlashingEffect(5, _sprite4);
-
-            _spriteDrawer.AddSprite(_sprite);
-            _spriteUpdater.AddToUpdate(_sprite);
-
-            _spriteDrawer.AddSprite(_sprite2);
-            _spriteUpdater.AddToUpdate(_sprite2);
-
-            _spriteDrawer.AddSprite(_sprite3);
-            _spriteUpdater.AddToUpdate(_sprite3);
-
-            _spriteDrawer.AddSprite(_sprite4);
-            _spriteUpdater.AddToUpdate(_sprite4);
+            _textSpriteDrawer.AddTextSprite(_textSprite);
+            _textSpriteUpdater.AddToUpdate(_textSprite);
             // TODO: use this.Content to load your game content here
         }
 
@@ -105,8 +91,11 @@ namespace GameBaseArilox.UnitTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            
-           _spriteUpdater.Update(gameTime);
+
+            foreach (IUpdater updater in _updaters)
+            {
+                updater.Update(gameTime);
+            }
 
             // TODO: Add your update logic here
 
@@ -121,8 +110,11 @@ namespace GameBaseArilox.UnitTest
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate);
-            _spriteDrawer.DrawAll(_spriteBatch);
+            _spriteBatch.Begin(SpriteSortMode.FrontToBack,BlendState.AlphaBlend,SamplerState.PointClamp,null,null,null,null);
+            foreach (IDrawer drawer in _drawers)
+            {
+                drawer.DrawAll(_spriteBatch);
+            }
             _spriteBatch.End();
             // TODO: Add your drawing code here
             

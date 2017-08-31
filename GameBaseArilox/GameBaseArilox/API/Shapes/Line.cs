@@ -1,22 +1,29 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Shapes
 {
     struct Line : IShapeCollider
     {
-        private float _a;
-        private float _b;
+        private float _slope;
+        private float _yAt0;
 
-        public Line(int a, int b)
+        public float Root => -_yAt0/_slope;
+
+        public Line(int slope, int yAt0)
         {
-            _a = a;
-            _b = b;
+            _slope = slope;
+            _yAt0 = yAt0;
         }
 
-
-        public void Contains(Point point)
+        public bool Contains(Point point)
         {
-            throw new System.NotImplementedException();
+            return Math.Abs(_slope*point.X + _yAt0 - point.Y) < 0.00001;
+        }
+
+        public bool Contains(Vector2 point)
+        {
+            return Math.Abs(_slope*point.X + _yAt0 - point.Y) < 0.00001;
         }
 
         public bool Intersects(ISegment segment)

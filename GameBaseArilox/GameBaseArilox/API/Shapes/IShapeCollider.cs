@@ -4,7 +4,7 @@ namespace GameBaseArilox.API.Shapes
 {
     public interface IShapeCollider
     {
-        void Contains(Point point);
+        bool Contains(Point point);
         bool Intersects(ISegment segment);
         bool Intersects(IRectangle rectangle);
         bool Intersects(Rectangle rectangle);

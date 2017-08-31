@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
-using GameBaseArilox.zDrawers;
+using GameBaseArilox.API.Graphic;
 
 namespace GameBaseArilox.zLoaders
 {
@@ -10,9 +10,9 @@ namespace GameBaseArilox.zLoaders
         private const string SpriteContentFolder = "Content/SPRITES";
         private readonly ContentManager _contentManager;
 
-        private SpriteDrawer _spriteDrawer;
+        private IDrawer _spriteDrawer;
 
-        public SpriteLoader(ContentManager contentManager, SpriteDrawer spriteDrawer)
+        public SpriteLoader(ContentManager contentManager, IDrawer spriteDrawer)
         {
             _contentManager = contentManager;
             _spriteDrawer = spriteDrawer;
@@ -33,12 +33,12 @@ namespace GameBaseArilox.zLoaders
 
         public void LoadSpriteTest()
         {
-            _spriteDrawer.AddTexture2D("SpriteTest",_contentManager.Load<Texture2D>("SPRITES/SpriteTest"));
+            _spriteDrawer.AddContent("SpriteTest",_contentManager.Load<Texture2D>("SPRITES/SpriteTest"));
         }
 
         public void LoadCursor1()
         {
-            _spriteDrawer.AddTexture2D("Cursor1",_contentManager.Load<Texture2D>("CURSORS/Cursor1/Cursor1"));
+            _spriteDrawer.AddContent("Cursor1",_contentManager.Load<Texture2D>("CURSORS/Cursor1/Cursor1"));
         }
     }
 }

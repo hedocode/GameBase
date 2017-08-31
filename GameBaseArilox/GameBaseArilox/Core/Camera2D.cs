@@ -80,7 +80,7 @@ namespace GameBaseArilox.Core
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            Position = new Vector2(_toFollow.X, _toFollow.Y) - new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
+            Position = new Vector2(_toFollow.Position.X, _toFollow.Position.Y) - new Vector2(_viewport.Width / 2f, _viewport.Height / 2f);
 
             if (Mouse.GetState().ScrollWheelValue < _previousScrollValue)
             {

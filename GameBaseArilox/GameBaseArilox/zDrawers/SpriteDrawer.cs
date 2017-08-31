@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,20 +13,20 @@ namespace GameBaseArilox.zDrawers
          /* ATTRIBUTES */
         /*------------*/
         private Dictionary<string, Texture2D> _spriteSets;
+        private List<ISprite> _toDraw;
 
 
-          /*------------*/
-         /* PROPERTIES */
         /*------------*/
-        public List<ISprite> ToDraw { get; set; }
+        /* PROPERTIES */
+        /*------------*/
 
-          /*-------------*/
-         /* CONSTRUCTOR */
+        /*-------------*/
+        /* CONSTRUCTOR */
         /*-------------*/
         public SpriteDrawer()
         {
             _spriteSets = new Dictionary<string, Texture2D>();
-            ToDraw = new List<ISprite>();
+            _toDraw = new List<ISprite>();
         }
 
           /*------------*/
@@ -33,7 +34,7 @@ namespace GameBaseArilox.zDrawers
         /*------------*/
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            foreach (ISprite sprite in ToDraw)
+            foreach (ISprite sprite in _toDraw)
             {
                 Draw(spriteBatch, sprite);
             }
@@ -44,25 +45,26 @@ namespace GameBaseArilox.zDrawers
             Texture2D spriteTexture;
             _spriteSets.TryGetValue(sprite.TextureId, out spriteTexture);
             if(spriteTexture == null) throw new Exception("Texture not found in the dictionary");
-            spriteBatch.Draw(spriteTexture, null ,new Rectangle((int)sprite.ScreenPosition.X, (int)sprite.ScreenPosition.Y, sprite.Width, sprite.Height), 
-                sprite.TextureSourceRectangle, sprite.Origin, sprite.Rotation, sprite.Scale, Color.White * sprite.Opacity, sprite.SpriteEffect, sprite.Depth);
+            spriteBatch.Draw(spriteTexture,new Rectangle(sprite.ScreenPosition.X, sprite.ScreenPosition.Y, (int)(sprite.Width*sprite.Scale.X),(int)(sprite.Height *sprite.Scale.Y)), sprite.TextureSourceRectangle,sprite.Color,sprite.Rotation,sprite.Origin,sprite.SpriteEffect,sprite.Depth);
         }
 
-        public void AddTexture2D(string textureId, Texture2D texture)
+        public void AddContent(string textureId, object content)
         {
+            Texture2D texture = content as Texture2D;
+            if(texture != null)
             _spriteSets.Add(textureId, texture);
         }
 
         public void AddSprite(ISprite toAdd)
         {
-            ToDraw.Add(toAdd);
+            _toDraw.Add(toAdd);
         }
 
         public void RemoveSprite(ISprite toRemove)
         {
-            if (ToDraw.Contains(toRemove))
+            if (_toDraw.Contains(toRemove))
             {
-                ToDraw.Remove(toRemove);
+                _toDraw.Remove(toRemove);
             }
         }
     }

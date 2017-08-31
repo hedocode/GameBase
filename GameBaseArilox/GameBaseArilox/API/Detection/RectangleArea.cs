@@ -51,11 +51,6 @@ namespace GameBaseArilox.API.Detection
                 (point.Y >= _y) && (point.Y <= _y + Height);
         }
 
-        void IShapeCollider.Contains(Point point)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public bool Intersects(ISegment segment)
         {
             throw new System.NotImplementedException();

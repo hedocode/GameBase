@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -31,6 +32,7 @@ namespace GameBaseArilox.Graphic
         public float Opacity { get; set; }
         public Vector2 Origin { get; set; }
         public float Depth { get; set; }
+        public Color Color { get; set; }
         public double TimeSpent { get; set; }
         public float Rotation { get; set; }
         public Vector2 Scale { get; set; }
@@ -38,7 +40,8 @@ namespace GameBaseArilox.Graphic
         public string CurrentAnimation { get; set; }
         public int CurrentFrame { get; set; }
         public bool Increase { get; set; }
-        public List<ISpriteEffect> Effects { get; set; }
+        public List<IEffect> Effects { get; set; }
+        public bool Visible { get; set; }
 
         /*--------------*/
         /* CONSTRUCTORS */
@@ -55,7 +58,7 @@ namespace GameBaseArilox.Graphic
             Rotation = 0f;
             SpriteEffect = SpriteEffects.None;
             CurrentAnimation = null;
-            Effects = new List<ISpriteEffect>();
+            Effects = new List<IEffect>();
             Opacity = 1.0f;
             Scale = new Vector2(1, 1);
             TextureId = textureId;
@@ -63,6 +66,8 @@ namespace GameBaseArilox.Graphic
             Increase = true;
             Depth = 0;
             TimeSpent = 0;
+            Visible = true;
+            Color = Color.White;
         }
 
         public Sprite(int x, int y, string textureId) : this(textureId)
@@ -88,6 +93,19 @@ namespace GameBaseArilox.Graphic
             : this(x, y, width, height, textureId, origin)
         {
             CurrentAnimation = currentAnimation;
+        }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(X,Y);
+            }
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
         }
     }
 }

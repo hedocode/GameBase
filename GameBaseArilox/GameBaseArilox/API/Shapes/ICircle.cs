@@ -8,5 +8,6 @@ namespace GameBaseArilox.API.Shapes
         float Diameter { get; set; }
         float Circumference { get; set; }
         double Area { get; set; }
+        Vector2D Center { get; set; }
     }
 }

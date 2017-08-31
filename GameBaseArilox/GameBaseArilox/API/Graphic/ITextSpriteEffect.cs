@@ -4,6 +4,6 @@ namespace GameBaseArilox.API.Graphic
 {
     public interface ITextSpriteEffect : IEffect
     {
-        ITextSprite AnimatedTextSprite { get; set; }
+        ITextSprite AffectedTextSprite { get; set; }
     }
 }

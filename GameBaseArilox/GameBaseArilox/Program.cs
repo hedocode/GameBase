@@ -15,7 +15,7 @@ namespace GameBaseArilox
         [STAThread]
         public static void Main()
         {
-            using (var game = new TestMenus())
+            using (var game = new TestAngle())
                 game.Run();
         }
     }

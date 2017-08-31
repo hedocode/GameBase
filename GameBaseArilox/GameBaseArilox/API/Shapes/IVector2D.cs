@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameBaseArilox.Controls
+namespace GameBaseArilox.API.Shapes
 {
-    class InputManager
+    interface IVector2D
     {
+        float X { get; set; }
+        float Y { get; set; }
     }
 }

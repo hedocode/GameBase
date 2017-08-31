@@ -7,6 +7,12 @@ namespace GameBaseArilox.API.Shapes
     {
         public Vector2 Position { get; set; }
 
+        public Vector2D Center
+        {
+            get { return new Vector2D(Position.X, Position.Y); }
+            set { Position = new Vector2(value.X, value.Y); }
+        }
+
         public float Radius { get; set; }
 
         public float Diameter
@@ -80,5 +86,9 @@ namespace GameBaseArilox.API.Shapes
             throw new NotImplementedException();
         }
 
+        bool IShapeCollider.Contains(Point point)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
