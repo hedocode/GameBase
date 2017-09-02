@@ -1,5 +1,5 @@
 ﻿using System;
-using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Effects;
 using Microsoft.Xna.Framework;
 using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 

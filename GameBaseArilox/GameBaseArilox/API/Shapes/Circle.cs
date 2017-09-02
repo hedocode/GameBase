@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using GameBaseArilox.Core;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Shapes
@@ -7,7 +9,9 @@ namespace GameBaseArilox.API.Shapes
     {
         public Vector2 Position { get; set; }
 
-        public Vector2D Center
+        public List<ICoordinates> Points { get; set; }
+
+        public ICoordinates Center
         {
             get { return new Vector2D(Position.X, Position.Y); }
             set { Position = new Vector2(value.X, value.Y); }
@@ -40,55 +44,23 @@ namespace GameBaseArilox.API.Shapes
 
         public Circle(float x, float y, float radius)
         {
+            Points = new List<ICoordinates> {new Vector2D(x,y)};
             Position = new Vector2(x,y);
             Radius = radius;
         }
 
         public Circle(Vector2 position, float radius)
         {
+            Points = new List<ICoordinates> { new Vector2D(position.X, position.Y) };
             Position = position;
             Radius = radius;
         }
 
         public Circle(float diameter, Vector2 position)
         {
+            Points = new List<ICoordinates> { new Vector2D(position.X, position.Y) };
             Position = position;
             Radius = diameter/2f;
-        }
-
-        public void Contains(Point point)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(ISegment segment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(IRectangle rectangle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(Rectangle rectangle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(ICircle circle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(ITriangle triangle)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IShapeCollider.Contains(Point point)
-        {
-            throw new NotImplementedException();
         }
     }
 }

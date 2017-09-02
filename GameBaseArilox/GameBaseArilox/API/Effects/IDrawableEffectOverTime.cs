@@ -1,6 +1,6 @@
 ﻿using GameBaseArilox.API.Graphic;
 
-namespace GameBaseArilox.API.Core
+namespace GameBaseArilox.API.Effects
 {
     public interface IDrawableEffectOverTime : IEffectOverTime, IEffectObject, IChangedOverTime
     {

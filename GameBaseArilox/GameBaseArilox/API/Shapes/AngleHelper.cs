@@ -113,5 +113,21 @@ namespace GameBaseArilox.API.Shapes
         {
             return RadianToGradian(VectorToRadian(vector));
         }
+
+        /*SLOPE CONVERSIONS*/
+        public static float SlopeToRadian(float slope)
+        {
+            return (float) Math.Atan(slope);
+        }
+
+        public static Angle SlopeToAngle(float slope)
+        {
+            return new Angle(SlopeToRadian(slope),AngleType.Radian);
+        }
+
+        public static float AngleToSlope(Angle angle)
+        {
+            return (float) Math.Tan(angle);
+        }
     }
 }

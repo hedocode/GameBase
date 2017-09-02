@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameBaseArilox.API.Shapes;
+using GameBaseArilox.Core;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Detection
 {
-    struct DiscusArea : IDetectionArea, ICircle
+    public abstract class DiscusArea : IDetectionArea, ICircle
     {
         public Vector2 Position { get; set; }
 
@@ -28,13 +30,15 @@ namespace GameBaseArilox.API.Detection
             set { Radius = (float)Math.Sqrt(value / Math.PI); }
         }
 
-        public Vector2D Center
+        public List<ICoordinates> Points { get; set; }
+
+        public ICoordinates Center
         {
             get { return new Vector2D(Position.X,Position.Y); }
-            set { Position = new Vector2(Position.X,Position.Y); }
+            set { Position = new Vector2(value.X,value.Y); }
         }
 
-        public DiscusArea(ICircle circle)
+        protected DiscusArea(ICircle circle)
         {
             Position = circle.Position;
             Radius = circle.Radius;
@@ -45,54 +49,8 @@ namespace GameBaseArilox.API.Detection
         public float Right => Position.X - Radius;
         public float Left => Position.X + Radius;
 
-        public bool Contains(Point point)
-        {
-            return Math.Sqrt(Math.Pow(point.X - Position.X,2)+Math.Pow(point.Y - Position.Y,2)) <= Radius;
-        }
+        public abstract bool Detect();
 
-        public bool Intersects(ISegment segment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(IRectangle rectangle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Intersects(Rectangle rectangle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Contains(Vector2 vector)
-        {
-            return Contains(vector.ToPoint());
-        }
-
-        public bool Intersects(ICircle circle)
-        {
-            return ShapesHelper.DistanceBetween(this,circle) <= circle.Radius + Radius;
-        }
-
-        public bool Intersects(ITriangle triangle)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public bool Intersects(IDetectionArea detectionArea)
-        {
-            switch (detectionArea.GetType().ToString())
-            {
-                case "RectangleArea":
-                    return Intersects((IRectangle)detectionArea);
-                case "DiscusArea":
-                    return Intersects((ICircle) detectionArea);
-                default:
-                    return false;
-            }
-        }
-
+        public abstract void OnDetection();
     }
 }

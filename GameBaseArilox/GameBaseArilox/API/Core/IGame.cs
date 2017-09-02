@@ -8,6 +8,7 @@ namespace GameBaseArilox.API.Core
     {
         List<IDrawer> Drawers { get; set; }
         List<IUpdater> Updaters { get; set; }
+        List<IContentLoader> Loaders { get; set; }
         Cursor Cursor { get; set; }
     }
 }

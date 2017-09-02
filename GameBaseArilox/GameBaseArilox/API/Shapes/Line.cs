@@ -1,54 +1,31 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-
-namespace GameBaseArilox.API.Shapes
+﻿namespace GameBaseArilox.API.Shapes
 {
-    struct Line : IShapeCollider
+    struct Line : ILine
     {
-        private float _slope;
-        private float _yAt0;
+        public float Root => -YAt0/Slope;
 
-        public float Root => -_yAt0/_slope;
+        public float Slope { get; set; }
+        public float YAt0 { get; set; }
+
+        public Angle AngleFromXAxis
+        {
+            get { return AngleHelper.SlopeToAngle(Slope); }
+            set
+            {
+                Slope = AngleHelper.AngleToSlope(value);
+            }
+        }
 
         public Line(int slope, int yAt0)
         {
-            _slope = slope;
-            _yAt0 = yAt0;
+            Slope = slope;
+            YAt0 = yAt0;
         }
 
-        public bool Contains(Point point)
+        public Line(ICoordinates point, Angle angle)
         {
-            return Math.Abs(_slope*point.X + _yAt0 - point.Y) < 0.00001;
-        }
-
-        public bool Contains(Vector2 point)
-        {
-            return Math.Abs(_slope*point.X + _yAt0 - point.Y) < 0.00001;
-        }
-
-        public bool Intersects(ISegment segment)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(IRectangle rectangle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(Rectangle rectangle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(ICircle circle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(ITriangle triangle)
-        {
-            throw new System.NotImplementedException();
+            Slope = AngleHelper.AngleToSlope(angle);
+            YAt0 = point.Y - point.X*Slope;
         }
     }
 }

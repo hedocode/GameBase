@@ -2,12 +2,11 @@
 
 namespace GameBaseArilox.API.Shapes
 {
-    public interface ICircle : IGameElement, IShapeCollider, IShape
+    public interface ICircle : IGameElement, IShape
     {
         float Radius { get; set; }
         float Diameter { get; set; }
         float Circumference { get; set; }
         double Area { get; set; }
-        Vector2D Center { get; set; }
     }
 }

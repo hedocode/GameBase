@@ -1,4 +1,4 @@
-﻿using GameBaseArilox.API.Core;
+﻿using GameBaseArilox.API.Effects;
 
 namespace GameBaseArilox.API.Graphic
 {

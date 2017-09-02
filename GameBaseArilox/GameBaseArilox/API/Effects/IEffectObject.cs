@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace GameBaseArilox.API.Core
+namespace GameBaseArilox.API.Effects
 {
     public interface IEffectObject
     {

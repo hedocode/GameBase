@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameBaseArilox.API.Core
+namespace GameBaseArilox.API.Effects
 {
     public interface IAffectedDrawable
     {

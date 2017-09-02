@@ -1,9 +1,11 @@
-﻿using GameBaseArilox.API.Shapes;
+﻿using System.Collections.Generic;
+using GameBaseArilox.API.Shapes;
+using GameBaseArilox.Core;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Detection
 {
-    struct RectangleArea : IDetectionArea, IRectangle
+    public abstract class RectangleArea : IDetectionArea, IRectangle
     {
         private float _x;
         private float _y;
@@ -25,19 +27,28 @@ namespace GameBaseArilox.API.Detection
         public float Bot => Position.Y + Height;
         public float Right => Position.X + Width;
         public float Left => Position.X;
+        public List<ICoordinates> Points { get; set; }
+        public ICoordinates Center => new Vector2D(Left+Width/2,Top+Height/2);
 
         public float Height { get; set; }
         public float Width { get; set; }
 
-        public RectangleArea(Vector2 position, float width, float height)
+        protected RectangleArea(Vector2 position, float width, float height)
         {
+            Points = new List<ICoordinates>
+            {
+                new Vector2D(position),
+                new Vector2D(position.X+width,position.Y),
+                new Vector2D(position.X,position.Y+height),
+                new Vector2D(position.X+width,position.Y+height)
+            };
             _x = position.X;
             _y = position.Y;
             Width = width;
             Height = height;
         }
 
-        public RectangleArea(float x, float y, float width, float height)
+        protected RectangleArea(float x, float y, float width, float height)
         {
             _x = x;
             _y = y;
@@ -45,52 +56,8 @@ namespace GameBaseArilox.API.Detection
             Height = height;
         }
 
-        public bool Contains(Point point)
-        {
-            return (point.X >= _x) && (point.X <= _x + Width) &&
-                (point.Y >= _y) && (point.Y <= _y + Height);
-        }
-
-        public bool Intersects(ISegment segment)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(IRectangle rectangle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(Rectangle rectangle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(ICircle circle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(ITriangle triangle)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Intersects(RectangleArea rectangleArea)
-        {
-            return Top <= rectangleArea.Bot || Right >= rectangleArea.Left;
-        }
-
-        public bool Intersects(IDetectionArea detectionArea)
-        {
-            switch (detectionArea.GetType().ToString())
-            {
-                case "RectangleArea":
-                    return Intersects((RectangleArea)detectionArea);
-                //case "DiscusArea" :
-                default:
-                    return false;
-            }
-        }
+        public abstract bool Detect();
+        public abstract void OnDetection();
+        public float Rotation { get; set; }
     }
 }

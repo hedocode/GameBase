@@ -1,4 +1,5 @@
 ﻿using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Effects;
 using GameBaseArilox.API.Environment;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

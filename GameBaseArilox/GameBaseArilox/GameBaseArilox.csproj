@@ -35,18 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>MODS\Icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API\Controls\IInputButton.cs" />
-    <Compile Include="API\Core\IAffectedDrawable.cs" />
-    <Compile Include="API\Core\IChangedOverTime.cs" />
     <Compile Include="API\Core\IClickable.cs" />
     <Compile Include="API\Core\ICommand.cs" />
     <Compile Include="API\Core\IContentLoader.cs" />
-    <Compile Include="API\Core\IDrawableEffectOverTime.cs" />
-    <Compile Include="API\Core\IEffectObject.cs" />
-    <Compile Include="API\Core\IEffectOverTime.cs" />
     <Compile Include="API\Core\IGame.cs" />
     <Compile Include="API\Detection\DiscusArea.cs" />
     <Compile Include="API\Detection\IDetectionArea.cs" />
@@ -56,6 +51,11 @@
     <Compile Include="API\Core\IScalable.cs" />
     <Compile Include="API\Core\IUpdater.cs" />
     <Compile Include="API\Detection\RectangleArea.cs" />
+    <Compile Include="API\Effects\IAffectedDrawable.cs" />
+    <Compile Include="API\Effects\IChangedOverTime.cs" />
+    <Compile Include="API\Effects\IDrawableEffectOverTime.cs" />
+    <Compile Include="API\Effects\IEffectObject.cs" />
+    <Compile Include="API\Effects\IEffectOverTime.cs" />
     <Compile Include="API\Entities\IAttacker.cs" />
     <Compile Include="API\Entities\IGameEntity.cs" />
     <Compile Include="API\Entities\IKillable.cs" />
@@ -100,18 +100,18 @@
     <Compile Include="API\Shapes\IShape.cs" />
     <Compile Include="API\Shapes\IShapeCollider.cs" />
     <Compile Include="API\Shapes\ITriangle.cs" />
-    <Compile Include="API\Shapes\IVector2D.cs" />
+    <Compile Include="API\Shapes\ICoordinates.cs" />
     <Compile Include="API\Shapes\Line.cs" />
     <Compile Include="API\Shapes\Ray2D.cs" />
     <Compile Include="API\Shapes\Segment.cs" />
     <Compile Include="API\Shapes\ShapesHelper.cs" />
-    <Compile Include="API\Shapes\Vector2D.cs" />
     <Compile Include="Controls\GamePadInputs.cs" />
     <Compile Include="Controls\InputsManager.cs" />
     <Compile Include="Controls\KeyboardInputs.cs" />
     <Compile Include="Controls\InputButton.cs" />
     <Compile Include="Controls\MouseInputs.cs" />
     <Compile Include="Core\Camera2D.cs" />
+    <Compile Include="Core\Vector2D.cs" />
     <Compile Include="Graphic\DrawableFlashingEffectOverTime.cs" />
     <Compile Include="GameModel.cs" />
     <Compile Include="API\Enums\DamageType.cs" />
@@ -159,7 +159,8 @@
     <Content Include="Content\SPRITES\SpriteTest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icon.ico" />
+    <Content Include="MODS\Icon1.ico" />
+    <Content Include="IconGBA.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
@@ -170,7 +171,7 @@
   <ItemGroup>
     <Folder Include="Content\SPRITES\Items\" />
     <Folder Include="Content\SPRITES\Tiles\" />
-    <Folder Include="MODS\" />
+    <Folder Include="Shapes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
