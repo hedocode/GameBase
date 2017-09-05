@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
-using GameBaseArilox.Controls;
-using GameBaseArilox.GUI;
-using GameBaseArilox.zDrawers;
-using GameBaseArilox.zLoaders;
-using GameBaseArilox.zUpdaters;
+using GameBaseArilox.Implementation.Controls;
+using GameBaseArilox.Implementation.GUI;
+using GameBaseArilox.Implementation.zDrawers;
+using GameBaseArilox.Implementation.zLoaders;
+using GameBaseArilox.Implementation.zUpdaters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
@@ -22,6 +22,7 @@ namespace GameBaseArilox
 
         protected readonly SpriteDrawer SpriteDrawer;
         protected readonly TextSpriteDrawer TextSpriteDrawer;
+        protected ShapeDrawer ShapeDrawer;
 
         protected readonly SpriteUpdater SpriteUpdater;
         protected CursorUpdater CursorUpdater;
@@ -29,6 +30,7 @@ namespace GameBaseArilox
 
         protected readonly TextSpriteLoader TextSpriteLoader;
         protected readonly SpriteLoader SpriteLoader;
+        protected ShapeLoader ShapeLoader;
 
 
         protected Cursor Cursor;
@@ -43,13 +45,20 @@ namespace GameBaseArilox
             Content.RootDirectory = "Content";
             SpriteDrawer = new SpriteDrawer(this);
             SpriteUpdater = new SpriteUpdater(this);
-            SpriteLoader = new SpriteLoader(this,Content, SpriteDrawer);
+            SpriteLoader = new SpriteLoader(this, Content, SpriteDrawer);
             InputsManager = new InputsManager(this);
             TextSpriteDrawer = new TextSpriteDrawer(this);
             TextSpriteUpdater = new TextSpriteUpdater(this);
             TextSpriteLoader = new TextSpriteLoader(this,Content,TextSpriteDrawer);
             Cursor = new Cursor(this);
             CursorUpdater = new CursorUpdater(this, Cursor, InputsManager.MouseInput);
+            ShapeDrawer = new ShapeDrawer(this);
+        }
+
+        protected override void Initialize()
+        {
+            ShapeLoader = new ShapeLoader(this, Content, ShapeDrawer);
+            base.Initialize();
         }
 
         protected override void LoadContent()

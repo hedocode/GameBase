@@ -1,13 +1,6 @@
-﻿using System.Collections.Generic;
-using GameBaseArilox.API.Core;
-using GameBaseArilox.API.Graphic;
-using GameBaseArilox.Graphic;
-using GameBaseArilox.zDrawers;
-using GameBaseArilox.zLoaders;
-using GameBaseArilox.zUpdaters;
+﻿using GameBaseArilox.API.Graphic;
+using GameBaseArilox.Implementation.Graphic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace GameBaseArilox.UnitTest
 {

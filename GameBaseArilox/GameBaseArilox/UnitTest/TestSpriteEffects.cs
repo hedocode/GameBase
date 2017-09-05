@@ -1,6 +1,6 @@
 ﻿using GameBaseArilox.API.Effects;
 using GameBaseArilox.API.Graphic;
-using GameBaseArilox.Graphic;
+using GameBaseArilox.Implementation.Graphic;
 
 namespace GameBaseArilox.UnitTest
 {

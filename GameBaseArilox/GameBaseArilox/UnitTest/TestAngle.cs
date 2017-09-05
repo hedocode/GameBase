@@ -1,5 +1,5 @@
 ﻿using System;
-using GameBaseArilox.API.Shapes;
+using GameBaseArilox.Implementation.Shapes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

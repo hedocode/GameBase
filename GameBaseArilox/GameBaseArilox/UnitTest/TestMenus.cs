@@ -1,11 +1,4 @@
-﻿using GameBaseArilox.API.Graphic;
-using GameBaseArilox.Graphic;
-using GameBaseArilox.zDrawers;
-using GameBaseArilox.zLoaders;
-using GameBaseArilox.zUpdaters;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.UnitTest
 {
@@ -14,8 +7,6 @@ namespace GameBaseArilox.UnitTest
     /// </summary>
     public class TestMenus : GameModel
     {
-        
-
         public TestMenus()
         {
 

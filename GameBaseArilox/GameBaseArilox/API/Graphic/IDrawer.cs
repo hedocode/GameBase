@@ -4,7 +4,7 @@ namespace GameBaseArilox.API.Graphic
 {
     public interface IDrawer
     {
-        void AddContent(string textureId, object content);
+        void AddContent(string contentId, object content);
         void DrawAll(SpriteBatch spriteBatch);
     }
 }

@@ -15,7 +15,7 @@ namespace GameBaseArilox
         [STAThread]
         public static void Main()
         {
-            using (var game = new TestSpriteEffects())
+            using (var game = new TestShapes())
                 game.Run();
         }
     }

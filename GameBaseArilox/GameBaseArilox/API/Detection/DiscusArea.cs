@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameBaseArilox.API.Shapes;
-using GameBaseArilox.Core;
+using GameBaseArilox.Implementation.Core;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.API.Detection

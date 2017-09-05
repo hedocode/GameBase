@@ -1,5 +1,5 @@
 ﻿using GameBaseArilox.API.Graphic;
-using GameBaseArilox.Graphic;
+using GameBaseArilox.Implementation.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.UnitTest

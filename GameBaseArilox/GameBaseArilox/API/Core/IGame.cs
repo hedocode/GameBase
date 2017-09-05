@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API.Graphic;
-using GameBaseArilox.GUI;
+using GameBaseArilox.Implementation.GUI;
 
 namespace GameBaseArilox.API.Core
 {
