@@ -68,7 +68,7 @@ namespace GameBaseArilox.Implementation.zDrawers
             Texture2D pointTexture2D;
             _textures.TryGetValue("PointTexture", out pointTexture2D);
             if(pointTexture2D == null) throw new Exception("ERROR : Texture not found in the Dictionary.");
-            spriteBatch.Draw(pointTexture2D, new Vector2(point.X-1, point.Y-1), Color.White);
+            spriteBatch.Draw(pointTexture2D, new Rectangle((int)point.X-1, (int)point.Y-1,3,3), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None,0.9f);
         }
 
         public void DrawSegment(SpriteBatch spriteBatch, ISegment segment)
@@ -76,7 +76,8 @@ namespace GameBaseArilox.Implementation.zDrawers
             Texture2D segmentTexture2D;
             _textures.TryGetValue("SegmentTexture", out segmentTexture2D);
             if (segmentTexture2D == null) throw new Exception("ERROR : Texture not found in the dictionary");
-            spriteBatch.Draw(segmentTexture2D, new Rectangle((int)segment.Point1.X,(int)segment.Point1.Y,(int)segment.Lenght+1,1), null, Color.Black, AngleHelper.SlopeToRadian(segment.Slope),new Vector2(0,0),SpriteEffects.None, 0f );
+            float radianAngle = AngleHelper.SlopeToRadian(segment.Slope);
+            spriteBatch.Draw(segmentTexture2D, new Rectangle((int)segment.Point1.X,(int)segment.Point1.Y,(int)segment.Lenght+1,1), null, Color.Black, radianAngle,new Vector2(0,0),SpriteEffects.None, 1f );
         }
     }
 }

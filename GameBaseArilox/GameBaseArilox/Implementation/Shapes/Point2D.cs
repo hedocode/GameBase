@@ -38,7 +38,6 @@ namespace GameBaseArilox.Implementation.Shapes
             X = vector2.X;
             Y = vector2.Y;
             _point = new List<ICoordinates> {vector2};
-            ;
         }
 
         public Point2D(ICoordinates coords)

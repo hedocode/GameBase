@@ -126,6 +126,7 @@
     <Compile Include="Implementation\Shapes\Ray2D.cs" />
     <Compile Include="Implementation\Shapes\Segment.cs" />
     <Compile Include="Implementation\Shapes\ShapesHelper.cs" />
+    <Compile Include="Implementation\Shapes\Triangle.cs" />
     <Compile Include="Implementation\zDrawers\ShapeDrawer.cs" />
     <Compile Include="Implementation\zDrawers\SpriteDrawer.cs" />
     <Compile Include="Implementation\zDrawers\TextSpriteDrawer.cs" />

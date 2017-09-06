@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using GameBaseArilox.API.Shapes;
 using GameBaseArilox.Implementation.Core;
@@ -63,10 +62,7 @@ namespace GameBaseArilox.Implementation.Shapes
         {
             get
             {
-                if (Point1.X == Point2.X) return 0;
-                if(Point2.Y != Point1.Y)
-                    return (Point2.Y - Point1.Y) / (Point2.X - Point1.X);
-                return Single.PositiveInfinity;
+                return (Point2.Y - Point1.Y) / (Point2.X - Point1.X);
             }
             set { }
         }
@@ -157,13 +153,13 @@ namespace GameBaseArilox.Implementation.Shapes
             if (point1.X > point2.X)
             {
 
-                _point1 = (Vector2D)point2;
-                _point2 = (Vector2D)point1;
+                _point1 = point2;
+                _point2 = point1;
             }
             else
             {
-                _point1 = (Vector2D)point1;
-                _point2 = (Vector2D)point2;
+                _point1 = point1;
+                _point2 = point2;
             }
             _points = new List<ICoordinates>
             {
