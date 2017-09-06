@@ -11,7 +11,7 @@ You just have to create a class inheriting from this and use it into Program.cs 
 
 ## Français
 
-###Résumé
+### Résumé
 Le but de ce projet est de faire une base de jeu 2D open source, permettant de faire n'importe quel jeu 2D en utilisant le Framework Monogame.
 
 ### Comment l'utiliser ?
