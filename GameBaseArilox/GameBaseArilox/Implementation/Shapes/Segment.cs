@@ -76,8 +76,8 @@ namespace GameBaseArilox.Implementation.Shapes
         public float Root => -YAt0 / Slope;
 
 
-        public float Top => MathHelper.Max(Point1.Y, Point2.Y);
-        public float Bot => MathHelper.Min(Point1.Y, Point2.Y);
+        public float Top => MathHelper.Min(Point1.Y, Point2.Y);
+        public float Bot => MathHelper.Max(Point1.Y, Point2.Y);
         public float Right => MathHelper.Max(Point1.X, Point2.X);
         public float Left => MathHelper.Min(Point1.X, Point2.X);
 

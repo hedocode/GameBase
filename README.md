@@ -1,4 +1,5 @@
 # GameBase
+An extension to Monogame that gives a structure to freely build 2D games without a game engine.
 
 ## English
 

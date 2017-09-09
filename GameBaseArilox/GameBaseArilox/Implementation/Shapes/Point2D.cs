@@ -30,21 +30,24 @@ namespace GameBaseArilox.Implementation.Shapes
         {
             X = x;
             Y = y;
-            _point = new List<ICoordinates> {new Vector2D(x,y)};
+            _point = new List<ICoordinates>();
+            _point.Add(Center);
         }
 
         public Point2D(Vector2D vector2)
         {
             X = vector2.X;
             Y = vector2.Y;
-            _point = new List<ICoordinates> {vector2};
+            _point = new List<ICoordinates>();
+            _point.Add(Center);
         }
 
         public Point2D(ICoordinates coords)
         {
             X = coords.X;
             Y = coords.Y;
-            _point = new List<ICoordinates> {coords};
+            _point = new List<ICoordinates>();
+            _point.Add(Center);
         }
     }
 }

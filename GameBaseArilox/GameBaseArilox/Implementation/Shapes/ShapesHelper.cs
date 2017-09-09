@@ -15,7 +15,7 @@ namespace GameBaseArilox.Implementation.Shapes
 
         public static bool Intersects(ILine line1, ILine line2) => line1.Slope != line2.Slope;
 
-        public static bool Intersects(Segment s1, Segment s2)
+        public static bool Intersects(ISegment s1, ISegment s2)
         {
             if (s1.Top > s2.Bot) return false;
             if (s1.Bot < s2.Top) return false;
@@ -135,11 +135,23 @@ namespace GameBaseArilox.Implementation.Shapes
         {
             if (line1.Slope == line2.Slope) return null;
             float xIntersection = (line2.YAt0 - line1.YAt0) / (line1.Slope - line2.Slope);
-            float yInsersection = xIntersection*line1.Slope-line1.YAt0;
+            float yInsersection = xIntersection*line1.Slope+line1.YAt0;
             return new Vector2D(xIntersection,yInsersection);
         }
 
-        public static bool Contains(Segment segment, ICoordinates point)
+        public static void IntersectionPointBetween(ILine line1, ILine line2, out Point2D point)
+        {
+            if (line1.Slope == line2.Slope)
+            {
+                point = new Point2D();
+                return;
+            }
+            float xIntersection = (line2.YAt0 - line1.YAt0) / (line1.Slope - line2.Slope);
+            float yInsersection = xIntersection * line1.Slope + line1.YAt0;
+            point = new Point2D(xIntersection, yInsersection);
+        }
+
+        public static bool Contains(ISegment segment, ICoordinates point)
         {
             if (segment.Slope*point.X + segment.YAt0 != point.Y) return false;
             return point.X >= segment.Point1.X && point.X <= segment.Point2.X;
