@@ -3,8 +3,6 @@ using GameBaseArilox.API.Shapes;
 using GameBaseArilox.Implementation.Core;
 using Microsoft.Xna.Framework;
 
-// ReSharper disable CompareOfFloatsByEqualityOperator
-
 namespace GameBaseArilox.Implementation.Shapes
 {
     public static class ShapesHelper
@@ -136,25 +134,30 @@ namespace GameBaseArilox.Implementation.Shapes
             if (line1.Slope == line2.Slope) return null;
             float xIntersection = (line2.YAt0 - line1.YAt0) / (line1.Slope - line2.Slope);
             float yInsersection = xIntersection*line1.Slope+line1.YAt0;
-            return new Vector2D(xIntersection,yInsersection);
+            return new Vector2D(-xIntersection,-yInsersection);
         }
 
-        public static void IntersectionPointBetween(ILine line1, ILine line2, out Point2D point)
+        public static void IntersectionPointBetween(ILine line1, ILine line2, ICoordinates result)
         {
             if (line1.Slope == line2.Slope)
             {
-                point = new Point2D();
+                result.X = 0;
+                result.Y = 0;
                 return;
             }
-            float xIntersection = (line2.YAt0 - line1.YAt0) / (line1.Slope - line2.Slope);
-            float yInsersection = xIntersection * line1.Slope + line1.YAt0;
-            point = new Point2D(xIntersection, yInsersection);
+            if (result == null) result = new Vector2D();
+            result.X = -(line2.YAt0 - line1.YAt0) / (line1.Slope - line2.Slope);
+            result.Y = result.X * line1.Slope - line1.YAt0;
         }
 
         public static bool Contains(ISegment segment, ICoordinates point)
         {
-            if (segment.Slope*point.X + segment.YAt0 != point.Y) return false;
-            return point.X >= segment.Point1.X && point.X <= segment.Point2.X;
+            float test = segment.Slope * -point.X + segment.YAt0;
+            test = Math.Abs(test + point.Y);
+            if (test >= 0.005) return false;
+            if (point.X >= segment.Left && point.X <= segment.Right)
+                return true;
+            return false;
         }
         
     }

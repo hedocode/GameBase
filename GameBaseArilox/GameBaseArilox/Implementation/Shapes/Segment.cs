@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using GameBaseArilox.API.Shapes;
 using GameBaseArilox.Implementation.Core;
 using Microsoft.Xna.Framework;
@@ -53,11 +52,10 @@ namespace GameBaseArilox.Implementation.Shapes
                     };
                 }
                 else
-                    _point1 = new Vector2D(value.X, value.Y);
+                    _point2 = new Vector2D(value.X, value.Y);
             }
         }
-
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
+        
         public float Slope
         {
             get

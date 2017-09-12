@@ -12,7 +12,7 @@ namespace GameBaseArilox.Implementation.zDrawers
     {
         private Dictionary<string,Texture2D> _textures = new Dictionary<string, Texture2D>();
         private List<IShape> _shapesToDraw = new List<IShape>();
-
+        private List<ICoordinates> _pointsToDraw = new List<ICoordinates>();
 
         /*-------------*/
         /* CONSTRUCTOR */
@@ -22,6 +22,10 @@ namespace GameBaseArilox.Implementation.zDrawers
             game.AddToDrawers(this);
         }
 
+        public void AddPoint(ICoordinates toAdd)
+        {
+            _pointsToDraw.Add(toAdd);
+        }
 
         public void AddShape(IShape toAdd)
         {
@@ -40,6 +44,11 @@ namespace GameBaseArilox.Implementation.zDrawers
             foreach (IShape shape in _shapesToDraw)
             {
                 DrawShape(spriteBatch, shape);
+            }
+
+            foreach (ICoordinates point in _pointsToDraw)
+            {
+                DrawPoint(spriteBatch, point);
             }
         }
 
@@ -76,7 +85,7 @@ namespace GameBaseArilox.Implementation.zDrawers
             Texture2D segmentTexture2D;
             _textures.TryGetValue("SegmentTexture", out segmentTexture2D);
             if (segmentTexture2D == null) throw new Exception("ERROR : Texture not found in the dictionary");
-            float radianAngle = AngleHelper.SlopeToRadian(segment.Slope);
+            float radianAngle = AngleHelper.SlopeToRadian((float)segment.Slope);
             spriteBatch.Draw(segmentTexture2D, new Rectangle((int)segment.Point1.X,(int)segment.Point1.Y,(int)segment.Lenght+1,1), null, Color.Black, radianAngle,new Vector2(0,0),SpriteEffects.None, 1f );
         }
     }

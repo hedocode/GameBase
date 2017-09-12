@@ -32,6 +32,8 @@ namespace GameBaseArilox.Implementation.Core
             Y = vector.Y;
         }
 
+        
+
 
         /*CAST OPERATOR*/
         public static explicit operator Vector2D(Vector2 vector2)
@@ -62,6 +64,17 @@ namespace GameBaseArilox.Implementation.Core
         public static explicit operator Vector2D(Point2D point)
         {
             return new Vector2D(point.X, point.Y);
+        }
+
+        public override bool Equals(object obj)
+        {
+            ICoordinates coordinates = obj as ICoordinates;
+            return coordinates?.X == X && coordinates.Y == Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

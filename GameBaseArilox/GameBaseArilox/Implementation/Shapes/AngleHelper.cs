@@ -115,7 +115,7 @@ namespace GameBaseArilox.Implementation.Shapes
         }
 
         /*SLOPE CONVERSIONS*/
-        public static float SlopeToRadian(float slope)
+        public static float SlopeToRadian(double slope)
         {
             return (float) Math.Atan(slope);
         }
@@ -123,6 +123,11 @@ namespace GameBaseArilox.Implementation.Shapes
         public static Angle SlopeToAngle(float slope)
         {
             return new Angle(SlopeToRadian(slope),AngleType.Radian);
+        }
+
+        public static Angle SlopeToAngle(double slope)
+        {
+            return new Angle(SlopeToRadian(slope), AngleType.Radian);
         }
 
         public static float AngleToSlope(Angle angle)

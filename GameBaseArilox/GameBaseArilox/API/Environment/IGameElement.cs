@@ -2,7 +2,7 @@
 
 namespace GameBaseArilox.API.Environment
 {
-    public interface IGameElement
+    public interface IGameElement 
     {
         Vector2 Position { get; set; }
     }
