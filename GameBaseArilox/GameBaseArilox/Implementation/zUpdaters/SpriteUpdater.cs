@@ -18,7 +18,8 @@ namespace GameBaseArilox.Implementation.zUpdaters
         private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>
         {
             {"SpriteTest",new Rectangle(0,0,64,64)},
-            {"Cursor1",new Rectangle(0,0,32,32)}
+            {"Cursor1",new Rectangle(0,0,32,32)},
+            {"Cursor2", new Rectangle(0,0,32,32)}
         };
 
         private readonly Dictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>
@@ -106,10 +107,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
         {
             Rectangle temp;
             _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out temp);
-            if (temp == Rectangle.Empty)
-            {
-                throw new Exception("ERROR WITH TEXTUREID");
-            }
+            if (temp == Rectangle.Empty) throw new Exception("ERROR WITH TEXTUREID");
         }
 
         public void AddSpriteEffects()
@@ -210,10 +208,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
         {
             Rectangle rectangleInitSource;
             _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out rectangleInitSource);
-            if (rectangleInitSource == Rectangle.Empty)
-            {
-                throw new Exception("ERROR : Init value not found in the init Dictionary.");
-            }
+            if (rectangleInitSource == Rectangle.Empty) throw new Exception("ERROR : Init value not found in the init Dictionary.");
             sprite.TextureSourceRectangle = rectangleInitSource;
         }
     }

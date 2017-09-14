@@ -79,32 +79,32 @@ namespace GameBaseArilox.Implementation.Graphic
             Color = Color.White;
         }
 
-        public Sprite(int x, int y, string textureId) : this(textureId)
+        public Sprite(float x, float y, string textureId) : this(textureId)
         {
             X = x;
             Y = y;
         }
 
-        public Sprite(int x, int y, int width, int height, string textureId) : this(x, y, textureId)
+        public Sprite(float x, float y, int width, int height, string textureId) : this(x, y, textureId)
         {
             Width = width;
             Height = height;
             Origin = new Vector2(Width/2f, Height/2f);
         }
 
-        public Sprite(int x, int y, int width, int height, string textureId, Vector2 origin)
+        public Sprite(float x, float y, int width, int height, string textureId, Vector2 origin)
             : this(x, y, width, height, textureId)
         {
             Origin = origin;
         }
 
-        public Sprite(int x, int y, int width, int height, string textureId, Vector2 origin, string currentAnimation)
+        public Sprite(float x, float y, int width, int height, string textureId, Vector2 origin, string currentAnimation)
             : this(x, y, width, height, textureId, origin)
         {
             CurrentAnimation = currentAnimation;
         }
 
-        public Sprite(int x, int y, int width, int height, string textureId, Vector2 origin, string currentAnimation,
+        public Sprite(float x, float y, int width, int height, string textureId, Vector2 origin, string currentAnimation,
             float depth) : this(x, y, width, height, textureId, origin, currentAnimation)
         {
             Depth = depth;

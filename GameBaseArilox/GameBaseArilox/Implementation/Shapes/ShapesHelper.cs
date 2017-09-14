@@ -155,9 +155,7 @@ namespace GameBaseArilox.Implementation.Shapes
             float test = segment.Slope * -point.X + segment.YAt0;
             test = Math.Abs(test + point.Y);
             if (test >= 0.005) return false;
-            if (point.X >= segment.Left && point.X <= segment.Right)
-                return true;
-            return false;
+            return point.X >= segment.Left && point.X <= segment.Right;
         }
         
     }

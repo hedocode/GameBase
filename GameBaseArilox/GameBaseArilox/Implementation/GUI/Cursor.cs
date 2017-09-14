@@ -44,7 +44,7 @@ namespace GameBaseArilox.Implementation.GUI
 
         public Cursor(GameModel game)
         {
-            Sprite = new Sprite(0, 0, 32, 32, "Cursor1", Vector2.Zero, "Cursor1Idle",0.5f);
+            Sprite = new Sprite(0, 0, 32, 32, "Cursor2", Vector2.Zero, null ,0.5f);
             game.AddDrawable(Sprite);
         }
     }

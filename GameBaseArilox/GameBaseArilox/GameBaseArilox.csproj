@@ -59,6 +59,7 @@
     <Compile Include="API\Effects\IEffectOverTime.cs" />
     <Compile Include="API\Entities\IAttacker.cs" />
     <Compile Include="API\Entities\IGameEntity.cs" />
+    <Compile Include="API\Entities\IGenerator.cs" />
     <Compile Include="API\Entities\IKillable.cs" />
     <Compile Include="API\Entities\IPlayer.cs" />
     <Compile Include="API\Entities\IProjectile.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Implementation\Environment\Tile.cs" />
     <Compile Include="Implementation\Environment\TileMapGrid.cs" />
     <Compile Include="Implementation\Graphic\DrawableFlashingEffectOverTime.cs" />
+    <Compile Include="Implementation\Graphic\ParticleGenerator.cs" />
     <Compile Include="Implementation\Graphic\Sprite.cs" />
     <Compile Include="Implementation\Graphic\SpriteAnimation.cs" />
     <Compile Include="Implementation\Graphic\TextSprite.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Implementation\zLoaders\TextSpriteLoader.cs" />
     <Compile Include="Implementation\zUpdaters\CameraUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\CursorUpdater.cs" />
+    <Compile Include="Implementation\zUpdaters\GeneratorUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\TextSpriteUpdater.cs" />
     <Compile Include="UnitTest\TestShapes.cs" />
@@ -159,11 +162,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ANIMATIONS\Animations.txt" />
-    <Content Include="Content\CURSORS\Cursor1\Cursor1.png">
+    <Content Include="Content\Animations\Animations.txt" />
+    <Content Include="Content\Sprites\Cursors\Cursor1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\SPRITES\SpriteTest.png">
+    <Content Include="Content\Sprites\Cursors\Cursor2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Particles\dustParticle.png" />
+    <Content Include="Content\Sprites\Particles\dustParticle2.png" />
+    <Content Include="Content\Sprites\SpriteTest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
@@ -173,11 +181,11 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\FONTS\Arial12.spritefont" />
+    <None Include="Content\Fonts\Arial12.spritefont" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\SPRITES\Items\" />
-    <Folder Include="Content\SPRITES\Tiles\" />
+    <Folder Include="Content\Sprites\Items\" />
+    <Folder Include="Content\Sprites\Tiles\" />
     <Folder Include="MODS\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

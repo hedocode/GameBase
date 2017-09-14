@@ -7,7 +7,7 @@ namespace GameBaseArilox.Implementation.zLoaders
 {
     public class SpriteLoader : IContentLoader
     {
-        private const string SpriteContentFolder = "Content/SPRITES";
+        //private const string SpriteContentFolder = "Content/SPRITES";
         private readonly ContentManager _contentManager;
 
         private readonly IDrawer _spriteDrawer;
@@ -22,6 +22,8 @@ namespace GameBaseArilox.Implementation.zLoaders
 
         public void LoadContent()
         {
+            //TODO : Load all cursors from Content/CURSORS by finding all files
+            //TODO : Load all Sprites Textures from Content/SPRITES by finding all files
             /*
             string[] ContentDirectories = new string[Directory.GetDirectories(SpriteContentFolder).Length];
             ContentDirectories = Directory.GetDirectories(SpriteContentFolder);
@@ -32,20 +34,32 @@ namespace GameBaseArilox.Implementation.zLoaders
                     
                 }
             }*/
-            LoadSpriteTest();
-            LoadCursor1();
+            LoadSprites();
+            LoadCursors();
         }
 
-        public void LoadSpriteTest()
+        public void LoadCursors()
         {
-            Texture2D texture2D = _contentManager.Load<Texture2D>("SPRITES/SpriteTest");
-            _spriteDrawer.AddContent("SpriteTest", texture2D);
+            //TODO : Load all cursors from Content/CURSORS by finding all files
+            LoadCursor("Cursor1");
+            LoadCursor("Cursor2");
         }
 
-        public void LoadCursor1()
+        public void LoadSprites()
         {
-            Texture2D texture2D = _contentManager.Load<Texture2D>("CURSORS/Cursor1/Cursor1");
-            _spriteDrawer.AddContent("Cursor1", texture2D);
+            LoadSprite("SpriteTest");
+        }
+
+        public void LoadSprite(string spriteName)
+        {
+            Texture2D texture2D = _contentManager.Load<Texture2D>("Sprites/"+spriteName);
+            _spriteDrawer.AddContent(spriteName, texture2D);
+        }
+
+        public void LoadCursor(string cursorName)
+        {
+            Texture2D texture2D = _contentManager.Load<Texture2D>("Sprites/Cursors/"+cursorName);
+            _spriteDrawer.AddContent(cursorName, texture2D);
         }
     }
 }
