@@ -48,6 +48,13 @@ namespace GameBaseArilox.Implementation.zLoaders
         public void LoadSprites()
         {
             LoadSprite("SpriteTest");
+            LoadParticle("dustParticle");
+        }
+
+        public void LoadParticle(string particle)
+        {
+            Texture2D texture2D = _contentManager.Load<Texture2D>("Sprites/Particles/" + particle);
+            _spriteDrawer.AddContent(particle, texture2D);
         }
 
         public void LoadSprite(string spriteName)

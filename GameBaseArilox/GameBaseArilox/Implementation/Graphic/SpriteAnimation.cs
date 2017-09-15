@@ -14,7 +14,7 @@ namespace GameBaseArilox.Implementation.Graphic
         public float Duration { get; set; }
         public string Name { get; set; }
         public List<Rectangle> AnimationsTextures { get; set; }
-        public float Speed { get; set; }
+        public float EffectSpeed { get; set; }
 
         public bool IsSeesaw { get; set; }
         public object AffectedObject { get; set; }
@@ -28,7 +28,7 @@ namespace GameBaseArilox.Implementation.Graphic
             Duration = 0;
             Name = name;
             AnimationsTextures = animation;
-            Speed = 1;
+            EffectSpeed = 1;
             IsSeesaw = true;
             AffectedObject = null;
         }
@@ -38,9 +38,9 @@ namespace GameBaseArilox.Implementation.Graphic
             TargetContentId = id;
         }
 
-        public SpriteAnimation(string name, string id, List<Rectangle> animation, float speed) : this(name, id, animation)
+        public SpriteAnimation(string name, string id, List<Rectangle> animation, float effectSpeed) : this(name, id, animation)
         {
-            Speed = speed;
+            EffectSpeed = effectSpeed;
         }
 
           /*------------*/

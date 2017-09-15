@@ -19,7 +19,8 @@ namespace GameBaseArilox.Implementation.zUpdaters
         {
             {"SpriteTest",new Rectangle(0,0,64,64)},
             {"Cursor1",new Rectangle(0,0,32,32)},
-            {"Cursor2", new Rectangle(0,0,32,32)}
+            {"Cursor2", new Rectangle(0,0,32,32)},
+            {"dustParticle", new Rectangle(0,0,32,32) }
         };
 
         private readonly Dictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>
@@ -172,7 +173,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
                 {
                     throw new Exception("ERROR : Animation Not found in the animation dictionary");
                 }
-                if (sprite.TimeSpent >= spriteAnimation.Speed)
+                if (sprite.TimeSpent >= spriteAnimation.EffectSpeed)
                 {
                     if (!spriteAnimation.IsSeesaw)
                     {

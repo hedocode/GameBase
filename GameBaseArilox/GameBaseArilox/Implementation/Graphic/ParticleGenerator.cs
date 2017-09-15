@@ -18,7 +18,7 @@ namespace GameBaseArilox.Implementation.Graphic
         private float _particlesPerGeneration;
         private Random randomMachine = new Random();
 
-        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float speed, float particlesPerGeneration)
+        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
         {
             _x = x;
             _y = y;
@@ -26,7 +26,7 @@ namespace GameBaseArilox.Implementation.Graphic
             _rotationDegrees = rotation;
             _sprayAngle = sprayAngle;
             Duration = duration;
-            Speed = speed;
+            EffectSpeed = effectSpeed;
             _particlesPerGeneration = particlesPerGeneration;
         }
 
@@ -58,9 +58,10 @@ namespace GameBaseArilox.Implementation.Graphic
         public double TimeSpent { get; set; }
         public bool Increase { get; set; }
         public float Duration { get; set; }
-        public float Speed { get; set; }
+        public float EffectSpeed { get; set; }
 
         public float LifeTime { get; set; }
+
         public void Generate(GameModel game)
         {
             int lowerBound=0;
@@ -77,6 +78,7 @@ namespace GameBaseArilox.Implementation.Graphic
                     if (result >= lowerBound && result < upperBound)
                     {
                         ISprite sprite = new Sprite(_x, _y, 32, 32, textureId);
+                        new DrawableRotateFadeMovingEffect(1, sprite, 5, 5, new Angle(30));
                         game.AddDrawable(sprite);
                     }
                 }

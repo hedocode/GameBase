@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameBaseArilox.API.Effects;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Implementation.Graphic
 {
-    struct TextSpriteHorizontalScrolling : ITextSpriteAnimation, IChangedOverTime
+    struct TextSpriteHorizontalScrolling : ITextSpriteAnimation
     {
         private double _timeSinceLast;
 
@@ -14,7 +13,7 @@ namespace GameBaseArilox.Implementation.Graphic
         public double TimeSpent { get; set; }
         public float Duration { get; set; }
         public bool Increase { get; set; }
-        public float Speed { get; set; }
+        public float EffectSpeed { get; set; }
         public string Name { get; set; }
         public ITextSprite AffectedTextSprite { get; set; }
         public List<string> AnimationTexts { get; set; }
@@ -30,13 +29,13 @@ namespace GameBaseArilox.Implementation.Graphic
             }
         }
 
-        public TextSpriteHorizontalScrolling(float speed, float duration, ITextSprite textSprite, bool isSeesaw = false)
+        public TextSpriteHorizontalScrolling(float effectSpeed, float duration, ITextSprite textSprite, bool isSeesaw = false)
         {
             _timeSinceLast = 0;
             var nbCharDisplayed = 13;
             Duration = duration;
             TimeSpent = 0;
-            Speed = speed;
+            EffectSpeed = effectSpeed;
             Name = "TextSpriteHorizontalScrolling";
             AffectedTextSprite = textSprite;
             AnimationTexts = new List<string>();
@@ -67,7 +66,7 @@ namespace GameBaseArilox.Implementation.Graphic
         {
             _timeSinceLast += gameTime.ElapsedGameTime.TotalSeconds;
             TimeSpent += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (_timeSinceLast >= 1/Speed)
+            if (_timeSinceLast >= 1/EffectSpeed)
             {
                 
                 if (IsSeesaw)

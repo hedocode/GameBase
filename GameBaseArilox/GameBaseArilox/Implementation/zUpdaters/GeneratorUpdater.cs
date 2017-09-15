@@ -7,22 +7,40 @@ namespace GameBaseArilox.Implementation.zUpdaters
 {
     public class GeneratorUpdater : IUpdater
     {
-        private List<IGenerator> _toUpdate;
-        private GameModel _game;
+        private List<IGenerator> _toRemove;
+        private readonly List<IGenerator> _toUpdate;
+        private readonly GameModel _game;
 
         public GeneratorUpdater(GameModel game)
         {
             _game = game;
+            _toRemove = new List<IGenerator>();
+            _toUpdate = new List<IGenerator>();
+            game.AddToUpdaters(this);
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (IGenerator generator in _toUpdate)
-            { 
-                generator.Generate(_game);
-                generator.TimeSpent += gameTime.ElapsedGameTime.TotalSeconds;
-                if (generator.Duration >= generator.TimeSpent) _toUpdate.Remove(generator);
+            foreach (IGenerator generator in _toRemove)
+            {
+                _toUpdate.Remove(generator);
             }
+            foreach (IGenerator generator in _toUpdate)
+            {
+                if (generator.TimeSpent >= generator.EffectSpeed)
+                {
+                    generator.Generate(_game);
+                    generator.TimeSpent = 0;
+                }
+                generator.LifeTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                generator.TimeSpent += (float) gameTime.ElapsedGameTime.TotalSeconds;
+                if (generator.LifeTime >= generator.Duration) _toRemove.Add(generator);
+            }
+        }
+
+        public void AddGenerator(IGenerator generator)
+        {
+            _toUpdate.Add(generator);
         }
     }
 }

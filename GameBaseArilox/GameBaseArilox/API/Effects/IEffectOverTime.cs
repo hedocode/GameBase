@@ -3,6 +3,6 @@
     public interface IEffectOverTime
     {
         float Duration { get; set; }
-        float Speed { get; set; }
+        float EffectSpeed { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Entities;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Implementation.Controls;
 using GameBaseArilox.Implementation.GUI;
@@ -27,6 +28,7 @@ namespace GameBaseArilox
         protected readonly SpriteUpdater SpriteUpdater;
         protected CursorUpdater CursorUpdater;
         protected readonly TextSpriteUpdater TextSpriteUpdater;
+        protected GeneratorUpdater GeneratorUpdater;
 
         protected readonly TextSpriteLoader TextSpriteLoader;
         protected readonly SpriteLoader SpriteLoader;
@@ -50,13 +52,15 @@ namespace GameBaseArilox
             TextSpriteDrawer = new TextSpriteDrawer(this);
             TextSpriteUpdater = new TextSpriteUpdater(this);
             TextSpriteLoader = new TextSpriteLoader(this,Content,TextSpriteDrawer);
+            GeneratorUpdater = new GeneratorUpdater(this);
             Cursor = new Cursor(this);
-            CursorUpdater = new CursorUpdater(this, Cursor, InputsManager.MouseInput);
+            
             ShapeDrawer = new ShapeDrawer(this);
         }
 
         protected override void Initialize()
         {
+            CursorUpdater = new CursorUpdater(this, Cursor, InputsManager.MouseInput);
             ShapeLoader = new ShapeLoader(this, Content, ShapeDrawer);
             base.Initialize();
         }

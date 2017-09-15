@@ -112,6 +112,7 @@
     <Compile Include="Implementation\Core\Vector2D.cs" />
     <Compile Include="Implementation\Environment\Tile.cs" />
     <Compile Include="Implementation\Environment\TileMapGrid.cs" />
+    <Compile Include="Implementation\Graphic\DrawableRotateFadeMovingEffect.cs" />
     <Compile Include="Implementation\Graphic\DrawableFlashingEffectOverTime.cs" />
     <Compile Include="Implementation\Graphic\ParticleGenerator.cs" />
     <Compile Include="Implementation\Graphic\Sprite.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Implementation\zUpdaters\GeneratorUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\TextSpriteUpdater.cs" />
+    <Compile Include="UnitTest\TestParticleGenerator.cs" />
     <Compile Include="UnitTest\TestShapes.cs" />
     <Compile Include="UnitTest\TestTextSpritesAnimation.cs" />
     <Compile Include="UnitTest\TestTextSpritesEffects.cs" />
@@ -169,8 +171,12 @@
     <Content Include="Content\Sprites\Cursors\Cursor2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Sprites\Particles\dustParticle.png" />
-    <Content Include="Content\Sprites\Particles\dustParticle2.png" />
+    <Content Include="Content\Sprites\Particles\dustParticle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Particles\dustParticle2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sprites\SpriteTest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
