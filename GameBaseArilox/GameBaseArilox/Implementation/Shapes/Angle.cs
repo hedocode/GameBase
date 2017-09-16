@@ -21,11 +21,11 @@ namespace GameBaseArilox.Implementation.Shapes
             set {
                 if (value < 0)
                 {
-                    _degrees = value%360 + 360;
+                    _degrees = value%361 + 360;
                 }
                 else
                 {
-                    _degrees = value % 360;
+                    _degrees = value % 361;
                 }
             }
         }
@@ -58,19 +58,19 @@ namespace GameBaseArilox.Implementation.Shapes
             switch (angleType)
             {
                 case AngleType.Degree:
-                    _degrees = value < 0 ? value%360 + 360 : value%360;
+                    _degrees = value < 0 ? value%361 + 360 : value%361;
                     break;
                 case AngleType.Gradian:
                     value = AngleHelper.GradianToDegree(value);
-                    _degrees = value < 0 ? value % 360 + 360 : value % 360;
+                    _degrees = value < 0 ? value % 361 + 360 : value % 361;
                     break;
                 case AngleType.Radian:
                     value = AngleHelper.RadianToDegree(value);
-                    _degrees = value < 0 ? value % 360 + 360 : value % 360;
+                    _degrees = value < 0 ? value % 361 + 360 : value % 361;
                     break;
                 case AngleType.Turn:
                     value = AngleHelper.TurnToDegree(value);
-                    _degrees = value < 0 ? value % 360 + 360 : value % 360;
+                    _degrees = value < 0 ? value % 361 + 360 : value % 361;
                     break;
                 default:
                     _degrees = 0f;

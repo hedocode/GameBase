@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API.Core;
-using GameBaseArilox.API.Entities;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Implementation.Controls;
+using GameBaseArilox.Implementation.Core;
 using GameBaseArilox.Implementation.GUI;
 using GameBaseArilox.Implementation.zDrawers;
 using GameBaseArilox.Implementation.zLoaders;
@@ -19,7 +19,7 @@ namespace GameBaseArilox
         protected SpriteBatch SpriteBatch;
         protected SpriteFont SpriteFont;
 
-        protected readonly InputsManager InputsManager;
+        public readonly InputsManager InputsManager;
 
         protected readonly SpriteDrawer SpriteDrawer;
         protected readonly TextSpriteDrawer TextSpriteDrawer;
@@ -33,6 +33,8 @@ namespace GameBaseArilox
         protected readonly TextSpriteLoader TextSpriteLoader;
         protected readonly SpriteLoader SpriteLoader;
         protected ShapeLoader ShapeLoader;
+
+        public Camera2D Camera;
 
 
         protected Cursor Cursor;
@@ -68,6 +70,7 @@ namespace GameBaseArilox
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
+            Camera = new Camera2D(GraphicsDevice.Viewport, null, null);
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
 

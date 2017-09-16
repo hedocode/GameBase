@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GameBaseArilox.API.Controls;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.Implementation.Commands;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Implementation.Controls
@@ -9,7 +10,8 @@ namespace GameBaseArilox.Implementation.Controls
     public class InputsManager : IUpdater, IContentLoader
     {
         private Dictionary<string, ICommand> _cmdDictionary;
-        
+
+        private List<IInput> _inputs = new List<IInput>();
         private readonly KeyboardInputs _keyboardInputs;
         private readonly GamePadInputs _gamePadInputs;
         private readonly MouseInputs _mouseInputs;
@@ -18,45 +20,48 @@ namespace GameBaseArilox.Implementation.Controls
         public KeyboardInputs KeyboardInput => _keyboardInputs;
         public GamePadInputs GamePadInputs => _gamePadInputs;
 
-        private Dictionary<List<IInputButton>, string> _onPress;     // when pressed : one time
-        private Dictionary<List<IInputButton>, string> _onHold;      // while hold
-        private Dictionary<List<IInputButton>, string> _onRelease;   // when button is released
-        private Dictionary<List<IInputButton>, string> _whileRelease;// while button is realeased
+        private Dictionary<List<string>, string> _onPress;     // when pressed : one time
+        private Dictionary<List<string>, string> _onHold;      // while hold
+        private Dictionary<List<string>, string> _onRelease;   // when button is released
+        private Dictionary<List<string>, string> _whileRelease;// while button is realeased
 
-        private Dictionary<IInputButton,bool> _oldButtonsState;
-        private Dictionary<IInputButton,bool> _buttonsState;
-
-        private List<IInputButton> _gamePadButtons;
-        private List<IInputButton> _mouseButtons;
-        private List<IInputButton> _keyboardButtons;
+        private Dictionary<string, bool> _oldButtonsState;
+        private Dictionary<string, bool> _buttonsState;
 
         public bool UpdateGamePad;
+        private GameModel _game;
 
         public InputsManager(GameModel game)
         {
             _mouseInputs = new MouseInputs();
             _gamePadInputs = new GamePadInputs();
             _keyboardInputs = new KeyboardInputs();
+            _inputs.Add(_mouseInputs);
+            _inputs.Add(_gamePadInputs);
+            _inputs.Add(_keyboardInputs);
 
-            _oldButtonsState = new Dictionary<IInputButton, bool>();
-            _buttonsState = new Dictionary<IInputButton, bool>();
+            _oldButtonsState = new Dictionary<string, bool>();
+            _buttonsState = new Dictionary<string, bool>();
 
-            _gamePadButtons = new List<IInputButton>();
-            _mouseButtons = new List<IInputButton>();
-            _keyboardButtons = new List<IInputButton>();
-            game.AddToUpdaters(this);
-            game.AddToContentLoader(this);
+            _game = game;
+            _game.AddToUpdaters(this);
+            _game.AddToContentLoader(this);
         }
         
         public void LoadContent()
         {
+            _cmdDictionary = new Dictionary<string, ICommand>
+            {
+                {"generateDustOnClick" , new GenerateDustOnClick(_game,_game.InputsManager.MouseInput)}
+            };
 
-            _cmdDictionary = new Dictionary<string, ICommand>();
-
-            _onHold = new Dictionary<List<IInputButton>, string>();
-            _onPress = new Dictionary<List<IInputButton>, string>();
-            _onRelease = new Dictionary<List<IInputButton>, string>();
-            _whileRelease = new Dictionary<List<IInputButton>, string>();
+            _onHold = new Dictionary<List<string>, string>
+            {
+                { new List<string> {"LeftCLick"}, "generateDustOnClick"}
+            };
+            _onPress = new Dictionary<List<string>, string>();
+            _onRelease = new Dictionary<List<string>, string>();
+            _whileRelease = new Dictionary<List<string>, string>();
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace GameBaseArilox.Implementation.Controls
                 _keyboardInputs.Update(gameTime);
                 _mouseInputs.Update(gameTime);
             }
-            FusioningButtonList();
+            GetButtonStateList();
             CheckButtons(gameTime);
         }
 
@@ -91,15 +96,15 @@ namespace GameBaseArilox.Implementation.Controls
 
         public void CheckOnPressButtons(GameTime gameTime)
         {
-            foreach (List<IInputButton> buttonList in _onPress.Keys)
+            foreach (List<string> buttonList in _onPress.Keys)
             {
                 bool listIsValid = true;
-                foreach (IInputButton button in buttonList)
+                foreach (string buttonName in buttonList)
                 {
                     bool wasPressed;
                     bool isPressed;
-                    _oldButtonsState.TryGetValue(button, out wasPressed);
-                    _buttonsState.TryGetValue(button, out isPressed);
+                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
+                    _buttonsState.TryGetValue(buttonName, out isPressed);
                     if (!(!wasPressed && isPressed))
                     {
                         listIsValid = false;
@@ -115,15 +120,15 @@ namespace GameBaseArilox.Implementation.Controls
 
         public void CheckOnHoldButtons(GameTime gameTime)
         {
-            foreach (List<IInputButton> buttonList in _onHold.Keys)
+            foreach (List<string> buttonList in _onHold.Keys)
             {
                 bool listIsValid = true;
-                foreach (IInputButton button in buttonList)
+                foreach (string buttonName in buttonList)
                 {
                     bool wasPressed;
                     bool isPressed;
-                    _oldButtonsState.TryGetValue(button, out wasPressed);
-                    _buttonsState.TryGetValue(button, out isPressed);
+                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
+                    _buttonsState.TryGetValue(buttonName, out isPressed);
                     if (!isPressed)
                     {
                         listIsValid = false;
@@ -139,15 +144,15 @@ namespace GameBaseArilox.Implementation.Controls
 
         public void CheckOnReleasedButtons(GameTime gameTime)
         {
-            foreach (List<IInputButton> buttonList in _onRelease.Keys)
+            foreach (List<string> buttonList in _onRelease.Keys)
             {
                 bool listIsValid = true;
-                foreach (IInputButton button in buttonList)
+                foreach (string buttonName in buttonList)
                 {
                     bool wasPressed;
                     bool isPressed;
-                    _oldButtonsState.TryGetValue(button, out wasPressed);
-                    _buttonsState.TryGetValue(button, out isPressed);
+                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
+                    _buttonsState.TryGetValue(buttonName, out isPressed);
                     if (!(wasPressed && !isPressed))
                     {
                         listIsValid = false;
@@ -163,15 +168,15 @@ namespace GameBaseArilox.Implementation.Controls
 
         public void CheckWhileReleasedButtons(GameTime gameTime)
         {
-            foreach (List<IInputButton> buttonList in _whileRelease.Keys)
+            foreach (List<string> buttonList in _whileRelease.Keys)
             {
                 bool listIsValid = true;
-                foreach (IInputButton button in buttonList)
+                foreach (string buttonName in buttonList)
                 {
                     bool wasPressed;
                     bool isPressed;
-                    _oldButtonsState.TryGetValue(button, out wasPressed);
-                    _buttonsState.TryGetValue(button, out isPressed);
+                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
+                    _buttonsState.TryGetValue(buttonName, out isPressed);
                     if (isPressed)
                     {
                         listIsValid = false;
@@ -185,21 +190,21 @@ namespace GameBaseArilox.Implementation.Controls
             }
         }
 
-        public void FusioningButtonList()
+        public void GetButtonStateList()
         {
             _oldButtonsState = _buttonsState;
             _buttonsState.Clear();
-
-            AddListToButtonList(_keyboardButtons);
-            AddListToButtonList(_mouseButtons);
-            AddListToButtonList(_gamePadButtons);
+            foreach (IInput input in _inputs)
+            {
+                AddListToButtonList(input.GetInputButtons());
+            }
         }
 
         public void AddListToButtonList(List<IInputButton> list)
         {
             foreach (IInputButton button in list)
             {
-                _buttonsState.Add(button, button.IsPressed);
+                _buttonsState.Add(button.Name, button.IsPressed);
             }
             list.Clear();
         }
@@ -209,7 +214,7 @@ namespace GameBaseArilox.Implementation.Controls
             return MouseInput.GetMouseAbsolutePosition();
         }
 
-        public void ExecuteCommand(Dictionary<List<IInputButton>, string> dictionary, List<IInputButton> key, GameTime gameTime)
+        public void ExecuteCommand(Dictionary<List<string>, string> dictionary, List<string> key, GameTime gameTime)
         {
             string nomCmd;
             ICommand cmdToExe;
@@ -222,22 +227,22 @@ namespace GameBaseArilox.Implementation.Controls
             cmdToExe?.Execute(gameTime);
         }
 
-        public void ExecuteCommandOnPress(List<IInputButton> buttons, GameTime gameTime)
+        public void ExecuteCommandOnPress(List<string> buttons, GameTime gameTime)
         {
             ExecuteCommand(_onPress, buttons, gameTime);
         }
 
-        public void ExecuteCommandOnRelease(List<IInputButton> buttons, GameTime gameTime)
+        public void ExecuteCommandOnRelease(List<string> buttons, GameTime gameTime)
         {
             ExecuteCommand(_onRelease, buttons, gameTime);
         }
 
-        public void ExecuteCommandOnHold(List<IInputButton> buttons, GameTime gameTime)
+        public void ExecuteCommandOnHold(List<string> buttons, GameTime gameTime)
         {
             ExecuteCommand(_onHold, buttons, gameTime);
         }
 
-        public void ExecuteCommandWhileRelease(List<IInputButton> buttons, GameTime gameTime)
+        public void ExecuteCommandWhileRelease(List<string> buttons, GameTime gameTime)
         {
             ExecuteCommand(_whileRelease, buttons, gameTime);
         }

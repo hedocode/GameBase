@@ -51,7 +51,7 @@ namespace GameBaseArilox.Implementation.Graphic
         /*-------------*/
         /* CONSTRUCTOR */
         /*-------------*/
-        public DrawableRotateFadeMovingEffect(int animationEffectSpeed, IDrawable drawable, float duration, float velocity, Angle direction)
+        public DrawableRotateFadeMovingEffect(float animationEffectSpeed, IDrawable drawable, float duration, float velocity, Angle direction)
         {
             Duration = duration;
             TimeSpent = 0;
@@ -74,10 +74,10 @@ namespace GameBaseArilox.Implementation.Graphic
         public void Affect(GameTime gameTime)
         {
             AffectedDrawable.Position += _velocity*(float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (TimeSpent <= EffectSpeed)
+            if (TimeSpent >= EffectSpeed)
             {
-                AffectedDrawable.Opacity -= 1/Duration;
-                AffectedDrawable.Rotation += 0.01f;
+                AffectedDrawable.Opacity -= 1/Duration*EffectSpeed;
+                AffectedDrawable.Rotation -= 0.5f;
                 TimeSpent = 0;
             }
             TimeSpent += (float)gameTime.ElapsedGameTime.TotalSeconds;

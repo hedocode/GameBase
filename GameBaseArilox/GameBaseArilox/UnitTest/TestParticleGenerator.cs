@@ -1,19 +1,28 @@
 ﻿using System.Collections.Generic;
+using GameBaseArilox.API.Enums;
 using GameBaseArilox.Implementation.Graphic;
+using GameBaseArilox.Implementation.Shapes;
+using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.UnitTest
 {
     public class TestParticleGenerator : GameModel
     {
-        private ParticleGenerator _particleGenerator;
         public TestParticleGenerator()
         {
             Dictionary<string, int> dictionary = new Dictionary<string, int>
             {
                 {"dustParticle", 100}
             };
-            _particleGenerator = new ParticleGenerator(250,250, dictionary, -90, 90, 10, 1, 1);
-            GeneratorUpdater.AddGenerator(_particleGenerator);
+            GeneratorUpdater.AddGenerator(new ParticleGenerator(250, 250, dictionary, Direction.Top, new Angle(45), 10, 0.5f, 4));
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+            SpriteBatch.Begin();
+            SpriteBatch.DrawString(SpriteFont, InputsManager.MouseInput.IsLeftButtonPressed().ToString(), new Vector2(5, 50), Color.Orange);
+            SpriteBatch.End();
         }
     }
 }

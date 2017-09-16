@@ -1,4 +1,5 @@
 ﻿using System;
+using GameBaseArilox.API.Enums;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Implementation.Shapes
@@ -10,9 +11,10 @@ namespace GameBaseArilox.Implementation.Shapes
         public const float PiF = 3.14159264f;
 
         /*DEGREE CONVERSIONS*/
+
         public static float DegreeToRadian(float degrees)
         {
-            return degrees * (PiF / 180);
+            return degrees*(PiF/180);
         }
 
         public static float DegreeToTurn(float degrees)
@@ -22,7 +24,7 @@ namespace GameBaseArilox.Implementation.Shapes
 
         public static float DegreeToGradian(float degrees)
         {
-            return degrees / 0.9f;
+            return degrees/0.9f;
         }
 
         public static Vector2 DegreeToVector(float degrees, float vectorLenght)
@@ -31,9 +33,10 @@ namespace GameBaseArilox.Implementation.Shapes
         }
 
         /*RADIAN CONVERSIONS*/
+
         public static float RadianToDegree(float radians)
         {
-            return radians * (180 / PiF);
+            return radians*(180/PiF);
         }
 
         public static float RadianToTurn(float radians)
@@ -52,6 +55,7 @@ namespace GameBaseArilox.Implementation.Shapes
         }
 
         /*TURN CONVERSIONS*/
+
         public static float TurnToDegree(float turn)
         {
             return turn*360;
@@ -73,6 +77,7 @@ namespace GameBaseArilox.Implementation.Shapes
         }
 
         /*GRADIAN CONVERSIONS*/
+
         public static float GradianToDegree(float gradians)
         {
             return gradians*0.9f;
@@ -85,15 +90,16 @@ namespace GameBaseArilox.Implementation.Shapes
 
         public static float GradianToTurn(float gradians)
         {
-            return gradians / 400;
+            return gradians/400;
         }
 
         public static Vector2 GradianToVector(float gradians, float vectorLenght)
         {
-            return new Vector2(vectorLenght * (float)Math.Cos(gradians), -vectorLenght * (float)Math.Sin(gradians));
+            return new Vector2(vectorLenght*(float) Math.Cos(gradians), -vectorLenght*(float) Math.Sin(gradians));
         }
 
         /*VECTOR CONVERSIONS*/
+
         public static float VectorToRadian(Vector2 vector)
         {
             return (float) Math.Atan2(-vector.Y, vector.X);
@@ -115,6 +121,7 @@ namespace GameBaseArilox.Implementation.Shapes
         }
 
         /*SLOPE CONVERSIONS*/
+
         public static float SlopeToRadian(double slope)
         {
             return (float) Math.Atan(slope);
@@ -122,7 +129,7 @@ namespace GameBaseArilox.Implementation.Shapes
 
         public static Angle SlopeToAngle(float slope)
         {
-            return new Angle(SlopeToRadian(slope),AngleType.Radian);
+            return new Angle(SlopeToRadian(slope), AngleType.Radian);
         }
 
         public static Angle SlopeToAngle(double slope)
@@ -133,6 +140,38 @@ namespace GameBaseArilox.Implementation.Shapes
         public static float AngleToSlope(Angle angle)
         {
             return (float) Math.Tan(angle);
+        }
+
+        /* Direction Conversion */
+
+        public static float DirectionToFloat(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Bot:
+                    return 90;
+                case Direction.Left:
+                    return 180;
+                case Direction.Right:
+                    return 0;
+                case Direction.Top:
+                    return 270;
+                case Direction.BotLeft:
+                    return 135;
+                case Direction.BotRight:
+                    return 45;
+                case Direction.TopLeft:
+                    return 225;
+                case Direction.TopRight:
+                    return 315;
+                default:
+                    return 0;
+            }
+        }
+
+        public static Angle DirectionToAngle(Direction direction)
+        {
+            return new Angle(DirectionToFloat(direction));
         }
     }
 }

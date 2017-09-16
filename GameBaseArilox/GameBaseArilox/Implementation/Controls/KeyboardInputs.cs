@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameBaseArilox.Implementation.Controls
 {
-    public class KeyboardInputs
+    public class KeyboardInputs : IInput
     {
         private KeyboardState _keyboardState;
         private Keys[] _lastPressedKeys = new Keys[0];

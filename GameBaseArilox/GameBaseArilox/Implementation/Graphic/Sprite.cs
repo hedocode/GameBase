@@ -6,9 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameBaseArilox.Implementation.Graphic
 {
-    struct Sprite : ISprite
+    public class Sprite : ISprite
     {
-
           /*------------*/
          /* PROPERTIES */
         /*------------*/
@@ -117,11 +116,6 @@ namespace GameBaseArilox.Implementation.Graphic
         public void AddEffect(IDrawableEffectOverTime effectOverTime)
         {
             effectOverTime.SetDrawable(this);
-        }
-
-        public void AddFlashingEffect(DrawableFlashingEffectOverTime effect)
-        {
-            effect.SetDrawable(this);
         }
     }
 }

@@ -39,6 +39,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\Controls\IInput.cs" />
     <Compile Include="API\Controls\IInputButton.cs" />
     <Compile Include="API\Core\IClickable.cs" />
     <Compile Include="API\Core\ICommand.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="API\Entities\ISpell.cs" />
     <Compile Include="API\Entities\ISpellCaster.cs" />
     <Compile Include="API\Entities\ITower.cs" />
+    <Compile Include="API\Enums\Direction.cs" />
     <Compile Include="API\Enums\GridType.cs" />
     <Compile Include="API\Enums\InputType.cs" />
     <Compile Include="API\Enums\Stat.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="API\Shapes\ICoordinates.cs" />
     <Compile Include="GameModel.cs" />
     <Compile Include="API\Enums\DamageType.cs" />
+    <Compile Include="Implementation\Commands\GenerateDustOnClick.cs" />
     <Compile Include="Implementation\Controls\GamePadInputs.cs" />
     <Compile Include="Implementation\Controls\InputButton.cs" />
     <Compile Include="Implementation\Controls\InputsManager.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Implementation\Environment\TileMapGrid.cs" />
     <Compile Include="Implementation\Graphic\DrawableRotateFadeMovingEffect.cs" />
     <Compile Include="Implementation\Graphic\DrawableFlashingEffectOverTime.cs" />
+    <Compile Include="Implementation\Graphic\Particle.cs" />
     <Compile Include="Implementation\Graphic\ParticleGenerator.cs" />
     <Compile Include="Implementation\Graphic\Sprite.cs" />
     <Compile Include="Implementation\Graphic\SpriteAnimation.cs" />

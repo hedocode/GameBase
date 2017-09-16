@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameBaseArilox.Implementation.Controls
 {
-    public class GamePadInputs
+    public class GamePadInputs : IInput
     {
         private readonly List<Buttons> _gamePadButtonList = new List<Buttons>
         {

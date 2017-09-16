@@ -5,7 +5,7 @@ using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 
 namespace GameBaseArilox.Implementation.Graphic
 { 
-    class DrawableFlashingEffectOverTime : IDrawableEffectOverTime
+    public class DrawableFlashingEffectOverTime : IDrawableEffectOverTime
     {
           /*------------*/
          /* ATTRIBUTES */

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameBaseArilox.Implementation.Controls
 {
-    public class MouseInputs
+    public class MouseInputs : IInput
     {
         internal enum MouseButton
         {
@@ -28,8 +28,7 @@ namespace GameBaseArilox.Implementation.Controls
             {MouseButton.XButton1, "MousePrevious" },
             {MouseButton.XButton2, "MouseNext" }
         };
-
-        private MouseState _oldMouseState;
+        
         private MouseState _mouseState;
 
         public void LoadContent()
@@ -39,7 +38,6 @@ namespace GameBaseArilox.Implementation.Controls
 
         public void Update(GameTime gameTime)
         {
-            _oldMouseState = _mouseState;
             _mouseState = Mouse.GetState();
         }
 
@@ -58,19 +56,19 @@ namespace GameBaseArilox.Implementation.Controls
                 switch (b)
                 {
                     case MouseButton.LeftButton:
-                        isPressed = IsLeftButtonPressed(_mouseState);
+                        isPressed = IsLeftButtonPressed();
                         break;
                     case MouseButton.MidButton:
-                        isPressed = IsMiddleButtonPressed(_mouseState);
+                        isPressed = IsMiddleButtonPressed();
                         break;
                     case MouseButton.RightButton:
-                        isPressed = IsRightButtonPressed(_mouseState);
+                        isPressed = IsRightButtonPressed();
                         break;
                     case MouseButton.XButton1:
-                        isPressed = IsXButton1Pressed(_mouseState);
+                        isPressed = IsXButton1Pressed();
                         break;
                     case MouseButton.XButton2:
-                        isPressed = IsXButton2Pressed(_mouseState);
+                        isPressed = IsXButton2Pressed();
                         break;
                 }
                 result.Add(new InputButton(buttonName, isPressed,InputType.Mouse));
@@ -112,62 +110,62 @@ namespace GameBaseArilox.Implementation.Controls
 
         public bool IsLeftButtonClick()
         {
-            return IsLeftButtonReleased(_oldMouseState) && IsLeftButtonPressed(_mouseState);
+            return IsLeftButtonReleased() && IsLeftButtonPressed();
         }
 
         public bool IsLeftClickedValidate()
         {
-            return IsLeftButtonPressed(_oldMouseState) && IsLeftButtonReleased(_mouseState);
+            return IsLeftButtonPressed() && IsLeftButtonReleased();
         }
 
-        public bool IsRightButtonPressed(MouseState mouseState)
+        public bool IsRightButtonPressed()
         {
-            return IsPressed(mouseState.RightButton);
+            return IsPressed(_mouseState.RightButton);
         }
 
-        public bool IsLeftButtonPressed(MouseState mouseState)
+        public bool IsLeftButtonPressed()
         {
-            return IsPressed(mouseState.LeftButton);
+            return IsPressed(_mouseState.LeftButton);
         }
 
-        public bool IsMiddleButtonPressed(MouseState mouseState)
+        public bool IsMiddleButtonPressed()
         {
-            return IsPressed(mouseState.MiddleButton);
+            return IsPressed(_mouseState.MiddleButton);
         }
 
-        public bool IsRightButtonReleased(MouseState mouseState)
+        public bool IsRightButtonReleased()
         {
-            return IsReleased(mouseState.RightButton);
+            return IsReleased(_mouseState.RightButton);
         }
 
-        public bool IsLeftButtonReleased(MouseState mouseState)
+        public bool IsLeftButtonReleased()
         {
-            return IsReleased(mouseState.LeftButton);
+            return IsReleased(_mouseState.LeftButton);
         }
 
-        public bool IsMiddleButtonReleased(MouseState mouseState)
+        public bool IsMiddleButtonReleased()
         {
-            return IsReleased(mouseState.MiddleButton);
+            return IsReleased(_mouseState.MiddleButton);
         }
 
-        public bool IsXButton1Released(MouseState mouseState)
+        public bool IsXButton1Released()
         {
-            return IsReleased(mouseState.XButton1);
+            return IsReleased(_mouseState.XButton1);
         }
 
-        public bool IsXButton1Pressed(MouseState mouseState)
+        public bool IsXButton1Pressed()
         {
-            return IsPressed(mouseState.XButton1);
+            return IsPressed(_mouseState.XButton1);
         }
 
-        public bool IsXButton2Released(MouseState mouseState)
+        public bool IsXButton2Released()
         {
-            return IsReleased(mouseState.XButton2);
+            return IsReleased(_mouseState.XButton2);
         }
 
-        public bool IsXButton2Pressed(MouseState mouseState)
+        public bool IsXButton2Pressed()
         {
-            return IsPressed(mouseState.XButton2);
+            return IsPressed(_mouseState.XButton2);
         }
 
         public bool IsPressed(ButtonState buttonState)
