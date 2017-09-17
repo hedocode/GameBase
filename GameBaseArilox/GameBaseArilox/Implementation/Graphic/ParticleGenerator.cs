@@ -16,7 +16,7 @@ namespace GameBaseArilox.Implementation.Graphic
         private float _rotationDegrees;
         private float _sprayAngle;
         private Dictionary<string, int> _spritePercentage;
-        private float _particlesPerGeneration;
+        public float ParticlesPerGeneration { get; set; }
         private Random _randomMachine = new Random();
 
         public ParticleGenerator(Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
@@ -28,7 +28,7 @@ namespace GameBaseArilox.Implementation.Graphic
             SprayAngle = sprayAngle;
             Duration = duration;
             EffectSpeed = effectSpeed;
-            _particlesPerGeneration = particlesPerGeneration;
+            ParticlesPerGeneration = particlesPerGeneration;
         }
 
         public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
@@ -40,7 +40,7 @@ namespace GameBaseArilox.Implementation.Graphic
             SprayAngle = sprayAngle;
             Duration = duration;
             EffectSpeed = effectSpeed;
-            _particlesPerGeneration = particlesPerGeneration;
+            ParticlesPerGeneration = particlesPerGeneration;
         }
 
         public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, Direction direction, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
@@ -52,7 +52,7 @@ namespace GameBaseArilox.Implementation.Graphic
             SprayAngle = sprayAngle;
             Duration = duration;
             EffectSpeed = effectSpeed;
-            _particlesPerGeneration = particlesPerGeneration;
+            ParticlesPerGeneration = particlesPerGeneration;
         }
 
         public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, Direction direction, Angle sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
@@ -64,7 +64,7 @@ namespace GameBaseArilox.Implementation.Graphic
             SprayAngle = sprayAngle;
             Duration = duration;
             EffectSpeed = effectSpeed;
-            _particlesPerGeneration = particlesPerGeneration;
+            ParticlesPerGeneration = particlesPerGeneration;
         }
 
         public ParticleGenerator(Vector2 position, Dictionary<string, int> spritePercentage, Direction direction, Angle sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
@@ -76,7 +76,7 @@ namespace GameBaseArilox.Implementation.Graphic
             SprayAngle = sprayAngle;
             Duration = duration;
             EffectSpeed = effectSpeed;
-            _particlesPerGeneration = particlesPerGeneration;
+            ParticlesPerGeneration = particlesPerGeneration;
         }
 
         public Vector2 Position
@@ -120,7 +120,7 @@ namespace GameBaseArilox.Implementation.Graphic
                 _spritePercentage.TryGetValue(textureId, out texturePercentage);
                 lowerBound = upperBound;
                 upperBound += texturePercentage;
-                for (int i = 0; i < _particlesPerGeneration; i++)
+                for (int i = 0; i < ParticlesPerGeneration; i++)
                 {
                     int angle = _randomMachine.Next(0, (int)_sprayAngle);
 

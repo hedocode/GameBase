@@ -57,9 +57,12 @@ namespace GameBaseArilox.Implementation.Controls
 
             _onHold = new Dictionary<List<string>, string>
             {
-                { new List<string> {"LeftCLick"}, "generateDustOnClick"}
+                { new List<string> {"LeftClick","CtrlLeft","ShiftLeft"}, "generateDustOnClick"}
             };
-            _onPress = new Dictionary<List<string>, string>();
+            _onPress = new Dictionary<List<string>, string>
+            {
+                { new List<string> {"LeftClick"}, "generateDustOnClick"}
+            };
             _onRelease = new Dictionary<List<string>, string>();
             _whileRelease = new Dictionary<List<string>, string>();
         }
@@ -105,7 +108,7 @@ namespace GameBaseArilox.Implementation.Controls
                     bool isPressed;
                     _oldButtonsState.TryGetValue(buttonName, out wasPressed);
                     _buttonsState.TryGetValue(buttonName, out isPressed);
-                    if (!(!wasPressed && isPressed))
+                    if (wasPressed || !isPressed)
                     {
                         listIsValid = false;
                         break;
@@ -192,7 +195,13 @@ namespace GameBaseArilox.Implementation.Controls
 
         public void GetButtonStateList()
         {
-            _oldButtonsState = _buttonsState;
+            _oldButtonsState.Clear();
+            foreach (string key in _buttonsState.Keys)
+            {
+                bool res;
+                _buttonsState.TryGetValue(key, out res);
+                _oldButtonsState.Add(key, res);
+            }
             _buttonsState.Clear();
             foreach (IInput input in _inputs)
             {
@@ -206,7 +215,6 @@ namespace GameBaseArilox.Implementation.Controls
             {
                 _buttonsState.Add(button.Name, button.IsPressed);
             }
-            list.Clear();
         }
 
         public Point GetMousePosition()

@@ -14,8 +14,6 @@ namespace GameBaseArilox.Implementation.Core
         private readonly IGameEntity _toFollow;
 
         private Vector2 _position;
-        private float _x;
-        private float _y;
 
         public Vector2 Position
         {

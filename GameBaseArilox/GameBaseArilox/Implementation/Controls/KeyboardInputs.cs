@@ -32,8 +32,8 @@ namespace GameBaseArilox.Implementation.Controls
             {Keys.Decimal, "." },
             {Keys.Up, "Up" }, {Keys.Down, "Down" }, {Keys.Right, "Right" }, {Keys.Left, "Left" },
             {Keys.LeftControl, "CtrlLeft" }, {Keys.RightControl, "CtrlRight" }, {Keys.LeftAlt, "AltLeft" }, {Keys.RightAlt, "AltRight" },
-            {Keys.LeftWindows, "WindowLeft" }, {Keys.RightWindows, "WindowRight" }
-
+            {Keys.LeftWindows, "WindowLeft" }, {Keys.RightWindows, "WindowRight" },
+            {Keys.LeftShift, "ShiftLeft"}, {Keys.RightShift, "ShiftRight" }
         };
 
         public bool IsActive => Keyboard.GetState().GetPressedKeys().Length != 0;

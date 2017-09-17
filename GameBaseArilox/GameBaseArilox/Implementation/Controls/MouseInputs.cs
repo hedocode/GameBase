@@ -24,7 +24,7 @@ namespace GameBaseArilox.Implementation.Controls
         {
             {MouseButton.RightButton, "RightClick"},
             {MouseButton.MidButton, "MidClick"},
-            {MouseButton.LeftButton,"LeftCLick"},
+            {MouseButton.LeftButton,"LeftClick"},
             {MouseButton.XButton1, "MousePrevious" },
             {MouseButton.XButton2, "MouseNext" }
         };
