@@ -8,9 +8,10 @@ namespace GameBaseArilox.Implementation.Graphic
 {
     public class DrawableRotateFadeMovingEffect : IDrawableEffectOverTime
     {
-        private Vector2 _velocity;
+        private readonly Vector2 _velocity;
         public float Duration { get; set; }
-        public float EffectSpeed { get; set; }
+        public double ElapsedLifeTime { get; set; }
+        public float Frequency { get; set; }
 
         public object AffectedObject
         {
@@ -51,21 +52,21 @@ namespace GameBaseArilox.Implementation.Graphic
         /*-------------*/
         /* CONSTRUCTOR */
         /*-------------*/
-        public DrawableRotateFadeMovingEffect(float animationEffectSpeed, IDrawable drawable, float duration, float velocity, Angle direction)
+        public DrawableRotateFadeMovingEffect(float animationFrequency, IDrawable drawable, float duration, float velocity, Angle direction)
         {
             Duration = duration;
             TimeSpent = 0;
-            EffectSpeed = animationEffectSpeed;
+            Frequency = animationFrequency;
             SetDrawable(drawable);
             BaseObject = drawable;
             _velocity = direction.GetVector(velocity);
         }
 
-        public DrawableRotateFadeMovingEffect(int effectSpeed, float duration = 5)
+        public DrawableRotateFadeMovingEffect(int frequency, float duration = 5)
         {
             Duration = duration;
             TimeSpent = 0;
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
         }
 
         /*------------*/
@@ -74,10 +75,11 @@ namespace GameBaseArilox.Implementation.Graphic
         public void Affect(GameTime gameTime)
         {
             AffectedDrawable.Position += _velocity*(float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (TimeSpent >= EffectSpeed)
+            if (TimeSpent >= Frequency)
             {
-                AffectedDrawable.Opacity -= 1/Duration*EffectSpeed;
+                AffectedDrawable.Opacity -= 1/Duration*Frequency;
                 AffectedDrawable.Rotation -= 0.5f;
+                AffectedDrawable.Color = new Color((byte)(AffectedDrawable.Color.R*0.99f), (byte)(AffectedDrawable.Color.G*0.80f), (byte)(AffectedDrawable.Color.B*0.5f));
                 TimeSpent = 0;
             }
             TimeSpent += (float)gameTime.ElapsedGameTime.TotalSeconds;

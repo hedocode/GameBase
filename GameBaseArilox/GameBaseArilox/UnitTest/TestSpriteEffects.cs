@@ -40,7 +40,7 @@ namespace GameBaseArilox.UnitTest
             var d3 = new DrawableFlashingEffectOverTime(3, _sprite3, 10);
             d4.SetDrawable(_sprite4);
 
-            d2.EffectSpeed = 9;
+            d2.Frequency = 9;
             d3.Duration = 20;
             //NOT WORKING_sprite.AddEffect(drawableFlashingEffectOverTime);
             //NOT WORKING_sprite4.AddEffect( d2);

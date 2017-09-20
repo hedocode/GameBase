@@ -1,38 +1,37 @@
-﻿using System.Collections.Generic;
-using GameBaseArilox.API.Effects;
-using GameBaseArilox.API.Graphic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Implementation.Graphic
 {
-    public class Particle : ISprite, IEffectOverTime
+    public class Particle : Sprite
     {
-        public Point ScreenPosition { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Scale { get; set; }
-        public float Rotation { get; set; }
-        public List<IDrawableEffectOverTime> Effects { get; set; }
-        public void AddEffect(IDrawableEffectOverTime effectOverTime)
+        public Particle(string textureId, float duration) : base(textureId)
         {
-            throw new System.NotImplementedException();
+            Duration = duration;
         }
 
-        public string CurrentAnimation { get; set; }
-        public int CurrentFrame { get; set; }
-        public bool Visible { get; set; }
-        public float Opacity { get; set; }
-        public Vector2 Origin { get; set; }
-        public float Depth { get; set; }
-        public Color Color { get; set; }
-        public SpriteEffects SpriteEffect { get; set; }
-        public double TimeSpent { get; set; }
-        public bool Increase { get; set; }
-        public string TextureId { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public Rectangle TextureSourceRectangle { get; set; }
-        public float Duration { get; set; }
-        public float EffectSpeed { get; set; }
+        public Particle(float x, float y, string textureId, float duration) : base(x, y, textureId)
+        {
+            Duration = duration;
+        }
+
+        public Particle(float x, float y, int width, int height, string textureId, float duration) : base(x, y, width, height, textureId)
+        {
+            Duration = duration;
+        }
+
+        public Particle(float x, float y, int width, int height, string textureId, Vector2 origin, float duration) : base(x, y, width, height, textureId, origin)
+        {
+            Duration = duration;
+        }
+
+        public Particle(float x, float y, int width, int height, string textureId, Vector2 origin, string currentAnimation, float duration) : base(x, y, width, height, textureId, origin, currentAnimation)
+        {
+            Duration = duration;
+        }
+
+        public Particle(float x, float y, int width, int height, string textureId, Vector2 origin, string currentAnimation, float depth, float duration) : base(x, y, width, height, textureId, origin, currentAnimation, depth)
+        {
+            Duration = duration;
+        }
     }
 }

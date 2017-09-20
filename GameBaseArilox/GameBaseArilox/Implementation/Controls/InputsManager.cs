@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GameBaseArilox.API.Controls;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Enums;
 using GameBaseArilox.Implementation.Commands;
 using Microsoft.Xna.Framework;
 
@@ -73,6 +74,24 @@ namespace GameBaseArilox.Implementation.Controls
         /// <param name="gameTime">Instance of GameTime, used to Update with the gameTime</param>
         public void Update(GameTime gameTime)
         {
+            UpdateInputs(gameTime);
+            GetButtonStateList();
+            CheckButtons(gameTime);
+        }
+
+        public void UpdateMenu(GameTime gameTime)
+        {
+            UpdateInputs(gameTime);
+        }
+
+        public void UpdateCinematic(GameTime gameTime)
+        {
+            UpdateInputs(gameTime);
+
+        }
+
+        public void UpdateInputs(GameTime gameTime)
+        {
             if (_gamePadInputs.IsActive) UpdateGamePad = true;
             else if (_keyboardInputs.IsActive) UpdateGamePad = false;
 
@@ -85,8 +104,6 @@ namespace GameBaseArilox.Implementation.Controls
                 _keyboardInputs.Update(gameTime);
                 _mouseInputs.Update(gameTime);
             }
-            GetButtonStateList();
-            CheckButtons(gameTime);
         }
 
         public void CheckButtons(GameTime gameTime)
@@ -104,11 +121,7 @@ namespace GameBaseArilox.Implementation.Controls
                 bool listIsValid = true;
                 foreach (string buttonName in buttonList)
                 {
-                    bool wasPressed;
-                    bool isPressed;
-                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
-                    _buttonsState.TryGetValue(buttonName, out isPressed);
-                    if (wasPressed || !isPressed)
+                    if (!CheckButtonPress(buttonName, ButtonPressType.OnPress))
                     {
                         listIsValid = false;
                         break;
@@ -128,11 +141,7 @@ namespace GameBaseArilox.Implementation.Controls
                 bool listIsValid = true;
                 foreach (string buttonName in buttonList)
                 {
-                    bool wasPressed;
-                    bool isPressed;
-                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
-                    _buttonsState.TryGetValue(buttonName, out isPressed);
-                    if (!isPressed)
+                    if (!CheckButtonPress(buttonName, ButtonPressType.Hold))
                     {
                         listIsValid = false;
                         break;
@@ -152,11 +161,7 @@ namespace GameBaseArilox.Implementation.Controls
                 bool listIsValid = true;
                 foreach (string buttonName in buttonList)
                 {
-                    bool wasPressed;
-                    bool isPressed;
-                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
-                    _buttonsState.TryGetValue(buttonName, out isPressed);
-                    if (!(wasPressed && !isPressed))
+                    if (!CheckButtonPress(buttonName,ButtonPressType.OnReleased))
                     {
                         listIsValid = false;
                         break;
@@ -176,11 +181,7 @@ namespace GameBaseArilox.Implementation.Controls
                 bool listIsValid = true;
                 foreach (string buttonName in buttonList)
                 {
-                    bool wasPressed;
-                    bool isPressed;
-                    _oldButtonsState.TryGetValue(buttonName, out wasPressed);
-                    _buttonsState.TryGetValue(buttonName, out isPressed);
-                    if (isPressed)
+                    if (!CheckButtonPress(buttonName, ButtonPressType.WhileReleased))
                     {
                         listIsValid = false;
                         break;
@@ -190,6 +191,28 @@ namespace GameBaseArilox.Implementation.Controls
                 {
                     ExecuteCommandWhileRelease(buttonList, gameTime);
                 }
+            }
+        }
+
+
+        public bool CheckButtonPress(string buttonName, ButtonPressType pressType)
+        {
+            bool wasPressed;
+            bool isPressed;
+            _oldButtonsState.TryGetValue(buttonName, out wasPressed);
+            _buttonsState.TryGetValue(buttonName, out isPressed);
+            switch (pressType)
+            {
+                case ButtonPressType.OnPress:
+                    return !wasPressed && isPressed;
+                case ButtonPressType.Hold:
+                    return isPressed;
+                case ButtonPressType.OnReleased:
+                    return wasPressed && !isPressed;
+                case ButtonPressType.WhileReleased:
+                    return wasPressed;
+                default:
+                    return !wasPressed && isPressed;
             }
         }
 

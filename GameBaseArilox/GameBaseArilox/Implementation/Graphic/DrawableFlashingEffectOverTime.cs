@@ -10,15 +10,15 @@ namespace GameBaseArilox.Implementation.Graphic
           /*------------*/
          /* ATTRIBUTES */
         /*------------*/
-        private float _effectSpeed;
+        private float _frequency;
 
           /*------------*/
          /* PROPERTIES */
         /*------------*/
         public float Duration { get; set; }
-        public double TimeSpent { get; set; }
+        public double ElapsedLifeTime { get; set; }
         public bool Increase { get; set; }
-        public float EffectSpeed { get { return _effectSpeed; } set { _effectSpeed = value; } }
+        public float Frequency { get { return _frequency; } set { _frequency = value; } }
         public IDrawable AffectedDrawable { get; set; }
        
 
@@ -54,20 +54,20 @@ namespace GameBaseArilox.Implementation.Graphic
           /*-------------*/
          /* CONSTRUCTOR */
         /*-------------*/
-        public DrawableFlashingEffectOverTime(int effectSpeed, IDrawable drawable, float duration = 5)
+        public DrawableFlashingEffectOverTime(int frequency, IDrawable drawable, float duration = 5)
         {
             Duration = duration;
-            TimeSpent = 0;
-            _effectSpeed = effectSpeed;
+            ElapsedLifeTime = 0;
+            _frequency = frequency;
             SetDrawable(drawable);
             BaseObject = drawable;
         }
 
-        public DrawableFlashingEffectOverTime(int effectSpeed, float duration = 5)
+        public DrawableFlashingEffectOverTime(int frequency, float duration = 5)
         {
             Duration = duration;
-            TimeSpent = 0;
-            _effectSpeed = effectSpeed;
+            ElapsedLifeTime = 0;
+            _frequency = frequency;
         }
 
         public void SetDrawable(IDrawable drawable)
@@ -91,16 +91,16 @@ namespace GameBaseArilox.Implementation.Graphic
             }
             if (Increase)
             {
-                AffectedDrawable.Opacity += _effectSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AffectedDrawable.Opacity += _frequency * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 AffectedDrawable.Scale -= new Vector2(0.1f, 0.1f);
             }
             else
             {
-                AffectedDrawable.Opacity -= _effectSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AffectedDrawable.Opacity -= _frequency * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 AffectedDrawable.Scale += new Vector2(0.1f, 0.1f);
             }
             AffectedDrawable.Rotation += (float)(1 * gameTime.ElapsedGameTime.TotalSeconds);
-            TimeSpent += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            ElapsedLifeTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
     }
 }

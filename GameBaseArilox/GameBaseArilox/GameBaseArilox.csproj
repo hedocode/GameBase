@@ -58,6 +58,7 @@
     <Compile Include="API\Effects\IDrawableEffectOverTime.cs" />
     <Compile Include="API\Effects\IEffectObject.cs" />
     <Compile Include="API\Effects\IEffectOverTime.cs" />
+    <Compile Include="API\Effects\ILimitedLifeTime.cs" />
     <Compile Include="API\Entities\IAttacker.cs" />
     <Compile Include="API\Entities\IGameEntity.cs" />
     <Compile Include="API\Entities\IGenerator.cs" />
@@ -67,7 +68,9 @@
     <Compile Include="API\Entities\ISpell.cs" />
     <Compile Include="API\Entities\ISpellCaster.cs" />
     <Compile Include="API\Entities\ITower.cs" />
+    <Compile Include="API\Enums\ButtonPressType.cs" />
     <Compile Include="API\Enums\Direction.cs" />
+    <Compile Include="API\Enums\GameStateType.cs" />
     <Compile Include="API\Enums\GridType.cs" />
     <Compile Include="API\Enums\InputType.cs" />
     <Compile Include="API\Enums\Stat.cs" />

@@ -18,7 +18,7 @@ namespace GameBaseArilox.Implementation.Commands
             {
                 {"dustParticle", 100}
             };
-            _particleGenerator = new ParticleGenerator(particlesDico,0,360,0,1,8);
+            _particleGenerator = new ParticleGenerator(particlesDico,0,360,0,1, 80);
             _gameModel = gameModel;
             _mouse = mouse;
         }

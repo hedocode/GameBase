@@ -14,7 +14,7 @@ namespace GameBaseArilox.Implementation.zDrawers
         /*------------*/
         private Dictionary<string, Texture2D> _spriteSets;
         private List<ISprite> _toDraw;
-
+        public int DrawableNumber => _toDraw.Count;
 
         /*------------*/
         /* PROPERTIES */
@@ -37,7 +37,8 @@ namespace GameBaseArilox.Implementation.zDrawers
         {
             foreach (ISprite sprite in _toDraw)
             {
-                Draw(spriteBatch, sprite);
+                if(sprite.Visible)
+                    Draw(spriteBatch, sprite);
             }
         }
 

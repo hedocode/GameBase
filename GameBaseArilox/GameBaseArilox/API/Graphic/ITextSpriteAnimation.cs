@@ -4,7 +4,7 @@ using GameBaseArilox.API.Effects;
 
 namespace GameBaseArilox.API.Graphic
 {
-    public interface ITextSpriteAnimation : IEffectOverTime, IChangedOverTime,IEffectObject, INamed
+    public interface ITextSpriteAnimation : IEffectOverTime,IEffectObject, INamed
     {
         ITextSprite AffectedTextSprite { get; set; }
         List<string> AnimationTexts { get; set; }

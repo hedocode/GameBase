@@ -27,14 +27,14 @@ namespace GameBaseArilox.Implementation.zUpdaters
             }
             foreach (IGenerator generator in _toUpdate)
             {
-                if (generator.TimeSpent >= generator.EffectSpeed)
+                if (generator.TimeSpent >= generator.Frequency)
                 {
                     generator.Generate(_game);
                     generator.TimeSpent = 0;
                 }
-                generator.LifeTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                generator.ElapsedLifeTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 generator.TimeSpent += (float) gameTime.ElapsedGameTime.TotalSeconds;
-                if (generator.LifeTime >= generator.Duration) _toRemove.Add(generator);
+                if (generator.ElapsedLifeTime >= generator.Duration) _toRemove.Add(generator);
             }
         }
 

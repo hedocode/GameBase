@@ -19,7 +19,7 @@ namespace GameBaseArilox.Implementation.Graphic
         public float ParticlesPerGeneration { get; set; }
         private Random _randomMachine = new Random();
 
-        public ParticleGenerator(Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
+        public ParticleGenerator(Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float frequency, float particlesPerGeneration)
         {
             _x = 0;
             _y = 0;
@@ -27,11 +27,11 @@ namespace GameBaseArilox.Implementation.Graphic
             Rotation = rotation;
             SprayAngle = sprayAngle;
             Duration = duration;
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
             ParticlesPerGeneration = particlesPerGeneration;
         }
 
-        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
+        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, float rotation, float sprayAngle, float duration, float frequency, float particlesPerGeneration)
         {
             _x = x;
             _y = y;
@@ -39,11 +39,11 @@ namespace GameBaseArilox.Implementation.Graphic
             Rotation = rotation;
             SprayAngle = sprayAngle;
             Duration = duration;
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
             ParticlesPerGeneration = particlesPerGeneration;
         }
 
-        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, Direction direction, float sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
+        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, Direction direction, float sprayAngle, float duration, float frequency, float particlesPerGeneration)
         {
             _x = x;
             _y = y;
@@ -51,11 +51,11 @@ namespace GameBaseArilox.Implementation.Graphic
             Rotation = AngleHelper.DirectionToFloat(direction);
             SprayAngle = sprayAngle;
             Duration = duration;
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
             ParticlesPerGeneration = particlesPerGeneration;
         }
 
-        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, Direction direction, Angle sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
+        public ParticleGenerator(float x, float y, Dictionary<string, int> spritePercentage, Direction direction, Angle sprayAngle, float duration, float frequency, float particlesPerGeneration)
         {
             _x = x;
             _y = y;
@@ -63,11 +63,11 @@ namespace GameBaseArilox.Implementation.Graphic
             Rotation = AngleHelper.DirectionToFloat(direction);
             SprayAngle = sprayAngle;
             Duration = duration;
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
             ParticlesPerGeneration = particlesPerGeneration;
         }
 
-        public ParticleGenerator(Vector2 position, Dictionary<string, int> spritePercentage, Direction direction, Angle sprayAngle, float duration, float effectSpeed, float particlesPerGeneration)
+        public ParticleGenerator(Vector2 position, Dictionary<string, int> spritePercentage, Direction direction, Angle sprayAngle, float duration, float frequency, float particlesPerGeneration)
         {
             _x = position.X;
             _y = position.Y;
@@ -75,7 +75,7 @@ namespace GameBaseArilox.Implementation.Graphic
             Rotation = AngleHelper.DirectionToFloat(direction);
             SprayAngle = sprayAngle;
             Duration = duration;
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
             ParticlesPerGeneration = particlesPerGeneration;
         }
 
@@ -107,8 +107,8 @@ namespace GameBaseArilox.Implementation.Graphic
         public double TimeSpent { get; set; }
         public bool Increase { get; set; }
         public float Duration { get; set; }
-        public float EffectSpeed { get; set; }
-        public float LifeTime { get; set; }
+        public float Frequency { get; set; }
+        public double ElapsedLifeTime { get; set; }
 
         public void Generate(GameModel game)
         {
@@ -127,8 +127,9 @@ namespace GameBaseArilox.Implementation.Graphic
                     int result = _randomMachine.Next(1,100);
                     if (result >= lowerBound && result < upperBound)
                     {
-                        ISprite sprite = new Sprite(_x, _y, 32, 32, textureId);
-                        new DrawableRotateFadeMovingEffect(0.1f, sprite, 10, 20, new Angle(-Rotation+(angle-_sprayAngle/2)));
+                        float duration = 10;
+                        ISprite sprite = new Particle(_x, _y, 32, 32, textureId, duration+1);
+                        new DrawableRotateFadeMovingEffect(0.1f, sprite, duration, 20, new Angle(-Rotation+(angle-_sprayAngle/2)));
                         game.AddDrawable(sprite);
                     }
                 }

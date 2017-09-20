@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Enums;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Implementation.Controls;
 using GameBaseArilox.Implementation.Core;
@@ -15,33 +17,59 @@ namespace GameBaseArilox
 {
     public abstract class GameModel : Game
     {
+        //GameStates
+        private GameStateType _oldGameState;
+        private GameStateType _currentGameState;
+
+        //StopWatch Update / Draw execution times
+        private float _deltaTimeUpdate;
+        private float _deltaTimeDraw;
+
         protected GraphicsDeviceManager Graphics;
         protected SpriteBatch SpriteBatch;
         protected SpriteFont SpriteFont;
 
         public readonly InputsManager InputsManager;
 
-        protected readonly SpriteDrawer SpriteDrawer;
+        //Drawers
+        protected List<IDrawer> Drawers = new List<IDrawer>();
+        public readonly SpriteDrawer SpriteDrawer;
         protected readonly TextSpriteDrawer TextSpriteDrawer;
         protected ShapeDrawer ShapeDrawer;
 
+        //Updaters
+        protected List<IUpdater> Updaters = new List<IUpdater>();
         protected readonly SpriteUpdater SpriteUpdater;
         protected CursorUpdater CursorUpdater;
         protected readonly TextSpriteUpdater TextSpriteUpdater;
         protected GeneratorUpdater GeneratorUpdater;
 
+        //Loaders
+        protected List<IContentLoader> ContentLoaders = new List<IContentLoader>();
         protected readonly TextSpriteLoader TextSpriteLoader;
         protected readonly SpriteLoader SpriteLoader;
         protected ShapeLoader ShapeLoader;
 
         public Camera2D Camera;
-
-
         protected Cursor Cursor;
 
-        protected List<IDrawer> Drawers = new List<IDrawer>();
-        protected List<IUpdater> Updaters = new List<IUpdater>();
-        protected List<IContentLoader> ContentLoaders = new List<IContentLoader>();
+        // Window size Properties.
+        public int WindowWidth
+        {
+            get { return Graphics.GraphicsDevice.Viewport.Width; }
+            set { Graphics.PreferredBackBufferWidth = value; Graphics.ApplyChanges(); }
+        }
+
+        public int WindowHeight
+        {
+            get { return Graphics.GraphicsDevice.Viewport.Height; }
+            set { Graphics.PreferredBackBufferHeight = value; Graphics.ApplyChanges(); }
+        }
+
+
+        //Screen size Properties.
+        public int ScreenWidth => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+        public int ScreenHeight => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
         protected GameModel()
         {
@@ -56,8 +84,8 @@ namespace GameBaseArilox
             TextSpriteLoader = new TextSpriteLoader(this,Content,TextSpriteDrawer);
             GeneratorUpdater = new GeneratorUpdater(this);
             Cursor = new Cursor(this);
-            
             ShapeDrawer = new ShapeDrawer(this);
+            _currentGameState = GameStateType.Game;
         }
 
         protected override void Initialize()
@@ -78,8 +106,6 @@ namespace GameBaseArilox
             {
                 contentLoader.LoadContent();
             }
-            
-            // TODO: use this.Content to load your game content here
         }
 
 
@@ -90,12 +116,32 @@ namespace GameBaseArilox
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            foreach (IUpdater updater in Updaters)
-                updater.Update(gameTime);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            switch (_currentGameState)
+            {
+                case GameStateType.Menu:
+                    InputsManager.UpdateMenu(gameTime);
+                    break;
+                case GameStateType.Cinematics:
+                    InputsManager.UpdateCinematic(gameTime);
+                    break;
+                case GameStateType.Game:
+                    foreach (IUpdater updater in Updaters)
+                        updater.Update(gameTime);
+                    break;
+                case GameStateType.DeveloperConsole:
+                    InputsManager.KeyboardInput.GetPressedKeys();
+                    break;
 
 
-            // TODO: Add your update logic here
+            }
 
+            sw.Stop();
+            _deltaTimeUpdate = (float)sw.Elapsed.TotalSeconds;
+
+            Window.Title = $"Update : {_deltaTimeUpdate} - Draw : {_deltaTimeDraw}";
             base.Update(gameTime);
         }
 
@@ -106,6 +152,8 @@ namespace GameBaseArilox
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront);
@@ -117,8 +165,9 @@ namespace GameBaseArilox
 
             SpriteBatch.DrawString(SpriteFont, Cursor.ScreenPosition.ToString(), Vector2.Zero, Color.Orange);
             SpriteBatch.End();
-            // TODO: Add your drawing code here
-
+            sw.Stop();
+            _deltaTimeDraw = (float)sw.Elapsed.TotalSeconds;
+            
             base.Draw(gameTime);
         }
 

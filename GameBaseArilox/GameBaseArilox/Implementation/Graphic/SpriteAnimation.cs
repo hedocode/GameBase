@@ -12,9 +12,10 @@ namespace GameBaseArilox.Implementation.Graphic
         /*------------*/
         public string TargetContentId { get; set; }
         public float Duration { get; set; }
+        public double ElapsedLifeTime { get; set; }
         public string Name { get; set; }
         public List<Rectangle> AnimationsTextures { get; set; }
-        public float EffectSpeed { get; set; }
+        public float Frequency { get; set; }
 
         public bool IsSeesaw { get; set; }
         public object AffectedObject { get; set; }
@@ -28,9 +29,10 @@ namespace GameBaseArilox.Implementation.Graphic
             Duration = 0;
             Name = name;
             AnimationsTextures = animation;
-            EffectSpeed = 1;
+            Frequency = 1;
             IsSeesaw = true;
             AffectedObject = null;
+            ElapsedLifeTime = 0;
         }
 
         public SpriteAnimation(string name, string id, List<Rectangle> animation) : this(name,animation)
@@ -38,9 +40,9 @@ namespace GameBaseArilox.Implementation.Graphic
             TargetContentId = id;
         }
 
-        public SpriteAnimation(string name, string id, List<Rectangle> animation, float effectSpeed) : this(name, id, animation)
+        public SpriteAnimation(string name, string id, List<Rectangle> animation, float frequency) : this(name, id, animation)
         {
-            EffectSpeed = effectSpeed;
+            Frequency = frequency;
         }
 
           /*------------*/

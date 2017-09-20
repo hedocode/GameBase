@@ -1,8 +1,7 @@
 ﻿namespace GameBaseArilox.API.Effects
 {
-    public interface IEffectOverTime
+    public interface IEffectOverTime : ILimitedLifeTime
     {
-        float Duration { get; set; }
-        float EffectSpeed { get; set; }
+        float Frequency { get; set; }
     }
 }

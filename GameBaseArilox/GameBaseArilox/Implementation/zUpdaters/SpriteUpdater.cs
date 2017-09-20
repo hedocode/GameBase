@@ -5,6 +5,7 @@ using GameBaseArilox.API.Effects;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Implementation.Graphic;
 using GameBaseArilox.Implementation.GUI;
+using GameBaseArilox.Implementation.zDrawers;
 using Microsoft.Xna.Framework;
 using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 
@@ -15,6 +16,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
           /*------------*/
          /* ATTRIBUTES */
         /*------------*/
+        private SpriteDrawer _spriteDrawer;
         private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>
         {
             {"SpriteTest",new Rectangle(0,0,64,64)},
@@ -42,10 +44,13 @@ namespace GameBaseArilox.Implementation.zUpdaters
         private readonly List<IDrawableEffectOverTime> _effectsToAdd;
         private readonly List<IDrawableEffectOverTime> _effectsToRemove;
 
+        private readonly List<ISprite> _spritesToRemove;
+
           /*------------*/
          /* PROPERTIES */
         /*------------*/
         public List<ISprite> ToUpdate { get; set; }
+        public int ToUpdateNumber => ToUpdate.Count;
 
 
           /*-------------*/
@@ -53,8 +58,10 @@ namespace GameBaseArilox.Implementation.zUpdaters
         /*-------------*/
         public SpriteUpdater(GameModel game)
         {
+            _spriteDrawer = game.SpriteDrawer;
             _effectsToAdd = new List<IDrawableEffectOverTime>();
             _effectsToRemove = new List<IDrawableEffectOverTime>();
+            _spritesToRemove = new List<ISprite>();
             ToUpdate = new List<ISprite>();
             game.AddToUpdaters(this);
         }
@@ -66,7 +73,12 @@ namespace GameBaseArilox.Implementation.zUpdaters
         {
             AddSpriteEffects();
             RemoveSpriteEffects();
-
+            foreach (ISprite spriteToRemove in _spritesToRemove)
+            {
+                ToUpdate.Remove(spriteToRemove);
+                _spriteDrawer.RemoveSprite(spriteToRemove);
+            }
+            _spritesToRemove.Clear();
             UpdateSprites(gameTime);
         }
 
@@ -141,8 +153,12 @@ namespace GameBaseArilox.Implementation.zUpdaters
         {
             foreach (ISprite sprite in ToUpdate)
             {
+                sprite.ElapsedLifeTime += gameTime.ElapsedGameTime.TotalSeconds;
+                if (sprite.ElapsedLifeTime > sprite.Duration)
+                {
+                    _spritesToRemove.Add(sprite);
+                }
                 UpdateEffect(sprite, gameTime);
-
                 UpdateAnimations(sprite, gameTime);
             }
         }
@@ -153,7 +169,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
             {
                 foreach (IDrawableEffectOverTime spriteEffect in sprite.Effects)
                 {
-                    if (spriteEffect.TimeSpent >= spriteEffect.Duration)
+                    if (spriteEffect.ElapsedLifeTime >= spriteEffect.Duration)
                     {
                         _effectsToRemove.Add(spriteEffect);
                     }
@@ -173,7 +189,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
                 {
                     throw new Exception("ERROR : Animation Not found in the animation dictionary");
                 }
-                if (sprite.TimeSpent >= spriteAnimation.EffectSpeed)
+                if (sprite.TimeSpent >= spriteAnimation.Frequency)
                 {
                     if (!spriteAnimation.IsSeesaw)
                     {

@@ -98,7 +98,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
             {
                 foreach (IDrawableEffectOverTime textSpriteEffect in textSprite.Effects)
                 {
-                    if (textSpriteEffect.TimeSpent >= textSpriteEffect.Duration)
+                    if (textSpriteEffect.ElapsedLifeTime >= textSpriteEffect.Duration)
                     {
                         _effectsToRemove.Add(textSpriteEffect);
                     }
@@ -112,7 +112,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
             if (textSprite.CurrentAnimation != null)
             {
                 textSprite.Animation.Affect(gameTime);
-                if (textSprite.Animation.TimeSpent >= textSprite.Animation.Duration)
+                if (textSprite.Animation.ElapsedLifeTime >= textSprite.Animation.Duration)
                 {
                     textSprite.Animation.Reset();
                 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameBaseArilox.API.Effects;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework;
@@ -8,6 +9,7 @@ namespace GameBaseArilox.Implementation.Graphic
 {
     public class Sprite : ISprite
     {
+        private float _opacity;
           /*------------*/
          /* PROPERTIES */
         /*------------*/
@@ -17,7 +19,28 @@ namespace GameBaseArilox.Implementation.Graphic
         public int Width { get; set; }
         public int Height { get; set; }
         public Rectangle TextureSourceRectangle { get; set; }
-        public float Opacity { get; set; }
+
+        public float Opacity
+        {
+            get { return _opacity; }
+            set
+            {
+                if (value < 0)
+                {
+                    _opacity = 0;
+                }
+                else if (value > 1)
+                {
+                    _opacity = 1;
+                }
+                else
+                {
+                    _opacity = value;
+                    Visible = !(Math.Abs(value) < 0.001);
+                }
+            }
+        }
+
         public Vector2 Origin { get; set; }
         public float Depth { get; set; }
         public Color Color { get; set; }
@@ -76,6 +99,7 @@ namespace GameBaseArilox.Implementation.Graphic
             TimeSpent = 0;
             Visible = true;
             Color = Color.White;
+            Duration = float.PositiveInfinity;
         }
 
         public Sprite(float x, float y, string textureId) : this(textureId)
@@ -117,5 +141,8 @@ namespace GameBaseArilox.Implementation.Graphic
         {
             effectOverTime.SetDrawable(this);
         }
+
+        public float Duration { get; set; }
+        public double ElapsedLifeTime { get; set; }
     }
 }
