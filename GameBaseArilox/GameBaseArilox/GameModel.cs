@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Entities;
 using GameBaseArilox.API.Enums;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Implementation.Controls;
@@ -11,6 +12,8 @@ using GameBaseArilox.Implementation.zLoaders;
 using GameBaseArilox.Implementation.zUpdaters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Graphics;
+using MonoGame.Extended.Tiled;
 using IDrawable = GameBaseArilox.API.Graphic.IDrawable;
 
 namespace GameBaseArilox
@@ -50,8 +53,14 @@ namespace GameBaseArilox
         protected readonly SpriteLoader SpriteLoader;
         protected ShapeLoader ShapeLoader;
 
+        // Game Items
+        public TiledMap TileMap;
         public Camera2D Camera;
         protected Cursor Cursor;
+
+        protected List<IGameEntity> Entities = new List<IGameEntity>();
+
+        protected TiledMapRenderer MapRenderer;
 
         // Window size Properties.
         public int WindowWidth
@@ -92,6 +101,7 @@ namespace GameBaseArilox
         {
             CursorUpdater = new CursorUpdater(this, Cursor, InputsManager.MouseInput);
             ShapeLoader = new ShapeLoader(this, Content, ShapeDrawer);
+            MapRenderer = new TiledMapRenderer(GraphicsDevice);
             base.Initialize();
         }
 
@@ -100,8 +110,9 @@ namespace GameBaseArilox
             // Create a new SpriteBatch, which can be used to draw textures.
             Camera = new Camera2D(GraphicsDevice.Viewport, null, null);
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            SpriteFont = Content.Load<SpriteFont>("FONTS/Arial12");
-
+            SpriteFont = Content.Load<SpriteFont>("Fonts/Arial12");
+            //TileMap = Content.Load<TiledMap>("Maps/MAP");
+            
             foreach (IContentLoader contentLoader in ContentLoaders)
             {
                 contentLoader.LoadContent();
@@ -130,12 +141,11 @@ namespace GameBaseArilox
                 case GameStateType.Game:
                     foreach (IUpdater updater in Updaters)
                         updater.Update(gameTime);
+                        //MapRenderer.Update(TileMap,gameTime);
                     break;
                 case GameStateType.DeveloperConsole:
                     InputsManager.KeyboardInput.GetPressedKeys();
                     break;
-
-
             }
 
             sw.Stop();
@@ -156,12 +166,13 @@ namespace GameBaseArilox
             sw.Start();
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            SpriteBatch.Begin(SpriteSortMode.BackToFront);
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             foreach (IDrawer drawer in Drawers)
             {
                 drawer.DrawAll(SpriteBatch);
             }
+            //MapRenderer.Draw(TileMap, null,null);
 
             SpriteBatch.DrawString(SpriteFont, Cursor.ScreenPosition.ToString(), Vector2.Zero, Color.Orange);
             SpriteBatch.End();
@@ -201,6 +212,13 @@ namespace GameBaseArilox
                 TextSpriteDrawer.AddTextSprite(textSprite);
                 TextSpriteUpdater.AddToUpdate(textSprite);
             }
+        }
+
+        public void AddEntity(IGameEntity entity)
+        {
+            Entities.Add(entity);
+            SpriteDrawer.AddSprite(entity.Sprite);
+            SpriteUpdater.AddToUpdate(entity.Sprite);
         }
     }
 }

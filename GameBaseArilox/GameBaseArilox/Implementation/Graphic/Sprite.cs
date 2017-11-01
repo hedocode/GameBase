@@ -139,6 +139,7 @@ namespace GameBaseArilox.Implementation.Graphic
           /*------------*/
         public void AddEffect(IDrawableEffectOverTime effectOverTime)
         {
+            Effects.Add(effectOverTime);
             effectOverTime.SetDrawable(this);
         }
 

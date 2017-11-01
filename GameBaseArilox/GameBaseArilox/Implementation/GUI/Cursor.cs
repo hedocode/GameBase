@@ -59,5 +59,11 @@ namespace GameBaseArilox.Implementation.GUI
             Sprite = new Sprite(0, 0, 32, 32, cursorId, Vector2.Zero, cursorAnimation, 0.5f);
             game.AddDrawable(Sprite);
         }
+
+        public Cursor(GameModel game, string cursorId, string cursorAnimation, int width, int height)
+        {
+            Sprite = new Sprite(0, 0, width, height, cursorId, Vector2.Zero, cursorAnimation, 0.5f);
+            game.AddDrawable(Sprite);
+        }
     }
 }

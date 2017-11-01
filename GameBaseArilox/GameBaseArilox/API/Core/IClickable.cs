@@ -2,7 +2,7 @@
 
 namespace GameBaseArilox.API.Core
 {
-    interface IClickable : IDisplayed
+    public interface IClickable : IDisplayed
     {
         void OnClick();
         void OnHover();

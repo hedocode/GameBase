@@ -45,8 +45,13 @@ namespace GameBaseArilox.Implementation.Graphic
             Frequency = frequency;
         }
 
-          /*------------*/
-         /*   METHODS  */
+        public SpriteAnimation(string name, string id, List<Rectangle> animation, float frequency, bool isSeesaw) : this(name, id, animation, frequency)
+        {
+            IsSeesaw = isSeesaw;
+        }
+
+        /*------------*/
+        /*   METHODS  */
         /*------------*/
         public void Affect(GameTime gameTime)
         {

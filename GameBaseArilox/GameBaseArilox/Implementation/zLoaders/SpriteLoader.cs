@@ -1,4 +1,7 @@
-﻿using GameBaseArilox.API.Core;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Graphic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +10,7 @@ namespace GameBaseArilox.Implementation.zLoaders
 {
     public class SpriteLoader : IContentLoader
     {
-        //private const string SpriteContentFolder = "Content/SPRITES";
+        private const string SpriteContentFolder = "Content/";
         private readonly ContentManager _contentManager;
 
         private readonly IDrawer _spriteDrawer;
@@ -24,16 +27,8 @@ namespace GameBaseArilox.Implementation.zLoaders
         {
             //TODO : Load all cursors from Content/CURSORS by finding all files
             //TODO : Load all Sprites Textures from Content/SPRITES by finding all files
-            /*
-            string[] ContentDirectories = new string[Directory.GetDirectories(SpriteContentFolder).Length];
-            ContentDirectories = Directory.GetDirectories(SpriteContentFolder);
-            foreach (string path in ContentDirectories)
-            {
-                foreach (string subPath in Directory.GetDirectories(path))
-                {
-                    
-                }
-            }*/
+            
+
             LoadSprites();
             LoadCursors();
         }
@@ -41,6 +36,14 @@ namespace GameBaseArilox.Implementation.zLoaders
         public void LoadCursors()
         {
             //TODO : Load all cursors from Content/CURSORS by finding all files
+            /*//TODO : Load all cursors from Content/CURSORS by finding all files
+            DirectoryInfo dirInfo = new DirectoryInfo(SpriteContentFolder+"Sprites/Cursors/");
+            foreach (FileInfo file in dirInfo.EnumerateFiles())
+            {
+                if(file.Extension == "xnb")
+                    LoadCursor(file.Name.Replace(".xnb",""));
+            }*/
+
             LoadCursor("Cursor1");
             LoadCursor("Cursor2");
         }
@@ -49,6 +52,7 @@ namespace GameBaseArilox.Implementation.zLoaders
         {
             LoadSprite("SpriteTest");
             LoadParticle("dustParticle");
+            LoadMonsters();
         }
 
         public void LoadParticle(string particle)
@@ -61,6 +65,29 @@ namespace GameBaseArilox.Implementation.zLoaders
         {
             Texture2D texture2D = _contentManager.Load<Texture2D>("Sprites/"+spriteName);
             _spriteDrawer.AddContent(spriteName, texture2D);
+        }
+
+        public void LoadMonster(string monster)
+        {
+            DirectoryInfo d = new DirectoryInfo(SpriteContentFolder+"Sprites/Monsters/"+monster+"/");
+            IEnumerable<FileInfo> d2 = d.EnumerateFiles();
+            foreach (FileInfo file in d2)
+            {
+                if (file.Extension == ".png")
+                {
+                    Texture2D texture2D = _contentManager.Load<Texture2D>("Sprites/Monsters/"+monster+"/"+file.Name.Replace(file.Extension,""));
+                    _spriteDrawer.AddContent(file.Name.Replace(file.Extension,""), texture2D);
+                }
+            }
+        }
+
+        public void LoadMonsters()
+        {
+            DirectoryInfo mainDirectory = new DirectoryInfo(SpriteContentFolder + "Sprites/Monsters/");
+            foreach (DirectoryInfo monsterDirectory in mainDirectory.EnumerateDirectories())
+            {
+                LoadMonster(monsterDirectory.Name);
+            }
         }
 
         public void LoadCursor(string cursorName)

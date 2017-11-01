@@ -38,7 +38,7 @@ namespace GameBaseArilox.Implementation.Graphic
             }
         }
 
-        public object BaseObject { get; }
+        public object BaseObject => AffectedDrawable;
 
         public void Reset()
         {
@@ -60,7 +60,6 @@ namespace GameBaseArilox.Implementation.Graphic
             ElapsedLifeTime = 0;
             _frequency = frequency;
             SetDrawable(drawable);
-            BaseObject = drawable;
         }
 
         public DrawableFlashingEffectOverTime(int frequency, float duration = 5)
@@ -73,11 +72,15 @@ namespace GameBaseArilox.Implementation.Graphic
         public void SetDrawable(IDrawable drawable)
         {
             AffectedDrawable = drawable;
-            drawable.Effects.Add(this);
         }
 
-          /*------------*/
-         /*   METHODS  */
+        public void LinkDrawableToEffect()
+        {
+            AffectedDrawable.Effects.Add(this);
+        }
+
+        /*------------*/
+        /*   METHODS  */
         /*------------*/
         public void Affect(GameTime gameTime)
         {

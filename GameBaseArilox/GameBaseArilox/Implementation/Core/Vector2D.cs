@@ -14,6 +14,11 @@ namespace GameBaseArilox.Implementation.Core
             return ShapesHelper.DistanceBetween(0,0,X,Y);
         }
 
+        public void SetLenght(float f)
+        {
+            this = (Vector2D)AngleHelper.AngleToVector(AngleHelper.VectorToAngle(this), f);
+        }
+
         public Vector2D(float x, float y)
         {
             X = x;
@@ -64,6 +69,21 @@ namespace GameBaseArilox.Implementation.Core
         public static explicit operator Vector2D(Point2D point)
         {
             return new Vector2D(point.X, point.Y);
+        }
+
+        public static Vector2D operator + (Vector2D v1, Vector2D v2)
+        {
+            return new Vector2D(v1.X+v2.X, v1.Y+v2.Y);
+        }
+
+        public static Vector2D operator - (Vector2D v1, Vector2D v2)
+        {
+            return new Vector2D(v1.X - v2.X, v1.Y - v2.Y);
+        }
+
+        public static Vector2D operator *(Vector2D v1, Vector2D v2)
+        {
+            return new Vector2D(v1.X * v2.X, v1.Y + v2.Y);
         }
 
         public override bool Equals(object obj)

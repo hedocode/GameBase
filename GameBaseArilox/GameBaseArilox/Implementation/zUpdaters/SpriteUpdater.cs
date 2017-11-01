@@ -17,13 +17,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
          /* ATTRIBUTES */
         /*------------*/
         private SpriteDrawer _spriteDrawer;
-        private readonly Dictionary<string, Rectangle> _initializeSpriteRectangleValue = new Dictionary<string, Rectangle>
-        {
-            {"SpriteTest",new Rectangle(0,0,64,64)},
-            {"Cursor1",new Rectangle(0,0,32,32)},
-            {"Cursor2", new Rectangle(0,0,32,32)},
-            {"dustParticle", new Rectangle(0,0,32,32) }
-        };
+        
 
         private readonly Dictionary<string, SpriteAnimation> _animations = new Dictionary<string, SpriteAnimation>
         {
@@ -38,7 +32,20 @@ namespace GameBaseArilox.Implementation.zUpdaters
                     new Rectangle(160, 0, 32, 32)
                 }
                 ,0.2f)
-            }
+            },
+            {"MoumouneBotLeft",new SpriteAnimation("MoumouneBotLeft","Moumoune",
+                new List<Rectangle>
+                {
+                    new Rectangle(0, 0, 16, 16),
+                    new Rectangle(16, 0, 16, 16),
+                    new Rectangle(32, 0, 16, 16),
+                    new Rectangle(48, 0, 16, 16),
+                    new Rectangle(64, 0, 16, 16),
+                    new Rectangle(80, 0, 16, 16),
+                    new Rectangle(96, 0, 16, 16),
+                    new Rectangle(112,0,16,16)
+                }
+                ,0.2f, false) }
         };
 
         private readonly List<IDrawableEffectOverTime> _effectsToAdd;
@@ -115,13 +122,7 @@ namespace GameBaseArilox.Implementation.zUpdaters
             sprite.CurrentFrame = 1;
             sprite.CurrentAnimation = null;
         }
-
-        public void InitializeSpriteSourceRectangle(ISprite sprite)
-        {
-            Rectangle temp;
-            _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out temp);
-            if (temp == Rectangle.Empty) throw new Exception("ERROR WITH TEXTUREID");
-        }
+        
 
         public void AddSpriteEffects()
         {
@@ -165,17 +166,10 @@ namespace GameBaseArilox.Implementation.zUpdaters
 
         public void UpdateEffect(ISprite sprite, GameTime gameTime)
         {
-            if (sprite.Effects.Count != 0)
-            {
-                foreach (IDrawableEffectOverTime spriteEffect in sprite.Effects)
-                {
-                    if (spriteEffect.ElapsedLifeTime >= spriteEffect.Duration)
-                    {
-                        _effectsToRemove.Add(spriteEffect);
-                    }
-                    spriteEffect.Affect(gameTime);
-                }
-            }
+            if (sprite.Effects.Count == 0) return;
+            sprite.Effects?[0].Affect(gameTime);
+            if (sprite.Effects?[0].ElapsedLifeTime >= sprite.Effects?[0].Duration)
+                _effectsToRemove.Add(sprite.Effects[0]);
         }
 
         public void UpdateAnimations(ISprite sprite, GameTime gameTime)
@@ -213,20 +207,19 @@ namespace GameBaseArilox.Implementation.zUpdaters
                                 sprite.Increase = true;
                             }
                         }
-                        sprite.TimeSpent = 0;
                     }
+                    sprite.TimeSpent = 0;
                     sprite.TextureSourceRectangle = spriteAnimation.AnimationsTextures[sprite.CurrentFrame];
                 }
-
             }
         }
 
         public void InitSprite(ISprite sprite)
         {
-            Rectangle rectangleInitSource;
-            _initializeSpriteRectangleValue.TryGetValue(sprite.TextureId, out rectangleInitSource);
-            if (rectangleInitSource == Rectangle.Empty) throw new Exception("ERROR : Init value not found in the init Dictionary.");
-            sprite.TextureSourceRectangle = rectangleInitSource;
+            sprite.TextureSourceRectangle = new Rectangle(0,0,sprite.Width,sprite.Height);
+            sprite.Opacity = 1;
+            sprite.Color = Color.White;
+            sprite.Origin = new Vector2(0,0);
         }
     }
 }

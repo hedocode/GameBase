@@ -143,7 +143,6 @@ namespace GameBaseArilox.Implementation.Shapes
         }
 
         /* Direction Conversion */
-
         public static float DirectionToFloat(Direction direction)
         {
             switch (direction)
@@ -172,6 +171,17 @@ namespace GameBaseArilox.Implementation.Shapes
         public static Angle DirectionToAngle(Direction direction)
         {
             return new Angle(DirectionToFloat(direction));
+        }
+
+        /* ANGLE CONVERSIONS */
+        public static Vector2 AngleToVector(Angle a, float lenght)
+        {
+            return DegreeToVector(a, lenght);
+        }
+
+        public static Angle VectorToAngle(Vector2 v)
+        {
+            return new Angle(v);
         }
     }
 }

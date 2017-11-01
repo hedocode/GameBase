@@ -14,6 +14,21 @@
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PublishUrl>publier\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -35,9 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Compile Include="API\Controls\IInput.cs" />
     <Compile Include="API\Controls\IInputButton.cs" />
@@ -47,7 +62,7 @@
     <Compile Include="API\Core\IGame.cs" />
     <Compile Include="API\Detection\DiscusArea.cs" />
     <Compile Include="API\Detection\IDetectionArea.cs" />
-    <Compile Include="API\Core\IMoveableGameElement.cs" />
+    <Compile Include="API\Core\MoveableGameElement.cs" />
     <Compile Include="API\Core\INamed.cs" />
     <Compile Include="API\Core\IRotatable.cs" />
     <Compile Include="API\Core\IScalable.cs" />
@@ -59,6 +74,7 @@
     <Compile Include="API\Effects\IEffectObject.cs" />
     <Compile Include="API\Effects\IEffectOverTime.cs" />
     <Compile Include="API\Effects\ILimitedLifeTime.cs" />
+    <Compile Include="API\Entities\GameEntity.cs" />
     <Compile Include="API\Entities\IAttacker.cs" />
     <Compile Include="API\Entities\IGameEntity.cs" />
     <Compile Include="API\Entities\IGenerator.cs" />
@@ -116,10 +132,12 @@
     <Compile Include="Implementation\Controls\MouseInputs.cs" />
     <Compile Include="Implementation\Core\Camera2D.cs" />
     <Compile Include="Implementation\Core\Vector2D.cs" />
+    <Compile Include="Implementation\Entities\Moumoune.cs" />
     <Compile Include="Implementation\Environment\Tile.cs" />
     <Compile Include="Implementation\Environment\TileMapGrid.cs" />
     <Compile Include="Implementation\Graphic\DrawableRotateFadeMovingEffect.cs" />
     <Compile Include="Implementation\Graphic\DrawableFlashingEffectOverTime.cs" />
+    <Compile Include="Implementation\Graphic\MultipleDrawableEffects.cs" />
     <Compile Include="Implementation\Graphic\Particle.cs" />
     <Compile Include="Implementation\Graphic\ParticleGenerator.cs" />
     <Compile Include="Implementation\Graphic\Sprite.cs" />
@@ -144,11 +162,14 @@
     <Compile Include="Implementation\zLoaders\ShapeLoader.cs" />
     <Compile Include="Implementation\zLoaders\SpriteLoader.cs" />
     <Compile Include="Implementation\zLoaders\TextSpriteLoader.cs" />
+    <Compile Include="Implementation\zLoaders\TileMapLoader.cs" />
     <Compile Include="Implementation\zUpdaters\CameraUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\CursorUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\GeneratorUpdater.cs" />
+    <Compile Include="Implementation\zUpdaters\MoveableGameElementUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\TextSpriteUpdater.cs" />
+    <Compile Include="UnitTest\TestAnimationMoumoune.cs" />
     <Compile Include="UnitTest\TestParticleGenerator.cs" />
     <Compile Include="UnitTest\TestShapes.cs" />
     <Compile Include="UnitTest\TestTextSpritesAnimation.cs" />
@@ -161,8 +182,27 @@
     <Compile Include="UnitTest\TestSpriteEffects.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Extended, Version=0.6.568.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.0.6.568\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Content.Pipeline">
+      <HintPath>..\packages\MonoGame.Extended.Content.Pipeline.0.6.568\tools\MonoGame.Extended.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Graphics, Version=0.6.568.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.Graphics.0.6.568\lib\portable-net45+win8+wpa81\MonoGame.Extended.Graphics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Tiled, Version=0.6.568.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.Tiled.0.6.568\lib\portable-net45+win8+wpa81\MonoGame.Extended.Tiled.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data.SqlXml" />
@@ -177,6 +217,30 @@
     <Content Include="Content\Sprites\Cursors\Cursor2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneBot.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneBotLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneBotRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneTop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneTopLeft.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Monsters\Moumoune\MoumouneTopRight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sprites\Particles\dustParticle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -186,19 +250,40 @@
     <Content Include="Content\Sprites\SpriteTest.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icon.ico" />
-    <Content Include="IconGBA.ico" />
+    <Content Include="Content\Sprites\TileSets\CustomTileSet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Content\Fonts\Arial12.spritefont" />
+    <None Include="Content\Maps\MAP.tmx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Sprites\Items\" />
-    <Folder Include="Content\Sprites\Tiles\" />
     <Folder Include="MODS\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

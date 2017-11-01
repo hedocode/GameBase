@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameBaseArilox.API.Core;
+using GameBaseArilox.API.Effects;
 using GameBaseArilox.API.Entities;
 using GameBaseArilox.API.Enums;
 using GameBaseArilox.API.Graphic;
@@ -129,7 +130,11 @@ namespace GameBaseArilox.Implementation.Graphic
                     {
                         float duration = 10;
                         ISprite sprite = new Particle(_x, _y, 32, 32, textureId, duration+1);
-                        new DrawableRotateFadeMovingEffect(0.1f, sprite, duration, 20, new Angle(-Rotation+(angle-_sprayAngle/2)));
+                        new MultipleDrawableEffects(new List<IDrawableEffectOverTime>
+                        {
+                            //new DrawableFlashingEffectOverTime(2,6f),
+                            new DrawableRotateFadeMovingEffect(0.1f, duration, 20, new Angle(-Rotation+(angle-_sprayAngle/2)))
+                        }, sprite, 5);
                         game.AddDrawable(sprite);
                     }
                 }

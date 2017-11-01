@@ -4,6 +4,7 @@ using GameBaseArilox.API.Controls;
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Enums;
 using GameBaseArilox.Implementation.Commands;
+using GameBaseArilox.UnitTest;
 using Microsoft.Xna.Framework;
 
 namespace GameBaseArilox.Implementation.Controls
@@ -56,16 +57,22 @@ namespace GameBaseArilox.Implementation.Controls
                 {"generateDustOnClick" , new GenerateDustOnClick(_game,_game.InputsManager.MouseInput)}
             };
 
-            _onHold = new Dictionary<List<string>, string>
-            {
-                { new List<string> {"LeftClick","CtrlLeft","ShiftLeft"}, "generateDustOnClick"}
-            };
-            _onPress = new Dictionary<List<string>, string>
-            {
-                { new List<string> {"LeftClick"}, "generateDustOnClick"}
-            };
+            _onHold = new Dictionary<List<string>, string>();
+            _onPress = new Dictionary<List<string>, string>();
             _onRelease = new Dictionary<List<string>, string>();
             _whileRelease = new Dictionary<List<string>, string>();
+
+            if (_game is TestParticleGenerator)
+            {
+                _onHold = new Dictionary<List<string>, string>
+                {
+                    { new List<string> {"LeftClick","CtrlLeft","ShiftLeft"}, "generateDustOnClick"}
+                };
+                _onPress = new Dictionary<List<string>, string>
+                {
+                    { new List<string> {"LeftClick"}, "generateDustOnClick"}
+                };
+            }
         }
 
         /// <summary>

@@ -28,14 +28,19 @@ namespace GameBaseArilox.Implementation.Graphic
                 }
             }
         }
-        public object BaseObject { get; }
+
+        public object BaseObject => AffectedDrawable;
         public double TimeSpent { get; set; }
         public bool Increase { get; set; }
         public IDrawable AffectedDrawable { get; set; }
         public void SetDrawable(IDrawable drawable)
         {
             AffectedDrawable = drawable;
-            drawable.Effects.Add(this);
+        }
+
+        public void LinkDrawableToEffect()
+        {
+            AffectedDrawable.AddEffect(this);
         }
 
         public void Reset()
@@ -58,9 +63,18 @@ namespace GameBaseArilox.Implementation.Graphic
             TimeSpent = 0;
             Frequency = animationFrequency;
             SetDrawable(drawable);
-            BaseObject = drawable;
+            LinkDrawableToEffect();
             _velocity = direction.GetVector(velocity);
         }
+
+        public DrawableRotateFadeMovingEffect(float animationFrequency, float duration, float velocity, Angle direction)
+        {
+            Duration = duration;
+            TimeSpent = 0;
+            Frequency = animationFrequency;
+            _velocity = direction.GetVector(velocity);
+        }
+
 
         public DrawableRotateFadeMovingEffect(int frequency, float duration = 5)
         {
@@ -79,7 +93,7 @@ namespace GameBaseArilox.Implementation.Graphic
             {
                 AffectedDrawable.Opacity -= 1/Duration*Frequency;
                 AffectedDrawable.Rotation -= 0.5f;
-                AffectedDrawable.Color = new Color((byte)(AffectedDrawable.Color.R*0.99f), (byte)(AffectedDrawable.Color.G*0.80f), (byte)(AffectedDrawable.Color.B*0.5f));
+                AffectedDrawable.Color = new Color((byte)(AffectedDrawable.Color.R*0.99999999f), (byte)(AffectedDrawable.Color.G*0.98f), (byte)(AffectedDrawable.Color.B*0.98f));
                 TimeSpent = 0;
             }
             TimeSpent += (float)gameTime.ElapsedGameTime.TotalSeconds;
