@@ -52,8 +52,8 @@ namespace GameBaseArilox.Implementation.zDrawers
             else
             {
                 _spriteSets.TryGetValue(sprite.CurrentAnimation, out spriteTexture);
-                if (spriteTexture == null) throw new Exception("Texture not found in the dictionary");
             }
+            if (spriteTexture == null) throw new Exception("Texture not found in the dictionary");
             spriteBatch.Draw(spriteTexture,new Rectangle(sprite.ScreenPosition.X, sprite.ScreenPosition.Y, (int)(sprite.Width*sprite.Scale.X),(int)(sprite.Height *sprite.Scale.Y)), sprite.TextureSourceRectangle,sprite.Color*sprite.Opacity,sprite.Rotation,sprite.Origin,sprite.SpriteEffect,sprite.Depth);
         }
 

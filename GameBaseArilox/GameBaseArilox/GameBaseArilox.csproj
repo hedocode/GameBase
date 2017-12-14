@@ -85,6 +85,7 @@
     <Compile Include="API\Entities\ISpellCaster.cs" />
     <Compile Include="API\Entities\ITower.cs" />
     <Compile Include="API\Enums\ButtonPressType.cs" />
+    <Compile Include="API\Enums\CameraType.cs" />
     <Compile Include="API\Enums\Direction.cs" />
     <Compile Include="API\Enums\GameStateType.cs" />
     <Compile Include="API\Enums\GridType.cs" />
@@ -125,6 +126,10 @@
     <Compile Include="GameModel.cs" />
     <Compile Include="API\Enums\DamageType.cs" />
     <Compile Include="Implementation\Commands\GenerateDustOnClick.cs" />
+    <Compile Include="Implementation\Commands\MoveCameraLeft.cs" />
+    <Compile Include="Implementation\Commands\MoveCameraBot.cs" />
+    <Compile Include="Implementation\Commands\MoveCameraRight.cs" />
+    <Compile Include="Implementation\Commands\MoveCameraTop.cs" />
     <Compile Include="Implementation\Controls\GamePadInputs.cs" />
     <Compile Include="Implementation\Controls\InputButton.cs" />
     <Compile Include="Implementation\Controls\InputsManager.cs" />
@@ -170,6 +175,7 @@
     <Compile Include="Implementation\zUpdaters\SpriteUpdater.cs" />
     <Compile Include="Implementation\zUpdaters\TextSpriteUpdater.cs" />
     <Compile Include="UnitTest\TestAnimationMoumoune.cs" />
+    <Compile Include="UnitTest\TestCamera.cs" />
     <Compile Include="UnitTest\TestParticleGenerator.cs" />
     <Compile Include="UnitTest\TestShapes.cs" />
     <Compile Include="UnitTest\TestTextSpritesAnimation.cs" />

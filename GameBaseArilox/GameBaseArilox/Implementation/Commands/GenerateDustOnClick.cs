@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using GameBaseArilox.API.Core;
-using GameBaseArilox.API.Enums;
 using GameBaseArilox.Implementation.Controls;
 using GameBaseArilox.Implementation.Graphic;
 using Microsoft.Xna.Framework;
@@ -25,7 +24,7 @@ namespace GameBaseArilox.Implementation.Commands
 
         public void Execute(GameTime gameTime)
         {
-            _particleGenerator.Position = _mouse.GetMouseMapPosition(_gameModel.Camera);
+            _particleGenerator.Position = _mouse.GetMouseMapPosition(_gameModel.CurrentCamera);
             _particleGenerator.Generate(_gameModel);
         }
     }

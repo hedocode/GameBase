@@ -1,5 +1,4 @@
 ﻿using GameBaseArilox.API.Enums;
-using MonoGame.Extended.Tiled;
 
 namespace GameBaseArilox.API.Environment
 {

@@ -54,10 +54,20 @@ namespace GameBaseArilox.Implementation.Controls
         {
             _cmdDictionary = new Dictionary<string, ICommand>
             {
-                {"generateDustOnClick" , new GenerateDustOnClick(_game,_game.InputsManager.MouseInput)}
+                {"generateDustOnClick" , new GenerateDustOnClick(_game,_game.InputsManager.MouseInput)},
+                {"moveCameraTop", new MoveCameraTop(_game.CameraUpdater)},
+                {"moveCameraBot", new MoveCameraBot(_game.CameraUpdater)},
+                {"moveCameraLeft", new MoveCameraLeft(_game.CameraUpdater)},
+                {"moveCameraRight", new MoveCameraRight(_game.CameraUpdater)}
             };
 
-            _onHold = new Dictionary<List<string>, string>();
+            _onHold = new Dictionary<List<string>, string>
+            {
+                { new List<string> {"Left"}, "moveCameraLeft"},
+                { new List<string> {"Right"}, "moveCameraRight"},
+                { new List<string> {"Down"}, "moveCameraBot"},
+                { new List<string> {"Up"}, "moveCameraTop"}
+            };
             _onPress = new Dictionary<List<string>, string>();
             _onRelease = new Dictionary<List<string>, string>();
             _whileRelease = new Dictionary<List<string>, string>();

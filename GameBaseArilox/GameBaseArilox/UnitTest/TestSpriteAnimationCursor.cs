@@ -9,7 +9,7 @@ namespace GameBaseArilox.UnitTest
     {
         public TestSpriteAnimationCursor()
         {
-            Cursor = new Cursor(this, "MoumouneBotLeft", "MoumouneBotLeft",64,64);
+            Cursor = new Cursor("MoumouneBotLeft", "MoumouneBotLeft",64,64);
         }
 
         /// <summary>

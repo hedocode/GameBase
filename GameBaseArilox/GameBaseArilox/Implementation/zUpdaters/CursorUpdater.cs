@@ -9,11 +9,13 @@ namespace GameBaseArilox.Implementation.zUpdaters
     {
         private readonly Cursor _cursorToUpdate;
         private readonly MouseInputs _mouseInputs;
+        private CameraUpdater _cameraUpdater;
 
         public CursorUpdater(GameModel game, Cursor cursor, MouseInputs mouseInputs)
         {
             _cursorToUpdate = cursor;
             _mouseInputs = mouseInputs;
+            _cameraUpdater = game.CameraUpdater;
             game.AddToUpdaters(this);
         }
 

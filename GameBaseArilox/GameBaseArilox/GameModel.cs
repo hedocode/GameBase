@@ -3,9 +3,11 @@ using System.Diagnostics;
 using GameBaseArilox.API.Core;
 using GameBaseArilox.API.Entities;
 using GameBaseArilox.API.Enums;
+using GameBaseArilox.API.Environment;
 using GameBaseArilox.API.Graphic;
 using GameBaseArilox.Implementation.Controls;
 using GameBaseArilox.Implementation.Core;
+using GameBaseArilox.Implementation.Graphic;
 using GameBaseArilox.Implementation.GUI;
 using GameBaseArilox.Implementation.zDrawers;
 using GameBaseArilox.Implementation.zLoaders;
@@ -22,7 +24,7 @@ namespace GameBaseArilox
     {
         //GameStates
         private GameStateType _oldGameState;
-        private GameStateType _currentGameState;
+        private readonly GameStateType _currentGameState;
 
         //StopWatch Update / Draw execution times
         private float _deltaTimeUpdate;
@@ -46,6 +48,7 @@ namespace GameBaseArilox
         protected CursorUpdater CursorUpdater;
         protected readonly TextSpriteUpdater TextSpriteUpdater;
         protected GeneratorUpdater GeneratorUpdater;
+        public CameraUpdater CameraUpdater;
 
         //Loaders
         protected List<IContentLoader> ContentLoaders = new List<IContentLoader>();
@@ -54,8 +57,7 @@ namespace GameBaseArilox
         protected ShapeLoader ShapeLoader;
 
         // Game Items
-        public TiledMap TileMap;
-        public Camera2D Camera;
+        public TileMap TileMap;
         protected Cursor Cursor;
 
         protected List<IGameEntity> Entities = new List<IGameEntity>();
@@ -75,6 +77,18 @@ namespace GameBaseArilox
             set { Graphics.PreferredBackBufferHeight = value; Graphics.ApplyChanges(); }
         }
 
+        public Viewport Viewport
+        {
+            get
+            {
+                if (Graphics.GraphicsDevice != null)
+                {
+                    return Graphics.GraphicsDevice.Viewport;
+                }
+                return new Viewport();
+            }
+        }
+        public Camera2D CurrentCamera => CameraUpdater.CurrentCamera;
 
         //Screen size Properties.
         public int ScreenWidth => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -92,7 +106,8 @@ namespace GameBaseArilox
             TextSpriteUpdater = new TextSpriteUpdater(this);
             TextSpriteLoader = new TextSpriteLoader(this,Content,TextSpriteDrawer);
             GeneratorUpdater = new GeneratorUpdater(this);
-            Cursor = new Cursor(this);
+            CameraUpdater = new CameraUpdater(this);
+            Cursor = new Cursor("Cursor2");
             ShapeDrawer = new ShapeDrawer(this);
             _currentGameState = GameStateType.Game;
         }
@@ -101,14 +116,12 @@ namespace GameBaseArilox
         {
             CursorUpdater = new CursorUpdater(this, Cursor, InputsManager.MouseInput);
             ShapeLoader = new ShapeLoader(this, Content, ShapeDrawer);
-            MapRenderer = new TiledMapRenderer(GraphicsDevice);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            Camera = new Camera2D(GraphicsDevice.Viewport, null, null);
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteFont = Content.Load<SpriteFont>("Fonts/Arial12");
             //TileMap = Content.Load<TiledMap>("Maps/MAP");
@@ -166,16 +179,20 @@ namespace GameBaseArilox
             sw.Start();
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp);
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, null, null, CurrentCamera.GetViewMatrix());
 
             foreach (IDrawer drawer in Drawers)
             {
                 drawer.DrawAll(SpriteBatch);
             }
-            //MapRenderer.Draw(TileMap, null,null);
 
             SpriteBatch.DrawString(SpriteFont, Cursor.ScreenPosition.ToString(), Vector2.Zero, Color.Orange);
             SpriteBatch.End();
+
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp);
+            SpriteDrawer.Draw(SpriteBatch, Cursor.Sprite);
+            SpriteBatch.End();
+
             sw.Stop();
             _deltaTimeDraw = (float)sw.Elapsed.TotalSeconds;
             

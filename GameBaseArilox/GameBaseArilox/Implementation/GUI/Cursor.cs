@@ -42,28 +42,24 @@ namespace GameBaseArilox.Implementation.GUI
             }
         }
 
-        public Cursor(GameModel game)
+        public Cursor()
         {
             Sprite = new Sprite(0, 0, 32, 32, "Cursor2", Vector2.Zero, null ,0.5f);
-            game.AddDrawable(Sprite);
         }
 
-        public Cursor(GameModel game, string cursorId)
+        public Cursor(string cursorId)
         {
             Sprite = new Sprite(0, 0, 32, 32, cursorId, Vector2.Zero, null , 0.5f);
-            game.AddDrawable(Sprite);
         }
 
-        public Cursor(GameModel game, string cursorId, string cursorAnimation)
+        public Cursor(string cursorId, string cursorAnimation)
         {
             Sprite = new Sprite(0, 0, 32, 32, cursorId, Vector2.Zero, cursorAnimation, 0.5f);
-            game.AddDrawable(Sprite);
         }
 
-        public Cursor(GameModel game, string cursorId, string cursorAnimation, int width, int height)
+        public Cursor(string cursorId, string cursorAnimation, int width, int height)
         {
             Sprite = new Sprite(0, 0, width, height, cursorId, Vector2.Zero, cursorAnimation, 0.5f);
-            game.AddDrawable(Sprite);
         }
     }
 }
